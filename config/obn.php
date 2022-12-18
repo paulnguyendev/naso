@@ -2,8 +2,9 @@
 return [
     'prefix' => [
         'admin' => 'admin',
+        'admin_auth' => 'admin/auth',
         'user' => 'user',
-        'auth' => 'auth',
+        'auth' => 'user/auth',
         'homepage' => '',
     ],
 ];

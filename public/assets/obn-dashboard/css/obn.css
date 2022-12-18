@@ -1,0 +1,13 @@
+:root{--color-main:#e85e1e;--color-second:#ff9800}
+
+.navbar-inverse {
+    background: var(--color-main);
+    border-color: var(--color-main);
+}
+.navbar-inverse .navbar-brand img {
+    filter:  brightness(0) invert(1);
+}
+.btn-primary {
+    background-color: var(--color-main);
+    border-color: var(--color-main);
+}
