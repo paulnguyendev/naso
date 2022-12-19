@@ -29,4 +29,11 @@ class AuthController extends Controller
             []
         );
     }
+    public function register(Request $request)
+    {
+        return view(
+            "{$this->pathViewController}register",
+            []
+        );
+    }
 }
