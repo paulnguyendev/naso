@@ -36,4 +36,11 @@ class AuthController extends Controller
             []
         );
     }
+    public function forgetPassword(Request $request)
+    {
+        return view(
+            "{$this->pathViewController}register",
+            []
+        );
+    }
 }
