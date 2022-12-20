@@ -54,11 +54,13 @@ Route::prefix($prefix)->group(function () {
         Route::get('/login123', 'login')->name($routeName . '/login123');
         Route::get('/login', 'login')->name($routeName . '/login')->middleware('check.login');
         Route::get('/logout', 'logout')->name($routeName . '/logout');
+        Route::get('/register', 'register')->name($routeName . '/register');
+        Route::post('/postRegister', 'postRegister')->name($routeName . '/postRegister');
         // Route::get('/active/{code}', 'active')->name($routeName . '/active')->middleware('check.statusActive');
         // Route::post('/post-active/{code}', 'postActive')->name($routeName . '/postActive')->middleware('check.statusActive');
         // Route::get('/quickLogin/{email}-{phone}', 'quickLogin')->name($routeName . '/quickLogin');
         // Route::post('/post-login', 'postLogin')->name($routeName . '/postLogin');
-        // Route::get('/register', 'register')->name($routeName . '/register');
+       
         // Route::post('/post-register', 'postRegister')->name($routeName . '/postRegister');
         // Route::get('/forget-password', 'forgetPassword')->name($routeName . '/forgetPassword');
         // Route::post('/post-forget-password', 'postForgetPassword')->name($routeName . '/postForgetPassword');

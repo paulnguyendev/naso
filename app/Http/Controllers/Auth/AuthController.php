@@ -43,4 +43,8 @@ class AuthController extends Controller
             []
         );
     }
+    public function postRegister(Request $request) {
+        $params = $request->all();
+        return response()->json($params);
+    }
 }
