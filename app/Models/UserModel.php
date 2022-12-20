@@ -33,6 +33,15 @@ class UserModel extends Model
         if ($options['task'] == 'auth-login') {
             $result = $query->where('status', 'active')->where('email', $params['email'])->where('password', md5($params['password']))->first();
         }
+        if ($options['task'] == 'code') {
+            $code = isset($params['parent_code']) ? $params['parent_code'] : $params['code'];
+            $result = $query->where('status', 'active')->where('code', $code)->first();
+               
+        }
+        if ($options['task'] == 'email') {
+            $result = $query->where('email', $params['email'])->first();
+               
+        }
         return $result;
     }
     public function saveItem($params = [],$option = []) {

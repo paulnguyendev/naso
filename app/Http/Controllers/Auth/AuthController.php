@@ -44,11 +44,34 @@ class AuthController extends Controller
             []
         );
     }
-    public function postRegister(Request $request) {
+    public function postRegister(Request $request)
+    {
         $params = $request->all();
         $params['created_at'] = date('Y-m-d H:i:s');
         $params['password'] = md5($params['password']);
-        $this->model->saveItem($params,['task' => 'add-item']);
+        $userCode = [];
+        $userEmail = [];
+        $error = [];
+        // Check email tồn tại
+        $userEmail = $this->model->getItem($params, ['task' => 'email']);
+        if ($userEmail) {
+            $error['email'] = "Đã tồn tại email trên hệ thống";
+        }
+        if (empty($error)) {
+            // Check parent id
+            $userCode = $this->model->getItem($params, ['task' => 'code']);
+            $parent_id = (!empty($userCode) && isset($userCode['id'])) ? $userCode['id'] : "";
+            $params['parent_id'] = $parent_id;
+            $status = 200;
+            $msg = "Đăng ký thành công";
+        }
+        else {
+            $status = 400;
+            $msg = $error;
+        }
+        $params['status'] = $status;
+        $params['msg'] = $msg;
+        //$this->model->saveItem($params,['task' => 'add-item']);
         // $request->session()->push('userInfo', $userInfo);
         return response()->json($params);
     }
