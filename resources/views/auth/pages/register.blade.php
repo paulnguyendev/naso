@@ -1,4 +1,5 @@
 @extends('auth.auth')
+@section('title','Đăng Ký Đại Lý / CTV')
 @section('content')
     <form method="POST" autocomplete="off" id="formRegister" data-url = "{{route('auth/postRegister')}}">
         <input type="hidden" name="_token" value="NN2qLcQhx0Cv4lMh5Wl8yaKE7XXEdhqtl2VyI22q">
@@ -8,23 +9,23 @@
             </div>
             <div class="form-group has-feedback">
                 <label for="name">Họ tên <span class="text-danger">(*)</span></label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Nhập họ & tên của bạn" value="">
+                <input type="text" id="name" name="name" class="form-control" placeholder="Nhập họ & tên của bạn" autocomplete="false">
             </div>
             <div class="form-group has-feedback">
                 <label for="username">Tên đăng nhập <span class="text-danger">(*)</span></label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Nhập tên đăng nhập của bạn" value="">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Nhập tên đăng nhập của bạn" autocomplete="false">
             </div>
             <div class="form-group has-feedback">
                 <label for="password">Mật khẩu <span class="text-danger">(*)</span></label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu của bạn" value="">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu của bạn" autocomplete="false">
             </div>
             <div class="form-group has-feedback">
                 <label for="email">Email <span class="text-danger">(*)</span></label>
-                <input type="email" id="email" name="email" class="form-control" placeholder="Nhập email của bạn" value="">
+                <input type="email" id="email" name="email" class="form-control" placeholder="Nhập email của bạn" autocomplete="false">
             </div>
             <div class="form-group has-feedback">
                 <label for="parent_code">Mã giới thiệu </label>
-                <input type="text" id="parent_code" name="parent_code" class="form-control" placeholder="Nhập mã giới thiệu của bạn" value="">
+                <input type="text" id="parent_code" name="parent_code" class="form-control" placeholder="Nhập mã giới thiệu của bạn" autocomplete="false">
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Đăng ký

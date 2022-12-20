@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Đăng nhập hệ thống</title>
+<title>@yield('title','Đăng nhập')</title>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta name="robots" content="noindex, nofollow">
 <link media="all" type="text/css" rel="stylesheet"

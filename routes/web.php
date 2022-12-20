@@ -21,6 +21,9 @@ Route::prefix($prefix)->group(function () {
     Route::controller(HomeController::class)->group(function () use ($routeName) {
         Route::get('/', 'index')->name($routeName . '/index');
     });
+    Route::controller(HomeController::class)->group(function () use ($routeName) {
+        Route::get('/aff/{username}', 'index')->name($routeName . '/index');
+    });
     
 });
 // User
@@ -55,6 +58,7 @@ Route::prefix($prefix)->group(function () {
         Route::get('/login', 'login')->name($routeName . '/login')->middleware('check.login');
         Route::get('/logout', 'logout')->name($routeName . '/logout');
         Route::get('/register', 'register')->name($routeName . '/register');
+        Route::get('/active/{token}', 'active')->name($routeName . '/active');
         Route::post('/postRegister', 'postRegister')->name($routeName . '/postRegister');
         // Route::get('/active/{code}', 'active')->name($routeName . '/active')->middleware('check.statusActive');
         // Route::post('/post-active/{code}', 'postActive')->name($routeName . '/postActive')->middleware('check.statusActive');

@@ -34,6 +34,7 @@
         <!-- /page content -->
     </div>
     <!-- /page container -->
+    @include('core.loading')
     @include('auth.elements.scripts')
 </body>
 </html>

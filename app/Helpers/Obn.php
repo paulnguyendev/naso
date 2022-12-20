@@ -11,4 +11,7 @@ class Obn {
         } while (UserModel::where("code", "=", $code)->first());
         return $code;
     }
+    public static function get_logo() {
+        return asset('obn-dashboard/img/logo.png');
+    }
 }

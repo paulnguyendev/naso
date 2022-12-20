@@ -7,7 +7,10 @@ formRegister.validate({
         // on the right side
         name: "required",
         username: "required",
-        password: "required",
+        password: {
+            minlength: 6,
+            required: true,
+        },
         email: {
             email: true,
             required: true,
@@ -17,7 +20,10 @@ formRegister.validate({
     messages: {
         name: "Vui lòng nhập Họ & tên",
         username: "Vui lòng nhập tên đăng nhập",
-        password: "Vui lòng nhập mật khẩu",
+        password: {
+            minlength: "Mật khẩu ít nhất 6 ký tự",
+            required: "Vui lòng nhập mật khẩu",
+        },
         email: {
             email: "Email không hợp lệ.",
             required: "Vui lòng nhập email",
@@ -41,12 +47,24 @@ const handleRegister = (params) => {
         url: params.url,
         data: params,
         dataType: "json",
-        beforeSend: function () {},
+        beforeSend: function () {
+            showLoading();
+        },
         success: function (response) {
             let status = response.status;
             let msg = response.msg;
             if (status == 200) {
-                swal("Thông báo", "Đăng ký thành công", "success");
+                swal(
+                    {
+                        title: "Thông báo",
+                        text: `${msg}`,
+                        icon: "success",
+                    },
+                    function () {
+                       location.reload();
+                    }
+                );
+                
             } else {
                 swal(
                     {
@@ -67,6 +85,9 @@ const handleRegister = (params) => {
             }
 
             console.log(response);
+        },
+        complete: function () {
+            hideLoading();
         },
     });
 };

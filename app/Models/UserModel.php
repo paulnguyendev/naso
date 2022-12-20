@@ -34,13 +34,25 @@ class UserModel extends Model
             $result = $query->where('status', 'active')->where('email', $params['email'])->where('password', md5($params['password']))->first();
         }
         if ($options['task'] == 'code') {
-            $code = isset($params['parent_code']) ? $params['parent_code'] : $params['code'];
+            if(isset($params['code'])) {
+                $code = $params['code'];
+            }
+            elseif(isset($params['parent_code'])) {
+                $code = $params['parent_code'];
+            }
+            else {
+                $code = null;
+            }
             $result = $query->where('status', 'active')->where('code', $code)->first();
-               
         }
         if ($options['task'] == 'email') {
             $result = $query->where('email', $params['email'])->first();
-               
+        }
+        if ($options['task'] == 'username') {
+            $result = $query->where('username', $params['username'])->first();
+        }
+        if ($options['task'] == 'token') {
+            $result = $query->where('token', $params['token'])->first();
         }
         return $result;
     }
@@ -58,6 +70,10 @@ class UserModel extends Model
             }
             $paramsUpdate = array_diff_key($params,array_flip($this->crudNotAccepted));
             self::where('id', $params['id'])->update($paramsUpdate);
+        }
+        if($option['task'] == 'active-by-token') {
+            $paramsUpdate = array_diff_key($params,array_flip($this->crudNotAccepted));
+            self::where('token', $params['token'])->update($paramsUpdate);
         }
     }
     public function articles()

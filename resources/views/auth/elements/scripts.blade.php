@@ -10,4 +10,5 @@
 <script src="https://static.loveitopcdn.com/backend/js/wb.js?v=1.5.1"></script>
 <script src="https://static.loveitopcdn.com/backend/js/pages/login.js"></script>
 <script src="{{asset('obn-dashboard/js/core/form.js')}}"></script>
+<script src="{{asset('obn-dashboard/js/core/popup.js')}}?v={{time()}}"></script>
 <script src="{{asset('obn-dashboard/js/authen/register.js')}}?v={{time()}}"></script>
