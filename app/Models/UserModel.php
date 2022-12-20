@@ -12,13 +12,13 @@ class UserModel extends Model
     const CREATED_AT = 'time_added';
     const UPDATED_AT = 'modified';
     protected $fieldSearchAccepted = ['email', 'phone', 'fullname'];
-    protected $crudNotAccepted = ['_token','code_parent','password_confirmation','old_password','status_old'];
-    protected $fillable = ['user_group_id', 'user_type_id', 'name', 'email', 'password', 'phone', 'zalo', 'image', 'token', 'code', 'parent_id', 'status', 'date_added'];
+    protected $crudNotAccepted = ['_token','parent_code','password_confirmation','old_password','status_old','url'];
+    protected $fillable = ['name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at'];
     use HasFactory;
     public function listItems($params = "", $options = "")
     {
         $result = null;
-        $query = $this->select('id', 'user_group_id', 'user_type_id', 'name', 'email', 'password', 'phone', 'zalo', 'image', 'token', 'parent_id', 'code', 'status', 'date_added');
+        $query = $this->select('id', 'name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at');
         if($options['task'] == 'admin-count-total') {
             $result = $query->where('user_group_id','3')->count();
         }
@@ -29,7 +29,7 @@ class UserModel extends Model
     }
     public function getItem($params = [], $options = [])
     {
-        $query = $this->select('id', 'user_group_id', 'user_type_id', 'name', 'email', 'password', 'phone', 'zalo', 'image', 'token',  'code', 'parent_id', 'status', 'date_added');
+        $query = $this->select('id', 'name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at');
         if ($options['task'] == 'auth-login') {
             $result = $query->where('status', 'active')->where('email', $params['email'])->where('password', md5($params['password']))->first();
         }

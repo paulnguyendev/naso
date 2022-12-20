@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('group_id')->nullable();
             $table->foreign('group_id')->references('id')->on('user_group')->onDelete('cascade');
         });
     }
@@ -28,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('user', function (Blueprint $table) {
             //
+            $table->dropForeign('user_group_id_foreign');
             $table->dropColumn('group_id');
         });
     }

@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers\Auth;
+use App\Helpers\Obn;
 use App\Http\Controllers\Controller;
 #Request
 #Model
-use App\Models\UserModel;
+use App\Models\UserModel as MainModel;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -19,7 +20,7 @@ class AuthController extends Controller
     private $params                 = [];
     function __construct()
     {
-        $this->model = new UserModel();
+        $this->model = new MainModel();
         View::share('controllerName', $this->controllerName);
     }
     public function login(Request $request)
@@ -45,6 +46,10 @@ class AuthController extends Controller
     }
     public function postRegister(Request $request) {
         $params = $request->all();
+        $params['created_at'] = date('Y-m-d H:i:s');
+        $params['password'] = md5($params['password']);
+        $this->model->saveItem($params,['task' => 'add-item']);
+        // $request->session()->push('userInfo', $userInfo);
         return response()->json($params);
     }
 }
