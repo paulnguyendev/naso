@@ -1,11 +1,11 @@
 @extends('auth.auth')
 @section('content')
-    <form id="formLogin" data-url="{{ route('auth/postLogin') }}" data-type="user">
+    <form id="formLogin" data-url="{{ route('admin_auth/postLogin') }}" data-type = "admin">
         <div class="panel panel-body login-form">
             <div class="text-center">
                 <div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i>
                 </div>
-                <h5 class="content-group">Đăng nhập hệ thống thành viên</h5>
+                <h5 class="content-group">Đăng nhập hệ thống admin</h5>
             </div>
             <div class="form-group has-feedback">
                 <label for="username">Tên đăng nhập</label>

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\View;
 #Mail
 // use App\Mail\NewUserMail;
 #Helper
-class AuthController extends Controller
+class AuthAdminController extends Controller
 {
     private $pathViewController     = "auth.pages.";
     private $controllerName         = "auth";
@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         return view(
-            "{$this->pathViewController}login",
+            "{$this->pathViewController}login_admin",
             []
         );
     }
@@ -44,29 +44,7 @@ class AuthController extends Controller
             []
         );
     }
-    public function active(Request $request)
-    {
-        $token = $request->token;
-        $user = $this->model->getItem(['token' => $token], ['task' => 'token']);
-        $msg = null;
-        $login_url = route('auth/login');
-        if (!$user) {
-            $msg = "<span class = 'text-danger'>Tài khoản của bạn không tồn tại trên hệ thống</span>";
-        } else {
-            if ($user['status'] == 'active') {
-                $msg = "<span class = 'text-warning'>Tài khoản của bạn đã được kích hoạt trước đó.  <br> Vui lòng <a href = '{$login_url}'>đăng nhập</a> để sử dụng hệ thống</span>";
-            } else {
-                $this->model->saveItem(['token' => $token, 'status' => 'active'], ['task' => 'active-by-token']);
-                $msg = "<span class = 'text-success'>Tài khoản của bạn đã được kích hoạt thành công. Vui lòng <a href = '{$login_url}'>đăng nhập</a> để sử dụng hệ thống</span>";
-            }
-        }
-        return view(
-            "{$this->pathViewController}active",
-            [
-                'msg' => $msg,
-            ]
-        );
-    }
+   
     public function postRegister(Request $request)
     {
         $params = $request->all();
@@ -120,12 +98,11 @@ class AuthController extends Controller
         $status = null;
         $msg = null;
         $error = [];
-    
         if ($userInfo) {
             $role = isset($userInfo['role']) ? $userInfo['role'] : "";
             $status = isset($userInfo['status']) ? $userInfo['status'] : "";
-            if($role == 'admin') {
-                $error['admin'] = "Tài khoản của bạn là admin! ";
+            if($role == 'user') {
+                $error['user'] = "Tài khoản của bạn không có quyền truy cập vào hệ thống ";
             }
             if($status == 'pending') {
                 $error['pending'] = "Tài khoản của bạn chưa được kích hoạt. Vui lòng kích hoạt để đăng nhập vào hệ thống";
@@ -137,7 +114,7 @@ class AuthController extends Controller
         if(empty($error)) {
             $status =  200;
             $msg = "Đăng nhập thành công";
-            session()->push('userInfo', $userInfo);
+            session()->push('adminInfo', $userInfo);
         }
         else {
             $status = 400;
@@ -145,12 +122,12 @@ class AuthController extends Controller
         }
         $params['status'] = $status;
         $params['msg'] = $msg;
-        $params['session'] = session()->get('userInfo');
-        $params['userInfo'] = $userInfo;
+        $params['session'] = session()->get('adminInfo');
+        $params['adminInfo'] = $userInfo;
         return response()->json($params);
     }
     public function logout(Request $request) {
         $request->session()->flush();
-        return redirect(route('auth/login'));
+        return redirect(route('admin_auth/login'));
     }
 }

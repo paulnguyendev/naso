@@ -1,5 +1,8 @@
 <?php
+
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\FrontEnd\HomeController;
@@ -21,10 +24,10 @@ Route::prefix($prefix)->group(function () {
     Route::controller(HomeController::class)->group(function () use ($routeName) {
         Route::get('/', 'index')->name($routeName . '/index');
     });
-    Route::controller(HomeController::class)->group(function () use ($routeName) {
-        Route::get('/aff/{username}', 'index')->name($routeName . '/index');
-    });
-    
+    // Route::controller(HomeController::class)->group(function () use ($routeName) {
+    //     Route::get('/aff/{?username}', 'index')->name($routeName . '/index');
+    // });
+
 });
 // User
 $prefix = config('obn.prefix.user');
@@ -48,6 +51,19 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
     Route::controller(AdminDashboardController::class)->group(function () use ($routeName) {
         Route::get('/', 'index')->name($routeName . '/index');
     });
+    Route::prefix('product-category')->group(function () {
+        $routeName = "productCategory";
+        Route::controller(ProductCategoryController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+        });
+    });
+    Route::prefix('profile')->group(function () {
+        $routeName = "admin_profile";
+        Route::controller(HomeController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+        });
+    });
 });
 // Authen User
 $prefix = config('obn.prefix.auth');
@@ -60,11 +76,12 @@ Route::prefix($prefix)->group(function () {
         Route::get('/register', 'register')->name($routeName . '/register');
         Route::get('/active/{token}', 'active')->name($routeName . '/active');
         Route::post('/postRegister', 'postRegister')->name($routeName . '/postRegister');
+        Route::post('/postLogin', 'postLogin')->name($routeName . '/postLogin');
         // Route::get('/active/{code}', 'active')->name($routeName . '/active')->middleware('check.statusActive');
         // Route::post('/post-active/{code}', 'postActive')->name($routeName . '/postActive')->middleware('check.statusActive');
         // Route::get('/quickLogin/{email}-{phone}', 'quickLogin')->name($routeName . '/quickLogin');
         // Route::post('/post-login', 'postLogin')->name($routeName . '/postLogin');
-       
+
         // Route::post('/post-register', 'postRegister')->name($routeName . '/postRegister');
         // Route::get('/forget-password', 'forgetPassword')->name($routeName . '/forgetPassword');
         // Route::post('/post-forget-password', 'postForgetPassword')->name($routeName . '/postForgetPassword');
@@ -76,7 +93,9 @@ Route::prefix($prefix)->group(function () {
 $prefix = config('obn.prefix.admin_auth');
 Route::prefix($prefix)->group(function () {
     $routeName = "admin_auth";
-    Route::controller(AuthController::class)->group(function () use ($routeName) {
-        Route::get('/login', 'login')->name($routeName . '/login')->middleware('check.login');
+    Route::controller(AuthAdminController::class)->group(function () use ($routeName) {
+        Route::get('/login', 'login')->name($routeName . '/login')->middleware('check.login_admin');
+        Route::get('/logout', 'logout')->name($routeName . '/logout');
+        Route::post('/postLogin', 'postLogin')->name($routeName . '/postLogin');
     });
 });

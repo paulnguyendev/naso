@@ -30,8 +30,8 @@ class UserModel extends Model
     public function getItem($params = [], $options = [])
     {
         $query = $this->select('id', 'name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at');
-        if ($options['task'] == 'auth-login') {
-            $result = $query->where('status', 'active')->where('email', $params['email'])->where('password', md5($params['password']))->first();
+        if ($options['task'] == 'user-login') {
+            $result = $query->where('username', $params['username'])->where('password', md5($params['password']))->first();
         }
         if ($options['task'] == 'code') {
             if(isset($params['code'])) {

@@ -58,7 +58,7 @@ const handleRegister = (params) => {
                     {
                         title: "Thông báo",
                         text: `${msg}`,
-                        icon: "success",
+                        type: "success",
                     },
                     function () {
                        location.reload();
@@ -70,7 +70,7 @@ const handleRegister = (params) => {
                     {
                         title: "Thông báo",
                         text: "Vui lòng kiểm tra lại thông tin",
-                        icon: "warning",
+                        type: "warning",
                     },
                     function () {
                         for (let key in msg) {

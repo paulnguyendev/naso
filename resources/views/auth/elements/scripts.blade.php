@@ -12,3 +12,4 @@
 <script src="{{asset('obn-dashboard/js/core/form.js')}}"></script>
 <script src="{{asset('obn-dashboard/js/core/popup.js')}}?v={{time()}}"></script>
 <script src="{{asset('obn-dashboard/js/authen/register.js')}}?v={{time()}}"></script>
+<script src="{{asset('obn-dashboard/js/authen/login.js')}}?v={{time()}}"></script>
