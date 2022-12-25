@@ -12,12 +12,12 @@
         </a>
         <ul class="second-menu-level">
             <li>
-                <a href="#">
+                <a href="{{route('product/form')}}">
                     <span>Tạo Sản phẩm</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('product/index')}}">
                     <span>Tất cả sản phẩm</span>
                 </a>
             </li>

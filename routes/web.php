@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
@@ -32,7 +33,7 @@ Route::prefix($prefix)->group(function () {
 // User
 $prefix = config('obn.prefix.user');
 // ::middleware('access.userDashboard')
-Route::prefix($prefix)->group(function () {
+Route::middleware('access.userDashboard')->prefix($prefix)->group(function () {
     $routeName = "user";
     Route::controller(DashboardController::class)->group(function () use ($routeName) {
         Route::get('/', 'index')->name($routeName . '/index');
@@ -54,6 +55,13 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
     Route::prefix('product-category')->group(function () {
         $routeName = "productCategory";
         Route::controller(ProductCategoryController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+        });
+    });
+    Route::prefix('product')->group(function () {
+        $routeName = "product";
+        Route::controller(ProductController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
             Route::get('/form/{id?}', 'form')->name($routeName . '/form');
         });
