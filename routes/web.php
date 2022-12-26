@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthAdminController;
@@ -64,6 +65,14 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
         Route::controller(ProductController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
             Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+        });
+    });
+    Route::prefix('media')->group(function () {
+        $routeName = "media";
+        Route::controller(MediaController::class)->group(function () use ($routeName) {
+            Route::get('/folders', 'folders')->name($routeName . '/folders');
+            Route::post('/action', 'action')->name($routeName . '/action');
+            // Route::get('/form/{id?}', 'form')->name($routeName . '/form');
         });
     });
     Route::prefix('profile')->group(function () {

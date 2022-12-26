@@ -39,7 +39,7 @@
     <script src="https://static.loveitopcdn.com/backend/dist/js/plugin.js?id=1fc69adbc9342466a0a6"></script>
     <script src="https://static.loveitopcdn.com/backend/js/jquery.dirrty.js"></script>
     <script src="https://static.loveitopcdn.com/backend/js/notice.js?v=1.1"></script>
-    <script src="https://static.loveitopcdn.com/backend/js/media.js?v=1.2.3"></script>
+    <script src=" {{ asset('obn-dashboard/js/core/media.js') }}?v={{ time() }}"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.datatables.js?v=1.5.7"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.form.js?v=1.7.5.1"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.checkSeo.js?v=1.5"></script>
