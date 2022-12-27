@@ -33,6 +33,29 @@
             </li>
         </ul>
     </li>
+    <li data-label="Quản Lý Bài Viết">
+        <a href="javascript:void(0)">
+            <i class="icon-magazine"></i>
+            <span>Quản Lý Bài Viết</span>
+        </a>
+        <ul class="second-menu-level">
+            <li>
+                <a href="#">
+                    <span>Tạo bài viết</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span>Tất cả bài viết</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span>Danh mục bài viết</span>
+                </a>
+            </li>
+        </ul>
+    </li>
     <li data-label="Quản Lý Bán Hàng">
         <a href="javascript:void(0)" class="has-ul admin-menu-active">
             <i class="icon-cart5"></i>
@@ -51,31 +74,7 @@
             </li>
             <li>
                 <a href="#">
-                    <span>Thống kê bán hàng</span>
-                </a>
-            </li>
-        </ul>
-    </li>
-    <li data-label="Quản Lý Chung">
-        <a href="#">
-            <i class="icon-cart5"></i>
-            <span>Quản lý Khách hàng</span>
-        </a>
-    </li>
-    <li data-label="Quản Lý Bài Viết">
-        <a href="javascript:void(0)">
-            <i class="icon-price-tag2"></i>
-            <span>Quản lý Tài chính</span>
-        </a>
-        <ul class="second-menu-level">
-            <li>
-                <a href="#">
-                    <span>Doanh thu</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <span>Lịch sử thanh toán</span>
+                    <span>Danh sách khách hàng</span>
                 </a>
             </li>
         </ul>
