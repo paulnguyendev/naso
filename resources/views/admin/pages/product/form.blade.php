@@ -1,8 +1,88 @@
 @extends('admin.admin')
-@section('navbar_title', 'Quản lý sản phẩm / Tạo mới')
+@section('navbar_title', "Quản lý {$title} / Tạo mới")
+@section('script_table')
+    <script src="https://static-demo.loveitopcdn.com/backend/js/item.select.js?v=1.2.7"></script>
+    <script>
+        $('select[name="cat_id"]').select2({
+            placeholder: 'Chọn thể loại'
+        });
+        $('select[name="supplier_id"]').select2({
+            placeholder: 'Chọn nhà cung cấp'
+        });
+    </script>
+    <script type="text/javascript">
+        $('input[data-value=price]').on('keydown keypress keyup paste input', function() {
+            canculatorSale('price', $('input[name=price]').val());
+        });
+        $('input[data-value=percent]').on('focus', function() {
+            $(this).select();
+        });
+        $('input[data-value=percent]').on('keydown keypress keyup paste input', function() {
+            canculatorSale('percent', $('input[name=percent]').val());
+        });
+        $('input[data-value=price_sale]').on('keydown keypress keyup paste input', function() {
+            canculatorSale('price_sale', $('input[name=price_sale]').val());
+        });
+        $('input[data-value=price_sale]').on('blur', function() {
+            if (!$('input[name=price_sale]').val()) {
+                $('input[data-value=price_sale]').val($('input[name=price]').val());
+                $('input[data-value=percent]').val(0);
+                input_format_number('input[data-value=price_sale]');
+            }
+        });
+
+        $('input[data-value=percent]').on('blur', function() {
+            if (!$('input[name=percent]').val()) {
+                $('input[data-value=percent]').val(0);
+            }
+        });
+
+        function canculatorSale(field, value) {
+            if (field == 'price') {
+                if ($('input[name=percent]').val()) {
+                    $('input[data-value=price_sale]').val(Math.round(value - (parseInt($('input[name=percent]').val()) *
+                        value / 100)).toFixed(0)).change();
+                    input_format_number('input[data-value=price_sale]');
+                    return;
+                } else {
+                    if ($('input[name=price_sale]').val()) {
+                        $('input[data-value=percent]').val(Math.round(100 - (parseFloat($('input[name=price_sale]').val()) *
+                            100 / parseFloat($('input[name=price]').val()))));
+                        if ($('input[name=price_sale]').val() == $('input[name=price]').val()) {
+                            $('input[data-value=percent]').val(100);
+                        }
+                        input_format_number('input[data-value=percent]');
+                    }
+                }
+            } else if (field == 'percent') {
+                var price = parseFloat($('input[name=price]').val());
+                if (value) {
+                    $('input[data-value=price_sale]').val(Math.round(price - ((parseInt(value) * price / 100)).toFixed(0)))
+                        .change();
+                } else {
+                    $('input[data-value=price_sale]').val(price).change();
+                }
+                input_format_number('input[data-value=price_sale]');
+                return;
+            } else if (field == 'price_sale') {
+                if (value) {
+                    $('input[data-value=percent]').val(Math.round(100 - (parseFloat(value) * 100 / parseFloat($(
+                        'input[name=price]').val()))).toFixed(0));
+                    if (value == $('input[name=price]').val()) {
+                        $('input[data-value=percent]').val(0);
+                    }
+                } else {
+                    $('input[data-value=percent]').val('');
+                }
+                input_format_number('input[data-value=percent]');
+                return;
+            }
+        }
+    </script>
+@endsection
 @section('navbar-right')
     <li>
-        <a href="{{ route('product/index') }}" style="padding:5px 0px 5px 5px">
+        <a href="{{ route("{$controllerName}/index") }}" style="padding:5px 0px 5px 5px">
             <button class="btn btn-default heading-btn" type="button">Hủy</button>
         </a>
     </li>
@@ -14,23 +94,38 @@
     </li>
 @endsection
 @section('script_table')
-   
 @endsection
 @section('content')
-    <form method="POST" action="https://dainghiagroup.com/admin/product" accept-charset="UTF-8" id="post-form"
-        class="data-dirty" enctype="multipart/form-data"><input name="_token" type="hidden"
-            value="0qqxfiMGdlXD652HGg1pHO06ngLznO3tEibMRTev">
+    <form method="POST" action="{{ route("{$controllerName}/save") }}" accept-charset="UTF-8" id="post-form"
+        class="data-dirty" enctype="multipart/form-data">
         <div class="col-xs-12 col-sm-12 col-md-9 admin-product">
             <div class="order-1">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        
+                       
+
                         <div class="form-group">
                             <label>Tên sản phẩm (*)
                             </label>
-                            <input class="form-control" data-seo="title" name="title" type="text">
+                            <input class="form-control" data-seo="seo_keyword" name="title" type="text">
                             <span class="help-block"></span>
                         </div>
+                        <div id="seoBox">
+                            <div class="form-group-slug">
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+                                        <label class="text-capitalize">Đường dẫn (*)</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="text" class="form-control" bs-type="slug" bs-slug-from="title"
+                                            data-seo="url" name="slug" value="">
+
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group text-editor">
                             <label class="">Mô tả</label>
                             <small class="help-block no-margin"></small>
@@ -38,8 +133,6 @@
                                 rows="10"></textarea>
                             <span class="help-block"></span>
                         </div>
-
-
                         <div class="form-group text-editor">
                             <label class="">Nội dung</label>
                             <small class="help-block no-margin"></small>
@@ -47,7 +140,6 @@
                                 cols="50" rows="10"></textarea>
                             <span class="help-block"></span>
                         </div>
-
                         <span class="recommended-keyword-appear-time-label"></span>
                     </div>
                 </div>
@@ -81,8 +173,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="col-md-8 col-xs-12">
                             <div class="panel panel-default">
@@ -106,11 +196,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <fieldset class="content-group">
@@ -139,9 +227,16 @@
                                             <input class="hidden" name="price_sale" type="number" value="">
                                             <span class="help-block"></span>
                                         </div>
-
                                     </div>
-
+                                </div>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="row form-group mb-10">
+                                        <div class="col-xs-12">
+                                            <label>Điểm tích lũy </label>
+                                            <input type="number" class="form-control" name="point" value="" />
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
@@ -153,7 +248,7 @@
                     <div class="panel-body">
                         <fieldset class="content-group">
                             <legend class="text-bold">Tồn kho</legend>
-                            <div class="col-xs-6 col-md-3">
+                            <div class="col-xs-6 col-md-4">
                                 <div class="form-group mb-0">
                                     <label for="Mã sản phẩm">M&atilde; Sản Phẩm</label>
                                     <input class="form-control" name="code" type="text" value="">
@@ -169,13 +264,17 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-xs-6 col-md-4">
+                                <div class="form-group mb-0">
+                                    <label for="Số lượng">Số lượng</label>
+                                    <input class="form-control" name="stock" type="number" value="">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </fieldset>
-                      
                     </div>
                 </div>
-              
             </div>
-           
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3">
             <div class="panel panel-default">
@@ -221,146 +320,39 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label for="Thể loại">Danh mục</label>
-                        <select class="form-control" name="cat_id">
-                            <option value="297">
-
-                                Dự án
-                            </option>
-                            <option value="298">
-                                <span class="tree-icon">¦– –</span>
-                                Nhà đất bán
-                            </option>
-                            <option value="302">
-                                <span class="tree-icon">¦– –</span> <span class="tree-icon">¦– –</span>
-                                Bán căn hộ chung cư
-                            </option>
-                            <option value="303">
-                                <span class="tree-icon">¦– –</span> <span class="tree-icon">¦– –</span>
-                                Bán nhà riêng
-                            </option>
-                            <option value="304">
-                                <span class="tree-icon">¦– –</span> <span class="tree-icon">¦– –</span>
-                                Bán nhà biệt thự, liền kề
-                            </option>
-                            <option value="305">
-                                <span class="tree-icon">¦– –</span> <span class="tree-icon">¦– –</span>
-                                Bán nhà mặt phố
-                            </option>
-                            <option value="299">
-                                <span class="tree-icon">¦– –</span>
-                                Nhà đất cho thuê
-                            </option>
-                            <option value="306">
-                                <span class="tree-icon">¦– –</span> <span class="tree-icon">¦– –</span>
-                                Cho thuê căn hộ chung cư
-                            </option>
-                            <option value="307">
-                                <span class="tree-icon">¦– –</span> <span class="tree-icon">¦– –</span>
-                                Cho thuê nhà riêng
-                            </option>
-                            <option value="308">
-                                <span class="tree-icon">¦– –</span> <span class="tree-icon">¦– –</span>
-                                Cho thuê nhà mặt phố
-                            </option>
-                            <option value="300">
-                                <span class="tree-icon">¦– –</span>
-                                Căn hộ, chung cư
-                            </option>
-                            <option value="301">
-                                <span class="tree-icon">¦– –</span>
-                                Cao ốc văn phòng
-                            </option>
-                            <option value="324">
-
-                                Mua bán nhà đất lào cai
-                            </option>
-                            <option value="325">
-
-                                Dự án
-                            </option>
+                        <select class="form-control " name="cat_id">
+                            @foreach ($categories as $cat_id => $cat_name)
+                                <option value="{{ $cat_id }}">
+                                    {{ $cat_name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="Thể loại khác">Danh mục khác</label>
                         <select multiple="multiple" bs-type="multiSelect" class="selectized" name="other_cat_ids[]"
                             placeholder="Chọn Thể loại khác">
-                            <option value="297">
-
-                                Dự án
-                            </option>
-                            <option value="298">
-                                <span class="tree-icon">¦––</span>
-                                Nhà đất bán
-                            </option>
-                            <option value="302">
-                                <span class="tree-icon">¦––</span> <span class="tree-icon">¦––</span>
-                                Bán căn hộ chung cư
-                            </option>
-                            <option value="303">
-                                <span class="tree-icon">¦––</span> <span class="tree-icon">¦––</span>
-                                Bán nhà riêng
-                            </option>
-                            <option value="304">
-                                <span class="tree-icon">¦––</span> <span class="tree-icon">¦––</span>
-                                Bán nhà biệt thự, liền kề
-                            </option>
-                            <option value="305">
-                                <span class="tree-icon">¦––</span> <span class="tree-icon">¦––</span>
-                                Bán nhà mặt phố
-                            </option>
-                            <option value="299">
-                                <span class="tree-icon">¦––</span>
-                                Nhà đất cho thuê
-                            </option>
-                            <option value="306">
-                                <span class="tree-icon">¦––</span> <span class="tree-icon">¦––</span>
-                                Cho thuê căn hộ chung cư
-                            </option>
-                            <option value="307">
-                                <span class="tree-icon">¦––</span> <span class="tree-icon">¦––</span>
-                                Cho thuê nhà riêng
-                            </option>
-                            <option value="308">
-                                <span class="tree-icon">¦––</span> <span class="tree-icon">¦––</span>
-                                Cho thuê nhà mặt phố
-                            </option>
-                            <option value="300">
-                                <span class="tree-icon">¦––</span>
-                                Căn hộ, chung cư
-                            </option>
-                            <option value="301">
-                                <span class="tree-icon">¦––</span>
-                                Cao ốc văn phòng
-                            </option>
-                            <option value="324">
-
-                                Mua bán nhà đất lào cai
-                            </option>
-                            <option value="325">
-
-                                Dự án
-                            </option>
+                            @foreach ($categories as $cat_id => $cat_name)
+                                <option value="{{ $cat_id }}">
+                                    {{ $cat_name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="">Nhà cung cấp</label>
-                        <select class="form-control" name="manufacturer_id">
-                            <option value="0">Chưa có</option>
+                        <select class="form-control" name="supplier_id">
+                            <option value="">Chọn nhà cung cấp</option>
+                            @foreach ($suppliers as $supplier)
+                                <option value="{{ $supplier['id'] }}">{{ $supplier['name'] }}</option>
+                            @endforeach
+
                         </select>
                         <span class="help-block"></span>
                     </div>
-                   
-
                 </div>
             </div>
-
-            <input name="menu_id" type="hidden">
-            <input name="taxonomy" type="hidden" value="product">
-
-           
-
-
-
         </div>
     </form>
+
 @endsection

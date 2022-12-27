@@ -40,10 +40,10 @@
     <script src="https://static.loveitopcdn.com/backend/js/jquery.dirrty.js"></script>
     <script src="https://static.loveitopcdn.com/backend/js/notice.js?v=1.1"></script>
     <script src=" {{ asset('obn-dashboard/js/core/media.js') }}?v={{ time() }}"></script>
-    <script src="https://static.loveitopcdn.com/backend/js/wb.datatables.js?v=1.5.7"></script>
+    <script src="{{ asset('obn-dashboard/js/core/wb.datatables.js') }}?v=1.5.7"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.form.js?v=1.7.5.1"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.checkSeo.js?v=1.5"></script>
-    <script src="https://static.loveitopcdn.com/backend/js/wb.seo.js?v=1.6"></script>
+    <script src="{{ asset('obn-dashboard/js/core/wb.seo.js') }}?v=1.6"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.applyTable.js?v=1.1"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.js?v=1.5.6"></script>
     <script>

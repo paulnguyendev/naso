@@ -1,34 +1,29 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 #Helper
 use Illuminate\Support\Str;
-use Kalnoy\Nestedset\NodeTrait;
-
-class TaxonomyModel extends Model
+class SupplierModel extends Model
 {
-    use NodeTrait;
-    protected $table = 'taxonomy';
+    protected $table = 'supplier';
     protected $primaryKey = 'id';
     public $timestamps = false;
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
     protected $fieldSearchAccepted = ['email', 'phone', 'fullname'];
     protected $crudNotAccepted = ['_token', 'data_attributes','id'];
-    protected $fillable = ['name', 'parent_id', 'taxonomy', 'description', 'created_at', 'updated_at', 'thumbnail', 'meta_keyword', 'slug', 'h1'];
+    protected $fillable = ['name', 'thumbnail','phone','address','email','created_at','updated_at'];
     use HasFactory;
     public function listItems($params = "", $options = "")
     {
         $result = null;
-        $query = $this->select('id', 'name', 'parent_id', 'taxonomy', 'description', 'created_at', 'updated_at', 'thumbnail',  'meta_keyword', 'slug', 'h1');
+        $query = $this->select('id', 'name', 'thumbnail','phone','address','email','created_at','updated_at');
         if ($options['task'] == 'admin-count-total') {
             $result = $query->where('user_group_id', '3')->count();
         }
-        if ($options['task'] == 'taxonomy') {
-            $result = $query->where('taxonomy', $params['taxonomy'])->orderBy('id', 'desc')->get();
+        if ($options['task'] == 'list') {
+            $result = $query->orderBy('id', 'desc')->get();
         }
         if ($options['task'] == 'search') {
             $result = $query->where('name', 'LIKE', "%{$params['name']}%")->orderBy('id', 'desc')->get();
@@ -42,7 +37,7 @@ class TaxonomyModel extends Model
     }
     public function getItem($params = [], $options = [])
     {
-        $query = $this->select('id', 'name', 'parent_id', 'taxonomy', 'description', 'created_at', 'updated_at', 'thumbnail', 'meta_keyword', 'slug', 'h1');
+        $query = $this->select('id', 'name', 'thumbnail','phone','address','email','created_at','updated_at');
         if ($options['task'] == 'taxonomy') {
             $result = $query->where('taxonomy', $params['taxonomy'])->first();
         }
@@ -55,15 +50,12 @@ class TaxonomyModel extends Model
     {
         if ($option['task'] == 'add-item') {
             $paramsInsert = array_diff_key($params, array_flip($this->crudNotAccepted));
-            $parent = self::find($params['parent_id']);
-            $result =    self::create($paramsInsert, $parent);
+            $result = self::insert($paramsInsert);
             return $result;
         }
         if ($option['task'] == 'edit-item') {
-            $node = self::find($params['id']);
             $paramsUpdate = array_diff_key($params, array_flip($this->crudNotAccepted));
-            // self::where('id', $params['id'])->update($paramsUpdate);
-            $node->update($paramsUpdate);
+            self::where('id', $params['id'])->update($paramsUpdate);
         }
         if ($option['task'] == 'active-by-token') {
             $paramsUpdate = array_diff_key($params, array_flip($this->crudNotAccepted));
@@ -75,17 +67,9 @@ class TaxonomyModel extends Model
         if ($option['task'] == 'delete') {
             $this->where('id', $params['id'])->delete();
         }
-        if ($option['task'] == 'node-delete') {
-            $node = self::find($params['id']);
-            $node->delete();
-        }
     }
     public function articles()
     {
         return $this->hasMany(ArticleModel::class, 'user_id', 'id');
-    }
-    public function getNameWithDepthAttribute()
-    {
-        return str_repeat("¦– –", $this->depth) . $this->name;
     }
 }

@@ -27,7 +27,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('supplier/index')}}">
                     <span>Danh sách nhà cung cấp</span>
                 </a>
             </li>

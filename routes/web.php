@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
@@ -58,6 +59,19 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
         Route::controller(ProductCategoryController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
             Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+            Route::delete('/delete/{id?}', 'delete')->name($routeName . '/delete');
+            Route::delete('/destroy-multi/{id?}', 'destroyMulti')->name($routeName . '/destroy-multi');
+            Route::post('/save/{id?}', 'save')->name($routeName . '/save');
+            Route::get('/data/list', 'dataList')->name($routeName . '/dataList');
+        });
+    });
+    Route::prefix('supplier')->group(function () {
+        $routeName = "supplier";
+        Route::controller(SupplierController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+            Route::delete('/delete/{id?}', 'delete')->name($routeName . '/delete');
+            Route::delete('/destroy-multi/{id?}', 'destroyMulti')->name($routeName . '/destroy-multi');
             Route::post('/save/{id?}', 'save')->name($routeName . '/save');
             Route::get('/data/list', 'dataList')->name($routeName . '/dataList');
         });
@@ -67,6 +81,7 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
         Route::controller(ProductController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
             Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+            Route::post('/save/{id?}', 'save')->name($routeName . '/save');
         });
     });
     Route::prefix('media')->group(function () {
