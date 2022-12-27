@@ -46,8 +46,82 @@
     <script src="https://static.loveitopcdn.com/backend/js/wb.seo.js?v=1.6"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.applyTable.js?v=1.1"></script>
     <script src="https://static.loveitopcdn.com/backend/js/wb.js?v=1.5.6"></script>
+    <script>
+        $('#lfm_thumbnail').mlibready({
+            returnto: '#thumbnail',
+            maxselect: 1,
+            runfunction: 'fillImage',
+            maxFilesize: 5
+        });
+        $('#lfm_gallery').mlibready({
+            returnto: '#gallery',
+            runfunction: 'fillGallery',
+            maxFilesize: 5
+        });
+
+
+        function nav_submit_form(btn) {
+            var l = Ladda.create(btn);
+            l.start();
+            var formSubmit = $('#' + $(btn).data('form'));
+           
+            formSubmit.ajaxSubmit({
+                beforeSerialize: function() {
+                    for (instance in CKEDITOR.instances) {
+                        CKEDITOR.instances[instance].updateElement();
+                    }
+                    return true;
+                },
+                beforeSubmit: function(formData, formObject, formOptions) {
+                    $('input[bs-type="singleDatePicker"]').each(function() {
+                        if ($(this).val() != '') {
+                            formData.push({
+                                'name': $(this).attr('name'),
+                                'value': moment($(this).val(), 'DD-MM-YYYY HH:mm:ss').format(
+                                    'YYYY-MM-DD HH:mm:ss')
+                            });
+                        }
+                    });
+                    var data_attributes = [];
+                    for (var i = 0; i < formData.length; i++) {
+                        if (formData[i]['name'].indexOf('attribute[') !== -1) {
+                            data_attributes.push(formData[i]);
+                            formData.splice(i, 1);
+                            i--;
+                        }
+                    }
+
+                    formData.push({
+                        'name': 'data_attributes',
+                        'value': JSON.stringify(data_attributes),
+                    });
+                },
+                success: function(data) {
+                    l.stop();
+                    if (data.success !== 'unfriended') {
+                        if (data.success == false) {
+                            warningNotice(data.message);
+                            return;
+                        }
+                    }
+                    if (!data.redirect) {
+                        successNotice('Cập nhật thành công');
+                    } else {
+                        $(window).unbind('beforeunload');
+                        var menu_redirect = "";
+                        location.href = menu_redirect ? menu_redirect : data.redirect;
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                    l.stop();
+                    WBForm.showError(formSubmit, data);
+                }
+            });
+        }
+    </script>
     @yield('script_table')
-   
+
 </body>
 
 </html>

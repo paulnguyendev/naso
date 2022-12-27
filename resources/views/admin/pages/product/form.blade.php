@@ -14,27 +14,7 @@
     </li>
 @endsection
 @section('script_table')
-    <script>
-        $('#lfm_thumbnail').mlibready({
-            returnto: '#thumbnail',
-            maxselect: 1,
-            runfunction: 'fillImage',
-            maxFilesize: 5
-        });
-        $('#lfm_gallery').mlibready({
-            returnto: '#gallery',
-            runfunction: 'fillGallery',
-            maxFilesize: 5
-        });
-        $(function() {
-            // Sortable rows
-            $("#holder_gallery").sortable({
-                stop: function(event, ui) {
-                    WBForm.updateValueGallery($('.wrap-media'));
-                }
-            });
-        })
-    </script>
+   
 @endsection
 @section('content')
     <form method="POST" action="https://dainghiagroup.com/admin/product" accept-charset="UTF-8" id="post-form"

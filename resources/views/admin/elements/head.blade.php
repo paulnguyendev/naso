@@ -3,6 +3,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@yield('title',"Quản trị Website")</title>
 <link rel="shortcut icon" type="image/png" href="https://media.loveitopcdn.com/itop.website/favicon.png" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <base href="https://dainghiagroup.com">
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700&amp;amp;subset=vietnamese"
     rel="stylesheet">

@@ -9,7 +9,7 @@
 @endsection
 @section('content')
     <div class="panel panel-flat">
-        <table class="table table-xlg datatable-ajax" data-source="{{ url('public/data/product-category.json') }}"
+        <table class="table table-xlg datatable-ajax" data-source="{{ route('productCategory/dataList') }}"
             data-destroymulti="https://dainghiagroup.com/admin/product/category/destroy-multi">
             <thead>
                 <tr>

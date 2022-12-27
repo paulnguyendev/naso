@@ -58,6 +58,8 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
         Route::controller(ProductCategoryController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
             Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+            Route::post('/save/{id?}', 'save')->name($routeName . '/save');
+            Route::get('/data/list', 'dataList')->name($routeName . '/dataList');
         });
     });
     Route::prefix('product')->group(function () {
