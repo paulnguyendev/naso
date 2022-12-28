@@ -9,6 +9,9 @@ use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\FrontEnd\HomeController;
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\ProductController as UserProductController;
+use App\Http\Controllers\User\SupplierController as UserSupplierController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +47,24 @@ Route::middleware('access.userDashboard')->prefix($prefix)->group(function () {
         $routeName = "user_profile";
         Route::controller(HomeController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
+        });
+    });
+    Route::prefix('supplier')->group(function () {
+        $routeName = "user_supplier";
+        Route::controller(UserSupplierController::class)->group(function () use ($routeName) {
+            Route::get('/{id?}', 'index')->name($routeName . '/index');
+        });
+    });
+    Route::prefix('product')->group(function () {
+        $routeName = "user_product";
+        Route::controller(UserProductController::class)->group(function () use ($routeName) {
+            Route::get('/{id?}', 'detail')->name($routeName . '/detail');
+        });
+    });
+    Route::prefix('cart')->group(function () {
+        $routeName = "cart";
+        Route::controller(CartController::class)->group(function () use ($routeName) {
+            Route::get('/add/{id?}', 'add')->name($routeName . '/add');
         });
     });
 });

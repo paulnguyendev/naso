@@ -53,9 +53,7 @@ class SupplierController extends Controller
         if (!$params['name']) {
             $error['name'] = "Chưa nhập tên nhà cung cấp";
         }
-        if (!$params['email']) {
-            $error['email'] = "Chưa nhập Email nhà cung cấp";
-        }
+        
         if (!$params['phone']) {
             $error['phone'] = "Chưa nhập Số điện thoại nhà cung cấp";
         }

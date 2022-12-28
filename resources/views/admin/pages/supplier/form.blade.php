@@ -24,16 +24,17 @@
                         <input class="form-control" data-seo="title" name="name" type="text" value="{{$item['name'] ?? ""}}">
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group">
-                        <label>Email (*)
-                        </label>
-                        <input class="form-control" name="email" type="email" value="{{$item['email'] ?? ""}}">
-                        <span class="help-block"></span>
-                    </div>
+                    
                     <div class="form-group">
                         <label>Số điện thoại (*)
                         </label>
                         <input class="form-control" name="phone" type="text" value="{{$item['phone'] ?? ""}}">
+                        <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Email (*)
+                        </label>
+                        <input class="form-control" name="email" type="email" value="{{$item['email'] ?? ""}}">
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group">

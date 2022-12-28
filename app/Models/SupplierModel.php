@@ -72,4 +72,8 @@ class SupplierModel extends Model
     {
         return $this->hasMany(ArticleModel::class, 'user_id', 'id');
     }
+    public function products()
+    {
+        return $this->hasMany(ProductModel::class, 'supplier_id', 'id');
+    }
 }

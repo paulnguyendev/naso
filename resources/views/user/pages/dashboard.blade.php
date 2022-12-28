@@ -1,88 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin</title>
-    <link rel="shortcut icon" type="image/png" href="https://media.loveitopcdn.com/itop.website/favicon.png" />
-    <base href="https://dainghiagroup.com">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700&amp;amp;subset=vietnamese"
-        rel="stylesheet">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet"
-        href="https://static.loveitopcdn.com/backend/plugins/mCustomScrollbar/jquery.mCustomScrollbar.css">
-    <link rel="stylesheet" href="https://static.loveitopcdn.com/backend/dist/css/plugin.css?id=a8f96327b6c3773821a1">
-    <link rel="stylesheet" href="https://static.loveitopcdn.com/backend/dist/css/style.css?id=fca89b87486ea1f07891">
-    <link media="all" type="text/css" rel="stylesheet"
-        href="https://static.loveitopcdn.com/backend/css/custom_new.css?v=1.0.2">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://static.loveitopcdn.com/backend/dist/js/loading.js?id=7e97bd818d6bd28c3dc8"></script>
-    <style>
-        .language-switch {
-            display: none !important;
-        }
-        @media (min-width: 1024px) and (max-width: 1350px) {
-            .hiden_1024_1350 {
-                display: none;
-            }
-        }
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .hiden_768_1023 {
-                display: none !important;
-            }
-        }
-        .media-preview {
-            max-height: 50px;
-            width: 83px;
-        }
-    </style>
-    <script>
-        var _token = 'NN2qLcQhx0Cv4lMh5Wl8yaKE7XXEdhqtl2VyI22q';
-        var base_domain = 'https://dainghiagroup.com';
-        var assets_url = 'https://static.loveitopcdn.com';
-        var cke_conf_path = assets_url + '/backend/plugins/ckeditor';
-        var default_currency = 'đ';
-        var default_weight_unit = "kg";
-        var storage_url = 'https://media.loveitopcdn.com/34798/';
-    </script>
+   @include('user.elements.head')
 </head>
 <body class="navbar-top has-detached-right pace-done " data-env="production">
     <!-- Main navbar -->
     <div class="navbar navbar-default navbar-fixed-top header-highlight">
-        <div class="navbar-header">
-            <a class="navbar-brand" target="_blank" href="https://dainghiagroup.com"><img
-                    src="{{ asset('obn-dashboard/img/logo.png') }}" alt=""></a>
-            <a class="navbar-brand quick-view-icon" target="_blank" href="https://dainghiagroup.com"><i
-                    class="icon-square-up-right"></i></a>
-            <ul class="nav navbar-nav visible-xs-block">
-                <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-            </ul>
-        </div>
-        <div id="navbar-mobile">
-            <ul class="nav navbar-nav">
-                <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav hidden-xs">
-                <li>
-                    <h5 class="hiden_1024_1350 hiden_768_1023">Quản lý chung</h5>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right text-sm-right pr-sm-20 pl-sm-20">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <i class="icon-bubbles4"></i> <span class="hiden_1024_1350">Thông báo</span>
-                    </a>
-                </li>
-                <li><a href="{{ route('user_profile/index') }}"><i class="icon-user"></i> <span
-                            class="hiden_1024_1350">Tài khoản</span></a>
-                </li>
-                <li><a href="{{ route('auth/logout') }}"><i class="icon-switch2"></i> <span
-                            class="hiden_1024_1350">Thoát</span></a></li>
-            </ul>
-        </div>
+        @include('user.elements.navbar')
     </div>
     <!-- /main navbar -->
     <div class="page-container">
@@ -91,97 +15,14 @@
                 <div class="sidebar-content">
                     <!-- Main navigation -->
                     <div class="sidebar-category sidebar-category-visible">
-                        <div class="category-content no-padding">
-                            <ul class="navigation navigation-main navigation-accordion">
-                                <li data-label="Quản Lý Chung">
-                                    <a href="{{ route('user/index') }}">
-                                        <i class="icon-home4"></i>
-                                        <span>Quản Lý Chung</span>
-                                    </a>
-                                </li>
-                                <li data-label="Quản Lý Bài Viết">
-                                    <a href="javascript:void(0)">
-                                        <i class="icon-price-tag2"></i>
-                                        <span>Sản phẩm</span>
-                                    </a>
-                                    <ul class="second-menu-level">
-                                        <li>
-                                            <a href="https://dainghiagroup.com/admin/post/create">
-                                                <span>Tạo Bài Viết</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://dainghiagroup.com/admin/post">
-                                                <span>Tất cả Bài Viết</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://dainghiagroup.com/admin/post/category">
-                                                <span>Thể loại Bài Viết</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://dainghiagroup.com/admin/post/group">
-                                                <span>Nhóm Bài Viết</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://dainghiagroup.com/admin/post/navigate">
-                                                <span>Điều hướng bài viết</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li data-label="Quản Lý Chung">
-                                    <a href="#">
-                                        <i class="icon-cart5"></i>
-                                        <span>Đơn hàng</span>
-                                    </a>
-                                </li>
-                                <li data-label="Quản Lý Chung">
-                                    <a href="#">
-                                        <i class="icon-cart5"></i>
-                                        <span>Khách hàng</span>
-                                    </a>
-                                </li>
-                                <li data-label="Quản Lý Bài Viết">
-                                    <a href="javascript:void(0)">
-                                        <i class="icon-price-tag2"></i>
-                                        <span>Tài chính</span>
-                                    </a>
-                                    <ul class="second-menu-level">
-                                        <li>
-                                            <a href="#">
-                                                <span>Doanh thu</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span>Lịch sử thanh toán</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li data-label="Tài khoản">
-                                    <a href="{{ route('user_profile/index') }}">
-                                        <i class="icon-info3"></i>
-                                        <span>Tài khoản</span>
-                                    </a>
-                                </li>
-                                <li data-label="Đăng xuất">
-                                    <a href="{{ route('auth/logout') }}">
-                                        <i class="icon-switch2"></i>
-                                        <span>Đăng xuất</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        @include('user.elements.sidebar_menu')
                     </div>
                     <!-- /main navigation -->
                 </div>
             </div>
             <div class="content-wrapper">
                 <div class="content">
+                    @yield('content')
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
                             <div class="panel panel-body panel-body-accent">

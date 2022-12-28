@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 #Helper
 class DashboardController extends Controller
 {
-    private $pathViewController     = "user.pages.";
+    private $pathViewController     = "user.pages.dashboard";
     private $controllerName         = "dashboard";
     private $model;
     private $params                 = [];
@@ -25,7 +25,7 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         return view(
-            "{$this->pathViewController}dashboard",
+            "{$this->pathViewController}/index",
             []
         );
     }
