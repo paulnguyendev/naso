@@ -30,13 +30,11 @@
                 input_format_number('input[data-value=price_sale]');
             }
         });
-
         $('input[data-value=percent]').on('blur', function() {
             if (!$('input[name=percent]').val()) {
                 $('input[data-value=percent]').val(0);
             }
         });
-
         function canculatorSale(field, value) {
             if (field == 'price') {
                 if ($('input[name=percent]').val()) {
@@ -102,12 +100,11 @@
             <div class="order-1">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                       
-
                         <div class="form-group">
                             <label>Tên sản phẩm (*)
                             </label>
-                            <input class="form-control" data-seo="seo_keyword" name="title" type="text">
+                            <input class="form-control" data-seo="seo_keyword" name="title" type="text"
+                                value="{{ $item['title'] ?? '' }}">
                             <span class="help-block"></span>
                         </div>
                         <div id="seoBox">
@@ -118,26 +115,24 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <input type="text" class="form-control" bs-type="slug" bs-slug-from="title"
-                                            data-seo="url" name="slug" value="">
-
+                                            data-seo="url" name="slug" value="{{ $item['slug'] ?? '' }}">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group text-editor">
                             <label class="">Mô tả</label>
                             <small class="help-block no-margin"></small>
                             <textarea class="ckeditor-basic" id="wbcke_1366359631" data-seo="description" name="description" cols="50"
-                                rows="10"></textarea>
+                                rows="10">{{$item_meta['description'] ?? ""}}</textarea>
                             <span class="help-block"></span>
                         </div>
                         <div class="form-group text-editor">
                             <label class="">Nội dung</label>
                             <small class="help-block no-margin"></small>
                             <textarea class="form-control ckeditor-full ckeditor" id="wbcke_200072389" data-seo="content" name="content"
-                                cols="50" rows="10"></textarea>
+                                cols="50" rows="10">{{$item_meta['content'] ?? ""}}</textarea>
                             <span class="help-block"></span>
                         </div>
                         <span class="recommended-keyword-appear-time-label"></span>
@@ -161,8 +156,9 @@
                                         <div class="media-item">
                                             <img class="img-thumbnail"
                                                 data-no-image="https://via.placeholder.com/150x120&amp;text=No+Image"
-                                                src="https://via.placeholder.com/150x120&amp;text=No+Image" width="150px"
-                                                height="120px" id="holder_thumbnail" style="max-height: 100%">
+                                                src="{{ $item['thumbnail'] ?? 'https://via.placeholder.com/150x120&amp;text=No+Image' }}"
+                                                width="150px" height="120px" id="holder_thumbnail"
+                                                style="max-height: 100%">
                                         </div>
                                         <div class="clearfix"></div>
                                         <a style="margin-top: 5px;margin-bottom: 3px" data-input="thumbnail"
@@ -186,7 +182,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="text-center wrap-media">
-                                        <input id="gallery" type="hidden" name="gallery" value="">
+                                        <input id="gallery" type="hidden" name="gallery" value="{{$item_meta['gallery'] ?? ""}}">
                                         <div class="row media-container" id="holder_gallery"></div>
                                         <a style="margin-top: 5px" data-input="gallery" data-type="multiple"
                                             data-preview="holder_gallery" id="lfm_gallery" class="btn btn-sm btn-default"
@@ -207,15 +203,17 @@
                                 <div class="col-md-5 col-xs-12">
                                     <label>Giá bán (đ) </label>
                                     <input type="text" class="form-control format-number" data-value="price"
-                                        value="" />
-                                    <input class="hidden" name="price" type="number">
+                                        value="{{ $item['regular_price'] ?? '' }}" />
+                                    <input class="hidden" name="price" type="number"
+                                        value="{{ $item['regular_price'] ?? '' }}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="col-md-2 col-xs-4">
                                     <label>Giảm giá (%) </label>
                                     <input type="text" class="form-control format-number" data-value="percent"
-                                        value="0" />
-                                    <input class="hidden" name="percent" type="number" value="0">
+                                        value="{{ $item['percent'] ?? '' }}" />
+                                    <input class="hidden" name="percent" type="number"
+                                        value="{{ $item['percent'] ?? '' }}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="col-md-5 col-xs-8">
@@ -223,8 +221,9 @@
                                         <div class="col-xs-12">
                                             <label>Giá khuyến mãi (giá bán còn lại) (đ) </label>
                                             <input type="text" class="form-control format-number"
-                                                data-value="price_sale" value="" />
-                                            <input class="hidden" name="price_sale" type="number" value="">
+                                                data-value="price_sale" value="{{ $item['sale_price'] ?? '' }}" />
+                                            <input class="hidden" name="price_sale" type="number"
+                                                value="{{ $item['sale_price'] ?? '' }}">
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -233,7 +232,8 @@
                                     <div class="row form-group mb-10">
                                         <div class="col-xs-12">
                                             <label>Điểm tích lũy </label>
-                                            <input type="number" class="form-control" name="point" value="" />
+                                            <input type="number" class="form-control" name="point"
+                                                value="{{ $item['point'] ?? '' }}" />
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
@@ -251,7 +251,8 @@
                             <div class="col-xs-6 col-md-4">
                                 <div class="form-group mb-0">
                                     <label for="Mã sản phẩm">M&atilde; Sản Phẩm</label>
-                                    <input class="form-control" name="code" type="text" value="">
+                                    <input class="form-control" name="code" type="text"
+                                        value="{{ $item['code'] ?? '' }}">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -259,15 +260,19 @@
                                 <div class="form-group">
                                     <label for="Tình trạng kho">T&igrave;nh Trạng Kho</label>
                                     <select class="form-control" name="in_stock">
-                                        <option value="1" selected="selected">Còn Hàng</option>
-                                        <option value="0">Hết hàng</option>
+                                        @php
+                                            $in_stock = $item['in_stock'] ?? '';
+                                        @endphp
+                                        <option value="1" {{ $in_stock == '1' ? 'selected' : '' }}>Còn Hàng</option>
+                                        <option value="0" {{ $in_stock == '0' ? 'selected' : '' }}>Hết hàng</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-xs-6 col-md-4">
                                 <div class="form-group mb-0">
                                     <label for="Số lượng">Số lượng</label>
-                                    <input class="form-control" name="stock" type="number" value="">
+                                    <input class="form-control" name="stock" type="number"
+                                        value="{{ $item['stock'] ?? '' }}">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -289,8 +294,11 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="checkbox-inline">
-                            <input bs-type="checkbox" checked="checked" name="is_published" type="checkbox"
-                                value="1">
+                            @php
+                                $is_published = $item['is_published'] ?? '';
+                            @endphp
+                            <input bs-type="checkbox" {{ $is_published == '1' ? 'checked' : '' }} name="is_published"
+                                type="checkbox" value="1">
                             Hiện
                         </label>
                         <a href="#published_datetime" data-toggle="collapse" class="pull-right"
@@ -321,8 +329,9 @@
                     <div class="form-group">
                         <label for="Thể loại">Danh mục</label>
                         <select class="form-control " name="cat_id">
+                            
                             @foreach ($categories as $cat_id => $cat_name)
-                                <option value="{{ $cat_id }}">
+                                <option value="{{ $cat_id }}" {{in_array($cat_id,$taxonomy_ids) ? "selected" : ""}}>
                                     {{ $cat_name }}
                                 </option>
                             @endforeach
@@ -333,7 +342,7 @@
                         <select multiple="multiple" bs-type="multiSelect" class="selectized" name="other_cat_ids[]"
                             placeholder="Chọn Thể loại khác">
                             @foreach ($categories as $cat_id => $cat_name)
-                                <option value="{{ $cat_id }}">
+                                <option value="{{ $cat_id }}" {{in_array($cat_id,$taxonomy_second_ids) ? "selected" : ""}}>
                                     {{ $cat_name }}
                                 </option>
                             @endforeach
@@ -342,17 +351,21 @@
                     <div class="form-group">
                         <label for="">Nhà cung cấp</label>
                         <select class="form-control" name="supplier_id">
+                            @php
+                                $supplier_id = $item['supplier_id'] ?? '';
+                            @endphp
                             <option value="">Chọn nhà cung cấp</option>
                             @foreach ($suppliers as $supplier)
-                                <option value="{{ $supplier['id'] }}">{{ $supplier['name'] }}</option>
+                                <option value="{{ $supplier['id'] }}"
+                                    {{ $supplier_id == $supplier['id'] ? 'selected' : '' }}>{{ $supplier['name'] }}
+                                </option>
                             @endforeach
-
                         </select>
                         <span class="help-block"></span>
                     </div>
+                    <input type="hidden" name="id" value="{{$id}}">
                 </div>
             </div>
         </div>
     </form>
-
 @endsection

@@ -18,7 +18,7 @@ class ProductModel extends Model
     public function listItems($params = "", $options = "")
     {
         $result = null;
-        $query = $this->select('id','title', 'code','slug','thumbnail','orgin', 'point','sale_price','regular_price','in_stock','stock','is_published','created_at','updated_at','percent');
+        $query = $this->select('id','title', 'code','slug','thumbnail','orgin', 'point','sale_price','regular_price','in_stock','stock','is_published','created_at','updated_at','percent','supplier_id');
         if ($options['task'] == 'admin-count-total') {
             $result = $query->where('user_group_id', '3')->count();
         }
@@ -37,7 +37,7 @@ class ProductModel extends Model
     }
     public function getItem($params = [], $options = [])
     {
-        $query = $this->select('id', 'title', 'code','slug','thumbnail','orgin', 'point','sale_price','regular_price','in_stock','stock','is_published','created_at','updated_at','percent');
+        $query = $this->select('id', 'title', 'code','slug','thumbnail','orgin', 'point','sale_price','regular_price','in_stock','stock','is_published','created_at','updated_at','percent','supplier_id');
         if ($options['task'] == 'taxonomy') {
             $result = $query->where('taxonomy', $params['taxonomy'])->first();
         }
@@ -69,8 +69,8 @@ class ProductModel extends Model
             $this->where('id', $params['id'])->delete();
         }
     }
-    public function articles()
+    public function taxonomy()
     {
-        return $this->hasMany(ArticleModel::class, 'user_id', 'id');
+        return $this->belongsToMany(TaxonomyModel::class,'taxonomy_relationship','product_id','taxonomy_id');
     }
 }

@@ -41,8 +41,8 @@ class ProductMetaModel extends Model
         if ($options['task'] == 'taxonomy') {
             $result = $query->where('taxonomy', $params['taxonomy'])->first();
         }
-        if ($options['task'] == 'id') {
-            $result = $query->where('id', $params['id'])->first();
+        if ($options['task'] == 'product_id') {
+            $result = $query->where('product_id', $params['product_id'])->first();
         }
         return $result;
     }
@@ -56,7 +56,7 @@ class ProductMetaModel extends Model
         }
         if ($option['task'] == 'edit-item') {
             $paramsUpdate = array_diff_key($params, array_flip($this->crudNotAccepted));
-            self::where('id', $params['id'])->update($paramsUpdate);
+            self::where('product_id', $params['product_id'])->update($paramsUpdate);
         }
         if ($option['task'] == 'active-by-token') {
             $paramsUpdate = array_diff_key($params, array_flip($this->crudNotAccepted));

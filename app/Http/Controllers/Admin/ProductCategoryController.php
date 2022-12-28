@@ -36,6 +36,7 @@ class ProductCategoryController extends Controller
         $categories = $this->model::withDepth()->get()->toFlatTree()->where('taxonomy', 'product_cat')->pluck('name_with_depth', 'id');
         $id = $request->id;
         $item = $this->model->getItem(['id' => $id],['task' => 'id']);
+        
        
         return view(
             "{$this->pathViewController}form",
