@@ -152,7 +152,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="single-media text-center">
-                                        <input id="thumbnail" name="thumbnail" type="hidden">
+                                        <input id="thumbnail" name="thumbnail" type="hidden" value="{{$item['thumbnail'] ?? ""}}">
                                         <div class="media-item">
                                             <img class="img-thumbnail"
                                                 data-no-image="https://via.placeholder.com/150x120&amp;text=No+Image"

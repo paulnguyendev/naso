@@ -1,19 +1,21 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin</title>
+<title>@yield('title', 'Dashboard')</title>
 <link rel="shortcut icon" type="image/png" href="https://media.loveitopcdn.com/itop.website/favicon.png" />
 <base href="https://dainghiagroup.com">
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700&amp;amp;subset=vietnamese"
     rel="stylesheet">
+<link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
     href="https://static.loveitopcdn.com/backend/plugins/mCustomScrollbar/jquery.mCustomScrollbar.css">
 <link rel="stylesheet" href="https://static.loveitopcdn.com/backend/dist/css/plugin.css?id=a8f96327b6c3773821a1">
 <link rel="stylesheet" href="https://static.loveitopcdn.com/backend/dist/css/style.css?id=fca89b87486ea1f07891">
-<link rel="stylesheet" href="{{asset('obn-dashboard/plugin/slick.css')}}">
-<link rel="stylesheet" href="{{asset('obn-dashboard/css/obn.css')}}?ver={{time()}}">
+<link rel="stylesheet" href="{{ asset('obn-dashboard/plugin/slick.css') }}">
+<link rel="stylesheet" href="{{ asset('obn-dashboard/plugin/fancybox.css') }}">
+<link rel="stylesheet" href="{{ asset('obn-dashboard/css/obn.css') }}?ver={{ time() }}">
 <link media="all" type="text/css" rel="stylesheet"
     href="https://static.loveitopcdn.com/backend/css/custom_new.css?v=1.0.2">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -48,4 +50,42 @@
     var default_currency = 'đ';
     var default_weight_unit = "kg";
     var storage_url = 'https://media.loveitopcdn.com/34798/';
+    var products = {};
+    const getCartData = () => {
+        let result;
+        return $.ajax({
+            type: "get",
+            url: "http://localhost/naso/user/cart/data",
+            data: {action:"getCart"},
+            dataType: "json",
+            async: false,
+            
+        });
+       
+    }
+    let test = getCartData();
+    console.log(test);
+    var shoppingCart = {
+            'products': [],
+            'subtotal': 0,
+            'total_weight': 0,
+            'shipping': {
+                'fee': 0,
+                'discount': 0,
+                'message': '',
+                'method_id': 0,
+                'method_title': '',
+            },
+            'coupons': {},
+            'discount': 0,
+            'total': 0,
+            'info_order': {},
+            'info_shipping': {},
+            'note': '',
+            'payment': {
+                'method_id': 0,
+                'method_title': '',
+                'status': 0,
+            }
+        };
 </script>

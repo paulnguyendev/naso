@@ -64,7 +64,11 @@ Route::middleware('access.userDashboard')->prefix($prefix)->group(function () {
     Route::prefix('cart')->group(function () {
         $routeName = "cart";
         Route::controller(CartController::class)->group(function () use ($routeName) {
-            Route::get('/add/{id?}', 'add')->name($routeName . '/add');
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/data', 'data')->name($routeName . '/data');
+            Route::get('/add/{id?}/{number?}', 'add')->name($routeName . '/add');
+            Route::get('/remove/{id?}/{number?}', 'remove')->name($routeName . '/remove');
+            Route::get('/removeAll', 'removeAll')->name($routeName . '/removeAll');
         });
     });
 });

@@ -31,14 +31,16 @@ class ProductController extends Controller
         $id = $request->id;
         $item = $this->model::find($id);
         $item_meta = $this->productMetaModel->getItem(['product_id' => $id], ['task' => 'product_id']);
+        $item_supplier = $item->supplier()->first();
         
-        
+       
        
         return view(
             "{$this->pathViewController}/detail",
             [
               'item' => $item,
               'item_meta' => $item_meta,
+              'item_supplier' => $item_supplier,
             ]
         );
     }

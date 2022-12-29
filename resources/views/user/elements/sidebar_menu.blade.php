@@ -30,6 +30,12 @@
             </ul>
         </li>
         <li data-label="Quản Lý Chung">
+            <a href="{{route('cart/index')}}">
+                <i class="icon-cart5"></i>
+                <span>Giỏ hàng</span>
+            </a>
+        </li>
+        <li data-label="Quản Lý Chung">
             <a href="#">
                 <i class="icon-cart5"></i>
                 <span>Đơn hàng</span>
@@ -37,7 +43,7 @@
         </li>
         <li data-label="Quản Lý Chung">
             <a href="#">
-                <i class="icon-cart5"></i>
+                <i class="icon-user"></i>
                 <span>Khách hàng</span>
             </a>
         </li>

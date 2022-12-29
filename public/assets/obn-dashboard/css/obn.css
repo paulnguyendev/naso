@@ -217,3 +217,68 @@ label.error {
 .discount-list > *:not(:last-child) {
     margin-bottom: 5px;
 }
+.entry-gallery .gallery-item  img {
+    border-radius: 5px;
+    box-shadow: 2px 3px #8888882e;
+    border: 1px solid #8888882e;
+    width: 66px;
+    height: 66px;
+    object-fit: cover;
+}
+
+.entry-gallery {
+    margin-top: 20px;
+}
+.supplier-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 100%;
+    position: absolute;
+    left: 50%;
+    bottom: -24px;
+    background: #fff;
+    padding: 5px;
+    transform: translateX(-50%);
+    border: 1px solid var(--color-main);
+}
+.entry-supplier-meta {
+    margin-bottom: 30px;
+}
+.entry-stock-info {
+    display: flex;
+    align-items: center;
+}
+
+.entry-stock-info label {
+    margin-right: 10px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.quantity-number {
+    text-align: center;
+    border: 1px solid #cccc;
+    
+    height: 30px;
+    width: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn {
+    background: #eee;
+    border: none;
+    outline: none;
+    height: 30px;
+    width: 30px;
+}
+
+.entry-stock-info > *:last-child {
+    margin-left: 15px;
+}
+.stock-input-group {
+    display: flex;
+}

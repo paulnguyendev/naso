@@ -19,7 +19,7 @@
             {{ $price }}
         </p>
         <div class="product-price-discount">
-            {{Product::getDiscount($item['regular_price'] ?? 0)}}
+            {!! Product::getDiscount($item['regular_price'] ?? 0)!!}
             <div class="product-price-discount-item">
                 <span>Point: </span>
                 <div>

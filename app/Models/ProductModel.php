@@ -73,4 +73,7 @@ class ProductModel extends Model
     {
         return $this->belongsToMany(TaxonomyModel::class,'taxonomy_relationship','product_id','taxonomy_id');
     }
+    public function supplier() {
+        return $this->belongsTo(SupplierModel::class, 'supplier_id','id' );
+    }
 }

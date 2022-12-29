@@ -31,8 +31,32 @@ class CartController extends Controller
     {
 
         $id = $request->id;
+        $number = $request->number;
+        
+        if(!$number) {
+            $number = 1;
+        }
        
-        Cart::add($id, "Product {$id} ", 1, 9.99);
-       return Cart::content();
+        Cart::add($id, "Product {$id} ", $number, 9.99);
+        $cartData = Cart::content();
+        $cartTotal = Cart::count();
+        $result = [
+            'cartData' => $cartData,
+            'cartTotal' => $cartTotal,
+        ];
+       return response()->json($result);
+    }
+    public function index(Request $request) {
+        return view(
+            "{$this->pathViewController}/index",
+            []
+        );
+    }
+    public function removeAll(Request $request) {
+        Cart::destroy();
+        return Cart::content();
+    }
+    public function data(Request $request) {
+        return Cart::content();
     }
 }

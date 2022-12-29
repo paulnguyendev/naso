@@ -19,8 +19,8 @@
     </ul>
     <ul class="nav navbar-nav navbar-right text-sm-right pr-sm-20 pl-sm-20">
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <i class="icon-cart5"></i> <span class="hiden_1024_1350">Giỏ hàng ({{Cart::count()}})</span>
+            <a href="{{route('cart/index')}}"  aria-expanded="false">
+                <i class="icon-cart5"></i> <span class="hiden_1024_1350">Giỏ hàng (<span id="cartTotal">{{Cart::count()}}</span>)</span>
             </a>
         </li>
         <li><a href="{{ route('user_profile/index') }}"><i class="icon-user"></i> <span class="hiden_1024_1350">Tài
