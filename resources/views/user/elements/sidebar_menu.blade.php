@@ -36,13 +36,13 @@
             </a>
         </li>
         <li data-label="Quản Lý Chung">
-            <a href="#">
+            <a href="{{route('user_order/index')}}">
                 <i class="icon-cart5"></i>
                 <span>Đơn hàng</span>
             </a>
         </li>
         <li data-label="Quản Lý Chung">
-            <a href="#">
+            <a href="{{route('user_order/customer')}}">
                 <i class="icon-user"></i>
                 <span>Khách hàng</span>
             </a>
@@ -54,15 +54,15 @@
             </a>
             <ul class="second-menu-level">
                 <li>
-                    <a href="#">
+                    <a href="{{route('user_order/income')}}">
                         <span>Doanh thu</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="#">
                         <span>Lịch sử thanh toán</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
         <li data-label="Tài khoản">

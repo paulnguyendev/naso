@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Template;
 
+use App\Helpers\User;
 use App\Models\SupplierModel;
 use App\Models\UserGroupModel;
 
@@ -13,13 +14,34 @@ class Product
         $items =  $model->listItems([], ['task' => 'list']);
         return $items;
     }
-    public static function getPriceProduct($price)
+    public static function getPriceProduct($price, $format = true)
     {
-        if ($price == 0) {
-            $result = "Liên hệ";
-        } else {
-            $result = number_format($price) . " đ";
+        if ($format == true) {
+            if ($price == 0) {
+                $result = "Liên hệ";
+            } else {
+                $result = number_format($price) . " đ";
+            }
         }
+        else {
+            $result = $price;
+        }
+
+
+        return $result;
+    }
+    public static function getDiscountByUser($user_id,$price) {
+        $result = 0;
+        $group_id  = User::getInfo($user_id,'group_id ');
+        $model = new UserGroupModel();
+        $item = $model->getItem(['group_id' => $group_id],['task' => 'group_id']);
+        $item_default = [
+            'name' => 'CTV',
+            'discount' => 20,
+        ];
+        $item = $item ? $item : $item_default;
+        $discount = isset($item['discount']) ? $item['discount'] : 0;
+        $result = round($discount * $price / 100);
         return $result;
     }
     public static function getDiscount($price = 0, $template = "1")
@@ -27,7 +49,6 @@ class Product
         $xthml = null;
         $model = new UserGroupModel();
         $items = $model->listItems([], ['task' => 'list']);
-
         if (count($items) > 0) {
             foreach ($items as $item) {
                 $name = $item['name'] ?? "-";
@@ -75,23 +96,20 @@ class Product
                     <span>%s</span>
                 </div>',
                 $name . ":",
-               
                 $discount_money . " đ",
             );
         }
-
         return $xthml;
     }
-    public static function getPriceOfPercent($price, $percent, $format = true) {
+    public static function getPriceOfPercent($price, $percent, $format = true)
+    {
         $result = 0;
-        if($percent && $percent > 0) {
+        if ($percent && $percent > 0) {
             $result = round($price * $percent / 100);
-            if($format == true) {
+            if ($format == true) {
                 $result = number_format($result) . " đ";
             }
-            
         }
         return $result;
-
     }
 }

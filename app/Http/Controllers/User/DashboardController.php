@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers\User;
+
+use App\Helpers\User;
 use App\Http\Controllers\Controller;
 #Request
 #Model
@@ -24,9 +26,23 @@ class DashboardController extends Controller
     }
     public function index(Request $request)
     {
+        $user_id = User::getInfo('','id');
+        $user = UserModel::find($user_id);
+        #_Total Income
+        $totalIncome = $user->payment_history()->where('status','approve_success')->sum('total_commission');
+        $totalIncome = number_format($totalIncome) . " đ";
+        #_Total Order
+        $totalOrder = $user->order()->count();
+        #_Total Order Success
+        $totalOrderSuccess = $user->order()->where('status','complete')->count();
+    
         return view(
             "{$this->pathViewController}/index",
-            []
+            [
+                'totalIncome' => $totalIncome,
+                'totalOrder' => $totalOrder,
+                'totalOrderSuccess' => $totalOrderSuccess,
+            ]
         );
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\ProductCategoryController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ProductController as UserProductController;
 use App\Http\Controllers\User\SupplierController as UserSupplierController;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +33,6 @@ Route::prefix($prefix)->group(function () {
     // Route::controller(HomeController::class)->group(function () use ($routeName) {
     //     Route::get('/aff/{?username}', 'index')->name($routeName . '/index');
     // });
-
 });
 // User
 $prefix = config('obn.prefix.user');
@@ -66,9 +65,26 @@ Route::middleware('access.userDashboard')->prefix($prefix)->group(function () {
         Route::controller(CartController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
             Route::get('/data', 'data')->name($routeName . '/data');
+            Route::get('/product', 'product')->name($routeName . '/product');
             Route::get('/add/{id?}/{number?}', 'add')->name($routeName . '/add');
+            Route::get('/update/{id?}/{number?}', 'update')->name($routeName . '/update');
             Route::get('/remove/{id?}/{number?}', 'remove')->name($routeName . '/remove');
             Route::get('/removeAll', 'removeAll')->name($routeName . '/removeAll');
+            Route::get('/test', 'test')->name($routeName . '/test');
+            Route::post('/order', 'order')->name($routeName . '/order');
+        });
+    });
+    Route::prefix('order')->group(function () {
+        $routeName = "user_order";
+        Route::controller(OrderController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/dataList', 'dataList')->name($routeName . '/dataList');
+            Route::get('/customer', 'customer')->name($routeName . '/customer');
+            Route::get('/dataCustomer', 'dataCustomer')->name($routeName . '/dataCustomer');
+            Route::get('/income', 'income')->name($routeName . '/income');
+            Route::get('/dataIncome', 'dataIncome')->name($routeName . '/dataIncome');
+            Route::get('/detail/{id?}', 'detail')->name($routeName . '/detail');
+            Route::delete('/destroy-multi/{id?}', 'destroyMulti')->name($routeName . '/destroy-multi');
         });
     });
 });
@@ -140,7 +156,6 @@ Route::prefix($prefix)->group(function () {
         // Route::post('/post-active/{code}', 'postActive')->name($routeName . '/postActive')->middleware('check.statusActive');
         // Route::get('/quickLogin/{email}-{phone}', 'quickLogin')->name($routeName . '/quickLogin');
         // Route::post('/post-login', 'postLogin')->name($routeName . '/postLogin');
-
         // Route::post('/post-register', 'postRegister')->name($routeName . '/postRegister');
         // Route::get('/forget-password', 'forgetPassword')->name($routeName . '/forgetPassword');
         // Route::post('/post-forget-password', 'postForgetPassword')->name($routeName . '/postForgetPassword');

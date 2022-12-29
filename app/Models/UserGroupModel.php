@@ -57,6 +57,9 @@ class UserGroupModel extends Model
         if ($options['task'] == 'token') {
             $result = $query->where('token', $params['token'])->first();
         }
+        if ($options['task'] == 'group_id') {
+            $result = $query->where('id', $params['group_id'])->first();
+        }
         return $result;
     }
     public function saveItem($params = [],$option = []) {

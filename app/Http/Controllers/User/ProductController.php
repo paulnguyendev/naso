@@ -44,4 +44,7 @@ class ProductController extends Controller
             ]
         );
     }
+    public function data(Request $request) {
+        
+    }
 }

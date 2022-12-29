@@ -25,6 +25,15 @@ class ProductModel extends Model
         if ($options['task'] == 'list') {
             $result = $query->orderBy('id', 'desc')->get();
         }
+        if ($options['task'] == 'list-in-cart') {
+            if(isset($params['ids'])) {
+                $result = $query->whereNotIn('id', $params['ids'])->orderBy('id', 'desc')->get();
+            }
+            else {
+                $result = $query->orderBy('id', 'desc')->get();
+            }
+           
+        }
         if ($options['task'] == 'search') {
             $result = $query->where('name', 'LIKE', "%{$params['name']}%")->orderBy('id', 'desc')->get();
             if ($result)

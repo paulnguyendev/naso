@@ -1,6 +1,17 @@
+@php
+    use App\Helpers\User;
+    $user_id = User::getInfo('','id');
+@endphp
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="cart-data" content="{{ route('cart/data') }}" />
+<meta name="cart-add" content="{{ route('cart/add') }}" />
+<meta name="cart-update" content="{{ route('cart/update') }}" />
+<meta name="cart-remove" content="{{ route('cart/remove') }}" />
+<meta name="cart-order" content="{{ route('cart/order') }}" />
+<meta name="user-id" content="{{ $user_id }}" />
+<meta name="cart-province" content="{{ url('public/data/province.json') }}" />
 <title>@yield('title', 'Dashboard')</title>
 <link rel="shortcut icon" type="image/png" href="https://media.loveitopcdn.com/itop.website/favicon.png" />
 <base href="https://dainghiagroup.com">
@@ -20,23 +31,21 @@
     href="https://static.loveitopcdn.com/backend/css/custom_new.css?v=1.0.2">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://static.loveitopcdn.com/backend/dist/js/loading.js?id=7e97bd818d6bd28c3dc8"></script>
+<script src="{{asset('obn-dashboard/js/core/cart.js')}}"></script>
 <style>
     .language-switch {
         display: none !important;
     }
-
     @media (min-width: 1024px) and (max-width: 1350px) {
         .hiden_1024_1350 {
             display: none;
         }
     }
-
     @media (min-width: 768px) and (max-width: 1023px) {
         .hiden_768_1023 {
             display: none !important;
         }
     }
-
     .media-preview {
         max-height: 50px;
         width: 83px;
@@ -51,41 +60,29 @@
     var default_weight_unit = "kg";
     var storage_url = 'https://media.loveitopcdn.com/34798/';
     var products = {};
-    const getCartData = () => {
-        let result;
-        return $.ajax({
-            type: "get",
-            url: "http://localhost/naso/user/cart/data",
-            data: {action:"getCart"},
-            dataType: "json",
-            async: false,
-            
-        });
-       
-    }
-    let test = getCartData();
-    console.log(test);
     var shoppingCart = {
-            'products': [],
-            'subtotal': 0,
-            'total_weight': 0,
-            'shipping': {
-                'fee': 0,
-                'discount': 0,
-                'message': '',
-                'method_id': 0,
-                'method_title': '',
-            },
-            'coupons': {},
+        'products': [],
+        'subtotal': 0,
+        'total_weight': 0,
+        'shipping': {
+            'fee': 0,
             'discount': 0,
-            'total': 0,
-            'info_order': {},
-            'info_shipping': {},
-            'note': '',
-            'payment': {
-                'method_id': 0,
-                'method_title': '',
-                'status': 0,
-            }
-        };
+            'message': '',
+            'method_id': 0,
+            'method_title': '',
+        },
+        'coupons': {},
+        'discount': 0,
+        'total': 0,
+        'info_order': {},
+        'info_shipping': {},
+        'note': '',
+        'payment': {
+            'method_id': 0,
+            'method_title': '',
+            'status': 0,
+        },
+        'user_id' : $(`meta[name="user-id"]`).attr("content"),
+    };
+    checkCart();
 </script>

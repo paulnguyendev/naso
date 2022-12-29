@@ -80,4 +80,12 @@ class UserModel extends Model
     {
         return $this->hasMany(ArticleModel::class, 'user_id', 'id');
     }
+    public function payment_history()
+    {
+        return $this->hasMany(PaymentHistoryModel::class, 'user_id', 'id');
+    }
+    public function order()
+    {
+        return $this->hasMany(OrderModel::class, 'user_id', 'id');
+    }
 }

@@ -282,3 +282,23 @@ label.error {
 .stock-input-group {
     display: flex;
 }
+.supplier-name {font-weight: bold;text-transform: uppercase;margin-bottom: 5px;}
+
+.product-name {
+    font-size: 13px;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.panel-order-dashboard .datatable-header {
+    display: none;
+}
+@media screen and (max-width: 767.98px) {
+    .row.row-5 .col-md-2 {
+        width: 49%;
+        display: inline-block;
+        box-sizing: border-box;
+    }
+}

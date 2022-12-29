@@ -85,282 +85,288 @@
             }
         </style>
     @endif
-
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-flat">
                 <div class="panel-body">
-                    <form class="stepy-validation" id="formCreateOrder">
-                        <fieldset class="stepy-step">
-                            <legend class="text-semibold">Chọn sản phẩm</legend>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="btn-group">
-                                        <button type="button"
-                                            class="btn border-slate text-slate-800 btn-flat dropdown-toggle"
-                                            data-toggle="dropdown">Chọn sản phẩm
-                                            <span class="caret"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-left" style="width: 600px;padding: 5px;">
-                                            <table class="table datatable-row-basic select-item-datatable"
-                                                data-source="{{ url('public/data/select.json') }}" id="product_select">
-                                            </table>
+                    @if (Cart::count() > 0)
+                        <form class="stepy-validation" id="formCreateOrder">
+                            <fieldset class="stepy-step">
+                                <legend class="text-semibold">Chọn sản phẩm</legend>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="btn-group">
+                                            <button type="button"
+                                                class="btn border-slate text-slate-800 btn-flat dropdown-toggle"
+                                                data-toggle="dropdown">Chọn sản phẩm
+                                                <span class="caret"></span></button>
+                                            <div class="dropdown-menu dropdown-menu-left"
+                                                style="width: 600px;padding: 5px;">
+                                                <table class="table datatable-row-basic select-item-datatable"
+                                                    data-source="{{ route('cart/product') }}" id="product_select">
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <table id="product_item" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="100px">Hình</th>
+                                                    <th>Tên sản phẩm</th>
+                                                    <th width="100px">Đơn giá</th>
+                                                    <th width="120px">Số lượng</th>
+                                                    <th width="150px">Thành tiền</th>
+                                                    <th width="50px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <table id="product_item" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th width="100px">Hình</th>
-                                                <th>Tên sản phẩm</th>
-                                                <th width="100px">Đơn giá</th>
-                                                <th width="120px">Số lượng</th>
-                                                <th width="150px">Thành tiền</th>
-                                                <th width="50px"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset title="2" style="display: none">
-                            <legend class="text-semibold">Thông tin đặt hàng</legend>
-                            <div class="row" title="">
-                                <div class="col-md-6">
-                                    <fieldset class="default-form">
-                                        <legend class="text-semibold">Thông tin người mua</legend>
-                                        <div class="form-group">
-                                            <label>Họ tên (*)</label>
-                                            <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="Họ tên (*)" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="text" class="form-control" name="email" id="email"
-                                                placeholder="Email" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Số điện thoại (*)</label>
-                                            <input type="text" class="form-control" name="phone" id="phone"
-                                                placeholder="Số điện thoại (*)" required />
-                                        </div>
-                                        <div class="form-group">
+                            </fieldset>
+                            <fieldset title="2" style="display: none">
+                                <legend class="text-semibold">Thông tin đặt hàng</legend>
+                                <div class="row" title="">
+                                    <div class="col-md-6">
+                                        <fieldset class="default-form">
+                                            <legend class="text-semibold">Thông tin người mua</legend>
+                                            <div class="form-group">
+                                                <label>Họ tên (*)</label>
+                                                <input type="text" class="form-control" name="name" id="name"
+                                                    placeholder="Họ tên (*)" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input type="text" class="form-control" name="email" id="email"
+                                                    placeholder="Email" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Số điện thoại (*)</label>
+                                                <input type="text" class="form-control" name="phone" id="phone"
+                                                    placeholder="Số điện thoại (*)" required />
+                                            </div>
+                                            {{-- <div class="form-group">
                                             <label>Tỉnh / Thành Phố</label>
                                             <select class="form-control" name="province" id="province">
                                                 <option value="">Tỉnh / Thành Phố</option>
                                             </select>
-                                        </div>
-                                        <div class="form-group">
+                                        </div> --}}
+                                            {{-- <div class="form-group">
                                             <label>Quận / Huyện</label>
                                             <select class="form-control" name="district" id="district">
                                                 <option value="">Quận / Huyện</option>
                                             </select>
-                                        </div>
-                                        <div class="form-group">
+                                        </div> --}}
+                                            {{-- <div class="form-group">
                                             <label>Phường / Xã</label>
                                             <select class="form-control" name="ward" id="ward">
                                                 <option value="">Phường / Xã</option>
                                             </select>
-                                        </div>
+                                        </div> --}}
+                                            <div class="form-group">
+                                                <label>Địa chỉ</label>
+                                                <textarea style="max-width: 100%" class="form-control" name="address" id="address" placeholder="Địa chỉ"></textarea>
+                                            </div>
+                                        </fieldset>
                                         <div class="form-group">
-                                            <label>Địa chỉ</label>
-                                            <textarea style="max-width: 100%" class="form-control" name="address" id="address" placeholder="Địa chỉ"></textarea>
+                                            <label>Ghi chú:</label>
+                                            <textarea style="max-width: 100%" class="form-control" name="note" id="note" placeholder="Ghi chú"></textarea>
                                         </div>
-                                    </fieldset>
-                                    <div class="form-group">
-                                        <label>Ghi chú:</label>
-                                        <textarea style="max-width: 100%" class="form-control" name="note" id="note" placeholder="Ghi chú"></textarea>
+                                        <fieldset class="func-collapse ship-address" id="shipping-same">
+                                            <input id="same-as-billing" type="checkbox" bs-type="checkbox"
+                                                name="has_saddress" value="1" />
+                                            <label for="same-as-billing">Giao hàng tới địa chỉ khác</label>
+                                        </fieldset>
+                                        <fieldset class="default-form addr-form" id="fieldset-shipping"
+                                            style="display: none;">
+                                            <legend class="text-semibold">Thông tin người nhận</legend>
+                                            <div class="form-group">
+                                                <label>Họ tên (*)</label>
+                                                <input type="text" class="form-control" name="sname" id="sname"
+                                                    placeholder="Họ tên" disabled required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input type="text" class="form-control" name="semail" id="semail"
+                                                    placeholder="Email" disabled />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Số điện thoại (*)</label>
+                                                <input type="number" class="form-control" name="sphone" id="sphone"
+                                                    placeholder="Số điện thoại" disabled required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tỉnh / Thành Phố</label>
+                                                <div class="wrap-select f-size-medium relative">
+                                                    <select name="sprovince" id="sprovince" class="form-control" disabled>
+                                                        <option value="">Tỉnh / Thành Phố</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Quận / Huyện</label>
+                                                <div class="wrap-select f-size-medium relative">
+                                                    <select name="sdistrict" id="sdistrict" class="form-control"
+                                                        disabled>
+                                                        <option value="">Quận / Huyện</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phường / Xã</label>
+                                                <div class="wrap-select f-size-medium relative">
+                                                    <select name="sward" id="sward" class="form-control" disabled>
+                                                        <option value="">Phường / Xã</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Địa chỉ</label>
+                                                <textarea style="max-width: 100%" name="saddress" id="saddress" class="form-control" placeholder="Địa chỉ"
+                                                    disabled></textarea>
+                                            </div>
+                                        </fieldset>
                                     </div>
-                                    <fieldset class="func-collapse ship-address" id="shipping-same">
-                                        <input id="same-as-billing" type="checkbox" bs-type="checkbox" name="has_saddress"
-                                            value="1" />
-                                        <label for="same-as-billing">Giao hàng tới địa chỉ khác</label>
-                                    </fieldset>
-                                    <fieldset class="default-form addr-form" id="fieldset-shipping" style="display: none;">
-                                        <legend class="text-semibold">Thông tin người nhận</legend>
-                                        <div class="form-group">
-                                            <label>Họ tên (*)</label>
-                                            <input type="text" class="form-control" name="sname" id="sname"
-                                                placeholder="Họ tên" disabled required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="text" class="form-control" name="semail" id="semail"
-                                                placeholder="Email" disabled />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Số điện thoại (*)</label>
-                                            <input type="number" class="form-control" name="sphone" id="sphone"
-                                                placeholder="Số điện thoại" disabled required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Tỉnh / Thành Phố</label>
-                                            <div class="wrap-select f-size-medium relative">
-                                                <select name="sprovince" id="sprovince" class="form-control" disabled>
-                                                    <option value="">Tỉnh / Thành Phố</option>
-                                                </select>
+                                    <div class="col-md-6">
+                                        <fieldset class="default-form addr-form" id="method-shipping">
+                                            <legend class="text-semibold">Phương thức giao hàng</legend>
+                                            <div class="form-group">
+                                                <ul class="ship_methods">
+                                                    <li class='ship_method_bacs'><label class='wb-text15'>Nhận hàng tại
+                                                            kho</label></li>
+                                                </ul>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Quận / Huyện</label>
-                                            <div class="wrap-select f-size-medium relative">
-                                                <select name="sdistrict" id="sdistrict" class="form-control" disabled>
-                                                    <option value="">Quận / Huyện</option>
-                                                </select>
+                                        </fieldset>
+                                        <fieldset class="default-form addr-form" id="method-payment">
+                                            <legend class="text-semibold">Phương thức thanh toán</legend>
+                                            <div class="form-group">
+                                                <ul class="payment_methods">
+                                                    <li class="payment_method_bacs">
+                                                        <input id="payment0" type="radio" name="payment"
+                                                            value="1" data-title="Thu tiền tận nơi - COD" checked>
+                                                        <label for="payment0" class="wb-text15">Thu tiền tận nơi - COD
+                                                        </label>
+                                                        <span class="pull-right">
+                                                            <i class="fa fa-money" aria-hidden="true"></i>
+                                                        </span>
+                                                        <div id="payment_1" class="payment_description">
+                                                            <em class="wb-text13">Chúng tôi giao hàng và thu tiền tận nơi
+                                                                của
+                                                                bạn.</em>
+                                                        </div>
+                                                    </li>
+                                                    <li class="payment_method_bacs">
+                                                        <input id="payment1" type="radio" name="payment"
+                                                            value="2" data-title="Chuyển khoản qua ngân hàng">
+                                                        <label for="payment1" class="wb-text15">Chuyển khoản qua ngân hàng
+                                                        </label>
+                                                        <span class="pull-right">
+                                                            <i class="fa fa-money" aria-hidden="true"></i>
+                                                        </span>
+                                                        <div id="payment_2" class="payment_description" hidden>
+                                                            <em class="wb-text13">Bạn chuyển khoản qua các ngân hàng dưới
+                                                                đây,
+                                                                nội dung chuyển khoản: tên - số điện thoại - mã đơn hàng.
+                                                                Ngân hàng Vietcombank - số tài khoản 01010101010 - chi nhánh
+                                                                Hồ
+                                                                Chí Minh.</em>
+                                                        </div>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Phường / Xã</label>
-                                            <div class="wrap-select f-size-medium relative">
-                                                <select name="sward" id="sward" class="form-control" disabled>
-                                                    <option value="">Phường / Xã</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Địa chỉ</label>
-                                            <textarea style="max-width: 100%" name="saddress" id="saddress" class="form-control" placeholder="Địa chỉ"
-                                                disabled></textarea>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <div class="col-md-6">
-                                    <fieldset class="default-form addr-form" id="method-shipping">
-                                        <legend class="text-semibold">Phương thức giao hàng</legend>
-                                        <div class="form-group">
-                                            <ul class="ship_methods">
-                                                <li class='ship_method_bacs'><label class='wb-text15'>Nhận hàng tại
-                                                        kho</label></li>
-                                            </ul>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="default-form addr-form" id="method-payment">
-                                        <legend class="text-semibold">Phương thức thanh toán</legend>
-                                        <div class="form-group">
-                                            <ul class="payment_methods">
-                                                <li class="payment_method_bacs">
-                                                    <input id="payment0" type="radio" name="payment" value="1"
-                                                        data-title="Thu tiền tận nơi - COD" checked>
-                                                    <label for="payment0" class="wb-text15">Thu tiền tận nơi - COD
-                                                    </label>
-                                                    <span class="pull-right">
-                                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                                    </span>
-                                                    <div id="payment_1" class="payment_description">
-                                                        <em class="wb-text13">Chúng tôi giao hàng và thu tiền tận nơi của
-                                                            bạn.</em>
-                                                    </div>
-                                                </li>
-                                                <li class="payment_method_bacs">
-                                                    <input id="payment1" type="radio" name="payment" value="2"
-                                                        data-title="Chuyển khoản qua ngân hàng">
-                                                    <label for="payment1" class="wb-text15">Chuyển khoản qua ngân hàng
-                                                    </label>
-                                                    <span class="pull-right">
-                                                        <i class="fa fa-money" aria-hidden="true"></i>
-                                                    </span>
-                                                    <div id="payment_2" class="payment_description" hidden>
-                                                        <em class="wb-text13">Bạn chuyển khoản qua các ngân hàng dưới đây,
-                                                            nội dung chuyển khoản: tên - số điện thoại - mã đơn hàng.
-                                                            Ngân hàng Vietcombank - số tài khoản 01010101010 - chi nhánh Hồ
-                                                            Chí Minh.</em>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset title="3" class="confirm_order" style="display: none;">
-                            <legend class="text-semibold">Xác nhận</legend>
-                            <div class="row" title="">
-                                <div class="col-md-6">
-                                    <fieldset class="default-form">
-                                        <legend class="text-semibold">Thông tin người mua</legend>
-                                        <div class="form-group">
-                                            <label>Họ tên: </label> <span class="name"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Email: </label> <span class="email"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Số điện thoại: </label> <span class="phone"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Tỉnh / Thành Phố: </label> <span class="province"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Quận / Huyện: </label> <span class="district"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Phường/ Xã: </label> <span class="ward"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Địa chỉ: </label> <span class="address"></span>
-                                        </div>
-                                    </fieldset>
-                                    <div class="form-group">
-                                        <label>Ghi chú: </label> <span class="note"></span>
+                                        </fieldset>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <fieldset class="default-form addr-form">
-                                        <legend class="text-semibold">Thông tin người nhận</legend>
+                            </fieldset>
+                            <fieldset title="3" class="confirm_order" style="display: none;">
+                                <legend class="text-semibold">Xác nhận</legend>
+                                <div class="row" title="">
+                                    <div class="col-md-6">
+                                        <fieldset class="default-form">
+                                            <legend class="text-semibold">Thông tin người mua</legend>
+                                            <div class="form-group">
+                                                <label>Họ tên: </label> <span class="name"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Email: </label> <span class="email"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Số điện thoại: </label> <span class="phone"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tỉnh / Thành Phố: </label> <span class="province"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Quận / Huyện: </label> <span class="district"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phường/ Xã: </label> <span class="ward"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Địa chỉ: </label> <span class="address"></span>
+                                            </div>
+                                        </fieldset>
                                         <div class="form-group">
-                                            <label>Họ tên: </label> <span class="sname"></span>
+                                            <label>Ghi chú: </label> <span class="note"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Email: </label> <span class="semail"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Số điện thoại: </label> <span class="sphone"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Tỉnh / Thành Phố: </label> <span class="sprovince"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Quận / Huyện: </label> <span class="sdistrict"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Phường / Xã: </label> <span class="sward"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Địa chỉ: </label> <span class="saddress"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Phương thức giao hàng: </label> <span class="sshipping"></span>
-                                        </div>
-                                    </fieldset>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <fieldset class="default-form addr-form">
+                                            <legend class="text-semibold">Thông tin người nhận</legend>
+                                            <div class="form-group">
+                                                <label>Họ tên: </label> <span class="sname"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Email: </label> <span class="semail"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Số điện thoại: </label> <span class="sphone"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tỉnh / Thành Phố: </label> <span class="sprovince"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Quận / Huyện: </label> <span class="sdistrict"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phường / Xã: </label> <span class="sward"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Địa chỉ: </label> <span class="saddress"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phương thức giao hàng: </label> <span class="sshipping"></span>
+                                            </div>
+                                        </fieldset>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <fieldset class="cartItems">
-                                        <legend class="text-semibold">Chi tiết đơn hàng</legend>
-                                        <table id="cartItems" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th width="100px" class="text-center">Hình</th>
-                                                    <th>Tên sản phẩm</th>
-                                                    <th width="100px" class="text-right">Đơn giá</th>
-                                                    <th width="120px">Số lượng</th>
-                                                    <th width="150px" class="text-right">Thành tiền</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot style="font-weight: bold;">
-                                                <tr>
-                                                    <td colspan="3" class="text-right">Tổng tiền</td>
-                                                    <td colspan="2" class="text-right subtotal"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" class="text-right">Phí vận chuyển</td>
-                                                    <td colspan="2" class="text-right shipping"></td>
-                                                </tr>
-                                                <tr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <fieldset class="cartItems">
+                                            <legend class="text-semibold">Chi tiết đơn hàng</legend>
+                                            <table id="cartItems" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="100px" class="text-center">Hình</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th width="100px" class="text-right">Đơn giá</th>
+                                                        <th width="120px">Số lượng</th>
+                                                        <th width="150px" class="text-right">Thành tiền</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot style="font-weight: bold;">
+                                                    <tr>
+                                                        <td colspan="3" class="text-right">Tổng tiền</td>
+                                                        <td colspan="2" class="text-right subtotal"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" class="text-right">Phí vận chuyển</td>
+                                                        <td colspan="2" class="text-right shipping"></td>
+                                                    </tr>
+                                                    {{-- <tr>
                                                     <td colspan="3" class="text-right">Mã giảm giá</td>
                                                     <td colspan="2" class="coupon">
                                                         <div class="input-group">
@@ -373,36 +379,41 @@
                                                         </div>
                                                         <p id="coupon_msg"></p>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" class="text-right">Giảm giá</td>
-                                                    <td colspan="2" class="text-right discount">0đ</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" class="text-right">Tổng thanh toán</td>
-                                                    <td colspan="2" class="text-right total"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3"></td>
-                                                    <td colspan="2" class="text-right">
-                                                        <p class="payment_method" style="font-weight: normal;"></p>
-                                                        <p>
-                                                            <label style="font-weight: normal;" for="paid">Đã thanh
-                                                                toán</label>
-                                                            <input id="paid" type="checkbox" bs-type="checkbox"
-                                                                name="paid" value="1" />
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </fieldset>
+                                                </tr> --}}
+                                                    <tr>
+                                                        <td colspan="3" class="text-right">Giảm giá</td>
+                                                        <td colspan="2" class="text-right discount">0đ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" class="text-right">Tổng thanh toán</td>
+                                                        <td colspan="2" class="text-right total"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3"></td>
+                                                        <td colspan="2" class="text-right">
+                                                            <p class="payment_method" style="font-weight: normal;"></p>
+                                                            <p>
+                                                                <label style="font-weight: normal;" for="paid">Đã
+                                                                    thanh
+                                                                    toán</label>
+                                                                <input id="paid" type="checkbox" bs-type="checkbox"
+                                                                    name="paid" value="1" />
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </fieldset>
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
-                        <button type="submit" class="btn btn-primary stepy-finish">Hoàn tất <i
-                                class="icon-check position-right"></i></button>
-                    </form>
+                            </fieldset>
+                            <button type="submit" class="btn btn-primary stepy-finish">Hoàn tất <i
+                                    class="icon-check position-right"></i></button>
+                        </form>
+                    @else
+                    <p>Giỏ hàng trống</p> 
+                    @endif
+
                 </div>
             </div>
         </div>
@@ -410,18 +421,20 @@
 @endsection
 @section('custom_srcipt')
     <script type="text/javascript">
-        Number.prototype.format = function(n, x) {
-            var re = '(\\d)(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
-            return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$1.') + 'đ';
-        };
-
-        function priceFormat(number) {
-            if (parseInt(number) > 0) {
-                return parseInt(number).format(0);
-            }
-            return '0đ';
-        }
         $('#product_select').on('change', '.add_item_select', function() {
+            const addCart = (data) => {
+                let url = $(`meta[name="cart-add"]`).attr("content");
+                url = `${url}/${data.id}`;
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    data: data,
+                    dataType: "json",
+                    success: function(response) {
+                        console.log("add cart", response);
+                    }
+                });
+            }
             var data = {};
             data.action = $(this).is(':checked') ? 'add' : 'delete';
             data.id = $(this).attr('data-id');
@@ -429,6 +442,7 @@
             data.thumbnail = $(this).attr('data-thumbnail');
             data.price = $(this).attr('data-price');
             data.weight = $(this).attr('data-weight');
+            addCart(data);
             _update(data);
         });
         $('#product_item').on('click', '.remove_group_item', function() {
@@ -437,11 +451,9 @@
             data.id = $(this).attr('data-id');
             _update(data);
         });
-
         console.log(shoppingCart);
         if (shoppingCart.products.length > 0) {
             customrRenderTableProduct();
-
         }
         var quantityBreaks = [];
 
@@ -496,46 +508,6 @@
             });
         };
 
-        function _update(data) {
-            if (data.action == 'add') {
-                var isExit = false;
-                $.each(shoppingCart.products, function(index, item) {
-                    if (item.id == data.id) {
-                        isExit = true;
-                        return false;
-                    }
-                });
-                if (!isExit) {
-                    shoppingCart.products.push({
-                        'id': data.id,
-                        'product_title': data.title,
-                        'price': data.price,
-                        'quantity': 1,
-                        'thumbnail': data.thumbnail,
-                        'weight': data.weight,
-                    });
-                    shoppingCart.subtotal = 0;
-                    shoppingCart.total_weight = 0;
-                    renderTableProduct();
-                    $(document).find('.button-next').show();
-                }
-            }
-            if (data.action == 'delete') {
-                $('#product_item tbody tr#item_' + data.id).remove();
-                $.each(shoppingCart.products, function(index, item) {
-                    if (item.id == data.id) {
-                        shoppingCart.products.splice(index, 1);
-                        return false;
-                    }
-                });
-                alert("remove itme cart");
-                renderTableProduct();
-            }
-            if (shoppingCart.products.length == 0) {
-                $(document).find('.button-next').hide();
-            }
-        }
-
         function customrRenderTableProduct() {
             $('#product_item tbody').empty();
             shoppingCart.subtotal = 0;
@@ -556,201 +528,6 @@
                 shoppingCart.subtotal += (parseInt(item.price) * item.quantity);
                 if (!isNaN(parseFloat(item.weight))) {
                     shoppingCart.total_weight += (parseFloat(item.weight) * item.quantity);
-                }
-            });
-        }
-
-        function renderTableProduct() {
-            $('#product_item tbody').empty();
-            shoppingCart.subtotal = 0;
-            shoppingCart.total_weight = 0;
-            console.log(shoppingCart);
-            $.each(shoppingCart.products, function(index, item) {
-                var related_html = '<tr id="item_' + item.id + '">';
-                related_html += '<td><img src="' + item.thumbnail + '" style="max-height: 50px;" /></td>';
-                related_html += '<td>' + item.product_title + '</td>';
-                related_html += '<td>' + priceFormat(item.price) + '</td>';
-                related_html += '<td><input type="number" min="1" data-id="' + item.id +
-                    '" class="quantity" value="' + item.quantity + '" /></td>';
-                related_html += '<td>' + priceFormat(parseInt(item.price) * item.quantity) + '</td>';
-                related_html += '<td><a class="remove_group_item" data-id="' + item.id +
-                    '"><i class="fa fa-times" aria-hidden="true"></i></a></td>';
-                related_html += '</tr>';
-                $('#product_item tbody').append(related_html);
-                shoppingCart.subtotal += (parseInt(item.price) * item.quantity);
-                if (!isNaN(parseFloat(item.weight))) {
-                    shoppingCart.total_weight += (parseFloat(item.weight) * item.quantity);
-                }
-            });
-        }
-
-        function buildAddress($wb_province, $wb_district, $wb_ward) {
-            if ($wb_province.length > 0) {
-                var province_id = $wb_province.data('id');
-                var province_name = $wb_province.data('name');
-                var province_value = $wb_province.data('value');
-                if ($wb_district.length > 0) {
-                    $wb_province.change(function() {
-                        var district_id = $wb_district.data('id');
-                        var district_value = $wb_district.data('value');
-                        var district_name = $wb_district.data('name');
-                        $wb_district.find('option:not(:first)').remove();
-                        var province_id = $(this).find(':selected').data('id');
-                        if (province_id) {
-                            var data = {
-                                province_id: province_id
-                            };
-                            $.ajax({
-                                type: "GET",
-                                url: base_domain + '/api/province/distrist',
-                                data: data,
-                                success: function(response) {
-                                    $.each(response, function(index, value) {
-                                        var option = document.createElement("option");
-                                        option.text = value.name;
-                                        option.setAttribute('data-id', value.id);
-                                        if (district_value == 'name') {
-                                            option.value = value.name;
-                                        } else {
-                                            option.value = value.id;
-                                        }
-                                        if (district_name == value.name || district_id == value
-                                            .id) {
-                                            option.selected = true;
-                                        }
-                                        $wb_district.append(option);
-                                    });
-                                    if (district_id || district_name) {
-                                        $wb_district.trigger('change');
-                                    }
-                                },
-                            });
-                        }
-                    });
-                }
-                if ($wb_ward.length > 0) {
-                    $wb_district.change(function() {
-                        var ward_id = $wb_ward.data('id');
-                        var ward_value = $wb_ward.data('value');
-                        var ward_name = $wb_ward.data('name');
-                        $wb_ward.find('option:not(:first)').remove();
-                        var district_id = $(this).find(':selected').data('id');
-                        if (district_id) {
-                            var data = {
-                                district_id: district_id
-                            };
-                            $.ajax({
-                                type: "GET",
-                                url: base_domain + '/api/district/ward',
-                                data: data,
-                                success: function(response) {
-                                    $.each(response, function(index, value) {
-                                        var option = document.createElement("option");
-                                        option.text = value.name;
-                                        option.setAttribute('data-id', value.id);
-                                        if (ward_value == 'name') {
-                                            option.value = value.name;
-                                        } else {
-                                            option.value = value.id;
-                                        }
-                                        if (ward_name == value.name || ward_id == value.id) {
-                                            option.selected = true;
-                                        }
-                                        $wb_ward.append(option);
-                                    });
-                                    if (ward_id || ward_name) {
-                                        $wb_ward.trigger('change');
-                                    }
-                                },
-                            });
-                        }
-                    });
-                }
-                $.ajax({
-                    type: "GET",
-                    url: base_domain + '/api/province',
-                    success: function(response) {
-                        $.each(response, function(index, value) {
-                            var option = document.createElement("option");
-                            option.text = value.name;
-                            option.setAttribute('data-id', value.id);
-                            if (province_value == 'name') {
-                                option.value = value.name;
-                            } else {
-                                option.value = value.id;
-                            }
-                            if (province_id == value.id || province_name == value.name) {
-                                option.selected = true;
-                            }
-                            $wb_province.append(option);
-                        });
-                        if (province_id || province_name) {
-                            $wb_province.trigger('change');
-                        }
-                    },
-                });
-            }
-        }
-        /* Tính phí ship*/
-        function noShippingfee(res) {
-            shoppingCart.shipping.fee = 0;
-            shoppingCart.shipping.message = res.message;
-            let html =
-                "<li class='ship_method_bacs'><label class='wb-text15'>Chưa cấu hình giao hàng tới khu vực này</label></li>";
-            $('.ship_methods').empty().append(html);
-        }
-
-        function calShippingfee(district_id, province_id, weight = null, amount = null) {
-            $.ajax({
-                url: base_domain + '/api/v1/shipping-fee',
-                type: 'POST',
-                data: {
-                    method: 'default',
-                    order: {
-                        receiver: {
-                            provinceId: province_id,
-                            districtId: district_id
-                        },
-                        weight: weight,
-                        total_weight: weight,
-                        amount: amount
-                    }
-                },
-            }).done(function(response) {
-                if (response.success == false && response.message == '') {
-                    return false;
-                }
-                if (response.error || response.success == false) {
-                    noShippingfee(response);
-                    return false;
-                }
-                if (response.data.length == 0) {
-                    let html = "<li class='ship_method_bacs'><label class='wb-text15'>" + response.message +
-                        "</label></li>";
-                    $('.ship_methods').empty().append(html);
-                    return false;
-                }
-                $('.ship_methods').empty();
-                shoppingCart.shipping.fee = parseInt(response.data[0].fee);
-                shoppingCart.shipping.message = '';
-                var checked = '';
-                $.each(response.data, function(index, val) {
-                    if (index == 0) {
-                        checked = 'checked';
-                    }
-                    let html = "<li class='ship_method_bacs'>" +
-                        "<input id='ship" + val['id'] +
-                        "' class='d-none' type='radio' name='ship' value='" + val['id'] + "' data-title='" +
-                        val['name'] + "' data-fee='" + val['fee'] + "' " + checked + "> " +
-                        "<label for='ship" + val['id'] + "' class='wb-text15'>" + val['name'] +
-                        "</label><span class='pull-right shipping_fee_val'>" + priceFormat(val['fee']) +
-                        "</span></li>";
-                    $('.ship_methods').append(html);
-                    checked = '';
-                });
-            }).fail(function(res) {
-                if (res.code == 0) {
-                    noShippingfee(res);
                 }
             });
         }
@@ -885,135 +662,6 @@
             $('.confirm_order .sshipping').text(shoppingCart.shipping.method_title);
             $('.confirm_order .note').text(shoppingCart.note);
             $('.confirm_order .payment_method').text(shoppingCart.payment.method_title);
-        });
-        $(document).ready(function() {
-            $('#formCreateOrder').on('change', '.quantity', function() {
-                if ($(this).val() < 1) {
-                    $(this).val(1);
-                }
-                $(this).val(parseInt($(this).val()));
-                var product_id = $(this).data('id');
-                var quantity = $(this).val();
-                $.each(shoppingCart.products, function(index, item) {
-                    if (item.id == product_id) {
-                        item.quantity = quantity;
-                        return false;
-                    }
-                });
-                handleProductQuantityBreak();
-            });
-            buildAddress($('#province'), $('#district'), $('#ward'));
-            if (!$("#same-as-billing").prop("checked")) {
-                $('#name').change(function() {
-                    $('#sname').val($('#name').val());
-                });
-                $('#email').change(function() {
-                    $('#semail').val($('#email').val());
-                });
-                $('#phone').change(function() {
-                    $('#sphone').val($('#phone').val());
-                });
-                $('#address').change(function() {
-                    $('#saddress').val($('#address').val());
-                });
-            }
-            $('#formCreateOrder').on('submit', function() {
-                shoppingCart.payment.status = 0;
-                if ($('#paid').prop('checked')) {
-                    shoppingCart.payment.status = 1;
-                }
-                $.ajax({
-                    url: "https://dainghiagroup.com/admin/order",
-                    type: 'POST',
-                    data: {
-                        '_token': 'gWVr239FW6RNWOJeKwcWAGhkysnHPrfNbYc3YLyc',
-                        'shoppingCart': shoppingCart
-                    },
-                }).done(function(response) {
-                    if (response.redirect.length) {
-                        location.href = response.redirect;
-                    }
-                }).fail(function(res) {
-                    console.log(res);
-                });
-                return false;
-            });
-            $('#btnApplyCoupon').on('click', function() {
-                $('#coupon_msg').hide();
-                var coupon = $('#txtCoupon').val().trim();
-                $('#txtCoupon').val('');
-                if (coupon) {
-                    var isExit = false;
-                    $.each(shoppingCart.coupons, function(index, item) {
-                        if (coupon == item.coupon) {
-                            $('#coupon_msg').text('Đang sử dụng mã giảm giá này').show();
-                            isExit = true;
-                            return false;
-                        }
-                    });
-                    if (!isExit) {
-                        var product_ids = [];
-                        if (shoppingCart.products.length) {
-                            $.each(shoppingCart.products, function(index, item) {
-                                product_ids.push(item.id);
-                            });
-                        }
-                        var order = {
-                            'product_ids': product_ids,
-                            'price': shoppingCart.subtotal,
-                            'shipping_fee': shoppingCart.shipping.fee,
-                            'is_freeship': 0,
-                            'applied_code': 0,
-                            'allow_more_coupon': true,
-                        };
-                        $.ajax({
-                            url: base_domain + '/apply-coupon',
-                            type: 'GET',
-                            data: {
-                                code: coupon,
-                                order: order
-                            }
-                        }).done(function(response) {
-                            if (response.success) {
-                                var html_coupon = '';
-                                html_coupon += '<div id="' + coupon + '" class="coupon">' + coupon +
-                                    '<i class="fa fa-times" aria-hidden="true"></i></div>';
-                                $('td.coupon').append(html_coupon);
-                                var coupon_value = response.coupon.value;
-                                if (response.coupon.type == 'free_shipping') {
-                                    shoppingCart.shipping.discount = shoppingCart.shipping.fee;
-                                }
-                                if (response.coupon.type == 'money_bill') {
-                                    shoppingCart.discount += response.coupon.value;
-                                }
-                                shoppingCart.coupons[coupon] = response.coupon;
-                                renderTableCart();
-                            } else {
-                                $('#coupon_msg').text('Mã giảm giá không hợp lệ').show();
-                            }
-                        });
-                    }
-                }
-                return false;
-            });
-            $(document).on('click', 'td.coupon div.coupon', function() {
-                var id = $(this).attr('id');
-                $.each(shoppingCart.coupons, function(index, item) {
-                    if (id == index) {
-                        if (item.type == 'free_shipping') {
-                            shoppingCart.shipping.discount = 0;
-                        }
-                        if (item.type == 'money_bill') {
-                            shoppingCart.discount -= item.value;
-                        }
-                        delete shoppingCart.coupons[index];
-                        return false;
-                    }
-                });
-                $(this).remove();
-                $('#coupon_msg').hide();
-                renderTableCart();
-            });
         });
     </script>
     <script src="https://static.loveitopcdn.com/backend/js/item.select.js?v=1.2.7"></script>
