@@ -295,6 +295,9 @@ label.error {
 .panel-order-dashboard .datatable-header {
     display: none;
 }
+.panel-user-dashboard > *:not(:last-child) {
+    margin-bottom: 15px;
+}
 @media screen and (max-width: 767.98px) {
     .row.row-5 .col-md-2 {
         width: 49%;

@@ -181,7 +181,10 @@ class OrderController extends Controller
         $shippingFee = $shipping['fee'] ?? 0;
         $total = $item['total'] ?? 0;
         $discount = $item['discount'] ?? 0; 
-        $orderSum = Product::getOrderSumary($total,[$shippingFee,$discount]);
+        $orderSum = Product::getOrderSumary($total, [
+            'add' => [$shippingFee],
+            'minus' => [$discount],
+        ]);
         return view(
             "{$this->pathViewController}/detail",
             [

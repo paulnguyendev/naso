@@ -3,10 +3,11 @@
     use App\Helpers\Obn;
     $thumbnail = Obn::showThumbnail($item['thumbnail']);
 @endphp
-@extends('user.main')
+@extends('frontend.main')
+@section('title',$item['title'] ?? "-")
 @section('navbar_title', $item['title'] ?? '-')
 @section('content')
-    <div class="row">
+    <div class="row row-frontend-detail">
         <div class="col-md-9">
             <div class="panel panel-flat">
                 <div class="panel-body">
@@ -43,6 +44,9 @@
                         <div class="col-md-7">
                             <div class="entry-top">
                                 <h1 class="entry-title">{{ $item['title'] ?? '-' }}</h1>
+                                <p class="entry-price">
+                                    <strong>{{ Product::getPriceProduct($item['regular_price']) }}</strong>
+                                </p>
                                 <div class="desc-list">
                                     <div class="desc-item">
                                         <strong>Mã sản phẩm: </strong>
@@ -53,24 +57,7 @@
                                         <span>{{ $item_supplier['name'] ?? '-' }}</span>
                                     </div>
                                 </div>
-                                <div class="entry-discount">
-                                    <p class="entry-price">
-                                        <strong>{{ Product::getPriceProduct($item['regular_price']) }}</strong>
-                                    </p>
-                                    <div class="discount-list">
-                                        {!! Product::getDiscount($item['regular_price'], '2') !!}
-                                        <div>
-                                            <span>Giảm giá tối đa</span>
-                                            <span>:</span>
-                                            <span>{{ Product::getPriceOfPercent($item['regular_price'], $item['percent']) }}</span>
-                                        </div>
-                                        <div>
-                                            <span>Điểm tích lũy</span>
-                                            <span>:</span>
-                                            <span>{{ $item['point'] ?? 0 }}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                              
                                 <div class="entry-form">
                                     <div class="entry-stock-info">
                                         <label for="">Số lượng</label>
@@ -100,17 +87,12 @@
                                     @endif
 
 
-                                    <a data-href="{{ $aff_link }}" class="btn btn-info copy-affiliate-url">Link
-                                        Affiliate</a>
+                                   
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <h2>CHI TIẾT SẢN PHẨM</h2>
-                            <div class="entry-content">
-                                {!! $item_meta['content'] ?? 'Nội dung đang cập nhật...' !!}
-                            </div>
-                        </div>
+                       
+
                     </div>
                 </div>
             </div>
@@ -140,6 +122,14 @@
                     <p>hello</p>
                 </div>
             </div> --}}
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-body">
+                <h2>CHI TIẾT SẢN PHẨM</h2>
+                <div class="entry-content">
+                    {!! $item_meta['content'] ?? 'Nội dung đang cập nhật...' !!}
+                </div>
+            </div>
         </div>
     </div>
 @endsection

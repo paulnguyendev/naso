@@ -1,3 +1,8 @@
+@php
+    use App\Helpers\User;
+    $userInfo = User::getInfo();
+    
+@endphp
 @extends('user.main')
 @section('content')
     <div class="row">
@@ -63,25 +68,44 @@
                             class="img-responsive">
                     </div>
                     <div class="dashboard-slide-item">
-                        <img src="{{ asset('obn-dashboard/img/slide-1.png') }}" alt="Dashboard slide 1"
+                        <img src="{{ asset('obn-dashboard/img/slide-2.png') }}" alt="Dashboard slide 1"
                             class="img-responsive">
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="panel panel-body">
-                <div class="dashboard-slide">
-                    <div class="dashboard-slide-item">
-                        <img src="{{ asset('obn-dashboard/img/slide-2.png') }}" alt="Dashboard slide 1"
-                            class="img-responsive">
-                    </div>
-                    <div class="dashboard-slide-item">
-                        <img src="{{ asset('obn-dashboard/img/slide-1.png') }}" alt="Dashboard slide 1"
-                            class="img-responsive">
-                    </div>
+            <div class="panel">
+                <div class="panel-heading pb-0">
+                    <h6 class="panel-title">Thông tin thành viên</h6>
+                </div>
+                <div class=" panel-body panel-user-dashboard">
+                    <p>
+                        <strong>Họ tên:</strong>
+                        <span>{{ $userInfo['name'] ?? '-' }}</span>
+                    </p>
+                    <p>
+                        <strong>Email:</strong>
+                        <span>{{ $userInfo['email'] ?? '-' }}</span>
+                    </p>
+                    <p>
+                        <strong>Loại tài khoản:</strong>
+                        <span class="badge badge-primary">CTV</span>
+                    </p>
+                    <p>
+                        <strong>Link giới thiệu:</strong>
+                        <span><a target="_blank" href="{{ route('fe_aff/index',['code' => $userInfo['code']]) }}">{{ route('fe_aff/index',['code' => $userInfo['code']]) }}</a></span>
+                        <span><a data-href="{{ route('fe_aff/index',['code' => $userInfo['code']]) }}" class="btn btn-success btn-xs copy-affiliate-url">Copy</a></span>
+                    </p>
+                    <p>
+                        <strong>Số lượt nhấp chuột vào liên kết giới thiệu:</strong>
+                        <span>{{$userInfo['aff_number'] ?? 0}}</span>
+                    </p>
+
                 </div>
             </div>
+
+
         </div>
         <div class="col-lg-12">
             <div class="panel panel-flat panel-order-dashboard">
@@ -111,7 +135,6 @@
             </div>
         </div>
     </div>
-    
 @endsection
 @section('custom_srcipt')
     <script>
@@ -197,6 +220,18 @@
         WBDatatables.init('.datatable-ajax', columnDatas, {
             "ordering": false,
             "paging": true
+        });
+        $(document).on('click', '.copy-affiliate-url', function(e) {
+            e.preventDefault();
+            let copyText = $(this).data('href');
+            
+            let tempElement = document.createElement('input');
+            tempElement.setAttribute('value', copyText);
+            document.body.appendChild(tempElement);
+            tempElement.select();
+            document.execCommand("Copy");
+            document.body.removeChild(tempElement);
+            successNotice('Thông báo', 'Copy link thành công');
         });
     </script>
 @endsection

@@ -234,8 +234,22 @@
                                             <legend class="text-semibold">Phương thức giao hàng</legend>
                                             <div class="form-group">
                                                 <ul class="ship_methods">
-                                                    <li class='ship_method_bacs'><label class='wb-text15'>Nhận hàng tại
-                                                            kho</label></li>
+                                                    <li class="ship_method_bacs">
+                                                        <input id="ship_1" type="radio" name="method_id"
+                                                            value="Nhận hàng tại kho" data-title="Nhận hàng tại kho"
+                                                            checked>
+                                                        <label for="ship_1" class="wb-text15">Nhận hàng tại kho
+                                                        </label>
+                                                        
+
+                                                    </li>
+                                                    <li class="ship_method_bacs">
+                                                        <input id="ship_2" type="radio" name="method_id"
+                                                            value="Giao hàng" data-title="Giao hàng">
+                                                        <label for="ship_2" class="wb-text15">Giao hàng
+                                                        </label>
+
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </fieldset>
@@ -411,9 +425,8 @@
                                     class="icon-check position-right"></i></button>
                         </form>
                     @else
-                    <p>Giỏ hàng trống</p> 
+                        <p>Giỏ hàng trống</p>
                     @endif
-
                 </div>
             </div>
         </div>

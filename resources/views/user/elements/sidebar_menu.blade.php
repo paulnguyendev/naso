@@ -66,7 +66,7 @@
             </ul>
         </li>
         <li data-label="Tài khoản">
-            <a href="{{ route('user_profile/index') }}">
+            <a href="{{ route('user_profile/form') }}">
                 <i class="icon-info3"></i>
                 <span>Tài khoản</span>
             </a>

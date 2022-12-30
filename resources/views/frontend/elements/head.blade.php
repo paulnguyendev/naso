@@ -1,7 +1,3 @@
-@php
-    use App\Helpers\User;
-    $user_id = User::getInfo('','id');
-@endphp
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,9 +6,9 @@
 <meta name="cart-update" content="{{ route('cart/update') }}" />
 <meta name="cart-remove" content="{{ route('cart/remove') }}" />
 <meta name="cart-order" content="{{ route('cart/order') }}" />
-<meta name="user-id" content="{{ $user_id }}" />
+<meta name="user-id" content="" />
 <meta name="cart-province" content="{{ url('public/data/province.json') }}" />
-<title>@yield('title', 'Dashboard')</title>
+<title>@yield('title', 'Nền tảng kinh doanh 0 đ')</title>
 <link rel="shortcut icon" type="image/png" href="https://media.loveitopcdn.com/itop.website/favicon.png" />
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700&amp;amp;subset=vietnamese"
@@ -27,6 +23,7 @@
 <link rel="stylesheet" href="{{ asset('obn-dashboard/plugin/slick.css') }}">
 <link rel="stylesheet" href="{{ asset('obn-dashboard/plugin/fancybox.css') }}">
 <link rel="stylesheet" href="{{ asset('obn-dashboard/css/obn.css') }}?ver={{ time() }}">
+<link rel="stylesheet" href="{{ asset('home/css/app.css') }}?ver={{ time() }}">
 <link media="all" type="text/css" rel="stylesheet"
     href="https://static.loveitopcdn.com/backend/css/custom_new.css?v=1.0.2">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

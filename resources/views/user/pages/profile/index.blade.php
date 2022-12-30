@@ -1,36 +1,35 @@
-@extends('user.main')
-@section('title', 'Danh sách đơn hàng')
-@section('navbar_title', 'Danh sách đơn hàng')
+@extends('admin.admin')
+@section('navbar_title', 'Quản lý nhà cung cấp')
+@section('navbar-right')
+    <li>
+        <a href="{{ route("{$controllerName}/form") }}" style="padding:5px 5px">
+            <button class="btn bg-info heading-btn" type="button">Tạo {{$title}}</button>
+        </a>
+    </li>
+@endsection
 @section('content')
     <div class="panel panel-flat">
-        @if (session('status_warning'))
-            <div class="alert alert-warning alert-styled-left alert-arrow-left alert-bordered">
-                <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span>
-                </button>
-                {{ session('status_warning') }}
-            </div>
-        @endif
-        <table class="table table-xlg datatable-ajax" data-source="{{ route('user_order/dataList') }}"
-            data-destroymulti="{{ route('user_order/destroy-multi') }}">
+        <table class="table table-xlg datatable-ajax" data-source="{{ route("{$controllerName}/dataList") }}"
+            data-destroymulti="{{route("{$controllerName}/destroy-multi")}}">
             <thead>
                 <tr>
                     <th class="text-center" width="50"><input type="checkbox" bs-type="checkbox" value="all"
                             id="inputCheckAll"></th>
-                    <th>Mã đơn hàng</th>
-                    <th>Ngày tạo đơn</th>
-                    <th>Đại lý</th>
-                    <th>Khách hàng</th>
-                    <th>Thanh toán</th>
-                    <th>Giá trị đơn hàng</th>
-                    <th>Trạng thái</th>
+                    <th class="text-center" width="100">Hình ảnh</th>
+                    <th>Tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Địa chỉ</th>
+                   
+                    <th data-orderable="false" width="100px"></th>
                 </tr>
             </thead>
         </table>
     </div>
 @endsection
-@section('custom_srcipt')
+@section('script_table')
     <script type="text/javascript">
-        var page_type = 'category';
+        var page_type = 'supplier';
         var lang_code = 'vi';
         var default_language = 'vi';
         var url_extension = '/';
@@ -42,11 +41,10 @@
                 orderable: false,
                 searchable: false
             },
-
             {
                 data: null,
                 render: function(data) {
-                    return WBDatatables.showTitle(data.code, data.route_edit);
+                    return WBDatatables.showThumbnail(data.thumbnail);
                 },
                 orderable: false,
                 searchable: false
@@ -54,7 +52,18 @@
             {
                 data: null,
                 render: function(data) {
-                    return (!data.created_at) ? '' : data.created_at;
+                    return WBDatatables.showTitle(data.description.title, data.route_edit, data.is_published, data
+                        .published_at, ('<span class="tree-icon">¦––</span> ').repeat(data.depth));
+                },
+                orderable: false,
+                searchable: false
+            },
+            
+           
+            {
+                data: null,
+                render: function(data) {
+                    return (!data.phone) ? '' : data.phone;
                 },
                 orderable: false,
                 searchable: false
@@ -62,7 +71,7 @@
             {
                 data: null,
                 render: function(data) {
-                    return (!data.user.name) ? '' : data.user.name;
+                    return (!data.email) ? '' : data.email;
                 },
                 orderable: false,
                 searchable: false
@@ -70,7 +79,7 @@
             {
                 data: null,
                 render: function(data) {
-                    return (!data.info_order) ? '' : data.info_order;
+                    return (!data.address) ? '' : data.address;
                 },
                 orderable: false,
                 searchable: false
@@ -78,23 +87,8 @@
             {
                 data: null,
                 render: function(data) {
-                    return (!data.payment) ? '' : data.payment;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: null,
-                render: function(data) {
-                    return (!data.total) ? '' : data.total;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: null,
-                render: function(data) {
-                    return (!data.status) ? '' : data.status;
+                    return WBDatatables.showRemoveIcon(data.route_remove,
+                        'Menu liên kết với trang này sẽ bị xóa theo, bạn có chắc muốn xóa không?');
                 },
                 orderable: false,
                 searchable: false
@@ -104,5 +98,6 @@
             "ordering": false,
             "paging": false
         });
+        WBDatatables.showAction();
     </script>
 @endsection

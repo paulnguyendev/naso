@@ -28,14 +28,20 @@ class SupplierController extends Controller
     {
         $id = $request->id;
         $item = $this->model::find($id);
+        
         $items = $item->products()->get();
+        $total = $item->products()->count();
       
         $categories = $this->taxonomyModel::withDepth()->get()->toFlatTree()->where('taxonomy', 'product_cat')->pluck('name_with_depth', 'id');
+        $navbar_title = $item['name'] . " ({$total})" ?? "";
         return view(
             "{$this->pathViewController}/index",
             [
                 'items' => $items,
                 'categories' => $categories,
+                'item' => $item,
+                'total' => $total,
+                'navbar_title' => $navbar_title,
             ]
         );
     }

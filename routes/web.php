@@ -9,11 +9,14 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\FrontEnd\AffiliateController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\FrontEnd\HomeController;
+use App\Http\Controllers\FrontEnd\ProductController as FrontEndProductController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ProductController as UserProductController;
+use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\User\SupplierController as UserSupplierController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\EventListener\ProfilerListener;
@@ -43,8 +46,16 @@ Route::prefix($prefix)->group(function () {
     });
     Route::prefix('product')->group(function () {
         $routeName = "fe_product";
-        Route::controller(HomeController::class)->group(function () use ($routeName) {
+        Route::controller(FrontEndProductController::class)->group(function () use ($routeName) {
             Route::get('/{id?}', 'detail')->name($routeName . '/detail');
+            Route::get('/category/{id?}', 'category')->name($routeName . '/category');
+        });
+    });
+    Route::prefix('aff')->group(function () {
+        $routeName = "fe_aff";
+        Route::controller(AffiliateController::class)->group(function () use ($routeName) {
+            Route::get('/{code?}', 'index')->name($routeName . '/index');
+            Route::get('/{code?}/product/{product_id?}', 'product')->name($routeName . '/product');
         });
     });
    
@@ -62,8 +73,10 @@ Route::middleware('access.userDashboard')->prefix($prefix)->group(function () {
     });
     Route::prefix('profile')->group(function () {
         $routeName = "user_profile";
-        Route::controller(HomeController::class)->group(function () use ($routeName) {
+        Route::controller(UserProfileController::class)->group(function () use ($routeName) {
             Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/form', 'form')->name($routeName . '/form');
+            Route::post('/save', 'save')->name($routeName . '/save');
         });
     });
     Route::prefix('supplier')->group(function () {

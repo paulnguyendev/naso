@@ -1,0 +1,194 @@
+.vertical-menu li {
+    list-style: none;
+}
+.vertical-menu ul {
+    padding-left: 0;
+}
+.vertical-menu li > a > img {
+    width: 30px;
+    margin-right: 5px;
+}
+.vertical-menu li > a {
+    color: #333;
+}
+.vertical-menu ul > li:not(:last-child) {
+    margin-bottom: 15px;
+}
+.vertical-menu li > a:hover {
+    color: var(--color-main);
+}
+.header-highlight .navbar-header:not([class*="bg-"]) {
+    background-color: var(--color-main);
+}
+.row-banner {
+    display: flex;
+}
+
+.row.row-banner > * {
+    float: unset;
+}
+
+.row.row-banner > * .panel {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.dashboard-slide-item img {
+    height: 100%;
+}
+
+.banner-home-right img {
+    height: 100%;
+    object-fit: cover;
+}
+.navbar-brand img {
+    filter: brightness(0) invert(1);
+}
+.product-home-list {
+    --f-columns: 5;
+    --f-gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: calc(-1 * var(--f-gap));
+    margin-bottom: calc(-1 * var(--f-gap));
+}
+.product-home-list > * {
+    margin-left: var(--f-gap);
+    margin-bottom: var(--f-gap);
+    width: calc((100% / var(--f-columns) - var(--f-gap)));
+}
+.product-home-item .product-home-title {
+    font-size: 14px;
+}
+.product-home-item .product-home-title a {
+    color: #333;
+    font-weight: bold;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.product-home-item .product-home-title a:hover {
+    color: var(--color-main);
+}
+.product-home-item .product-home-price {
+    font-weight: bold;
+    color: #d00;
+    font-size: 15px;
+}
+.product-home-item {
+    background: #fff;
+
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.product-home-text {
+    padding: 15px;
+    text-align: center;
+}
+
+.product-home-item .product-thumb {
+    border-radius: 5px 5px 0 0;
+    height: 190px;
+    object-fit: cover;
+    width: 100%;
+}
+.product-wrap:not(:last-child) {
+    margin-bottom: 60px;
+}
+.row-frontend-detail .entry-price {
+    color: #d00;
+    font-size: 20px;
+}
+.row-frontend-detail .entry-content img {
+    max-width: 50%;
+}
+.product-wrap > h3 {
+    text-transform: uppercase;
+}
+.product-home-item .product-home-title {
+    margin-top:0
+}
+.entry-thumbnail {
+    width: 100%;
+}
+@media screen and (max-width: 767.98px) {
+    .row-banner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .banner-home-right {
+        display: none;
+    }
+    .banner-home-center {
+        order: 1;
+    }
+
+    .vertical-menu {
+        order: 2;
+    }
+
+    .vertical-menu .panel {
+        width: 100%;
+    }
+
+    .vertical-menu .panel ul {
+        display: flex;
+
+        justify-content: space-between;
+    }
+    .vertical-menu .panel ul > li > a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .vertical-menu .panel ul > li {
+        width: 20%;
+    }
+
+    .vertical-menu .panel ul > li > a > span {
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+
+    .vertical-menu .panel ul > li > a > img {
+        height: 67px;
+        object-fit: contain;
+    }
+    .product-home-list {
+        --f-columns: 2;
+    }
+    .product-home-list {
+        display: grid;
+        justify-content: flex-start;
+        grid-auto-columns: 44%;
+        grid-auto-flow: column;
+        grid-gap: 15px;
+        overflow: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-snap-stop: always;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        -webkit-overflow-scrolling: touch;
+        grid-template-columns: unset;
+        padding: 15px;
+        scroll-padding: 15px;
+    }
+
+    .product-home-item {
+        margin-bottom: 0;
+        scroll-snap-align: start;
+        width: 100%;
+    }
+    .content-wrapper {padding-bottom: 60px;}
+}

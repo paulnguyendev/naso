@@ -1,10 +1,10 @@
 @extends('user.main')
-@section('navbar_title', 'Danh sách sản phẩm')
+@section('navbar_title', $navbar_title)
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-flat">
-                <div class="panel-heading">
+                {{-- <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-3"></div>
                         <div class="col-md-9">
@@ -29,7 +29,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="panel-body">
                     <div class="row row-5">
                         @if (count($items) > 0)

@@ -11,4 +11,12 @@ class ProductLink
     {
         return route('user_product/detail',['id' => $id]);
     }
+    public static function getLinkProductDetail2($id)
+    {
+        return route('fe_product/detail',['id' => $id]);
+    }
+    public static function getLinkProductCategory($id)
+    {
+        return route('fe_product/category',['id' => $id]);
+    }
 }

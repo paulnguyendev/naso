@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Helpers\Template;
-
 use App\Helpers\User;
 use App\Models\SupplierModel;
 use App\Models\UserGroupModel;
-
 class Product
 {
     public static function getListSupplier()
@@ -26,8 +23,6 @@ class Product
         else {
             $result = $price;
         }
-
-
         return $result;
     }
     public static function getDiscountByUser($user_id,$price) {
@@ -113,13 +108,22 @@ class Product
         return $result;
     }
     public static function getOrderSumary($total = 0,$options = []) {
-        $totalOptions = 0;
-        if($options) {
-            foreach ($options as $option) {
-                $totalOptions += $option;
+        $totalAdd = 0;
+        $totalMinus = 0;
+        $options_add = $options['add'] ?? [];
+        $options_minus = $options['minus'] ?? [];
+        if($options_add) {
+            
+            foreach ($options_add as $option) {
+                $totalAdd += $option;
             }
         }
-        $result = $total + $totalOptions;
+        if($options_minus) {
+            foreach ($options_minus as $option) {
+                $totalMinus += $option;
+            }
+        }
+        $result = $total + $totalAdd - $totalMinus;
         return $result;
     }
 }

@@ -13,12 +13,12 @@ class UserModel extends Model
     const UPDATED_AT = 'modified';
     protected $fieldSearchAccepted = ['email', 'phone', 'fullname'];
     protected $crudNotAccepted = ['_token','parent_code','password_confirmation','old_password','status_old','url'];
-    protected $fillable = ['name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at'];
+    protected $fillable = ['name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at','aff_number'];
     use HasFactory;
     public function listItems($params = "", $options = "")
     {
         $result = null;
-        $query = $this->select('id', 'name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at');
+        $query = $this->select('id', 'name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at','aff_number');
         if($options['task'] == 'admin-count-total') {
             $result = $query->where('user_group_id','3')->count();
         }
@@ -29,7 +29,7 @@ class UserModel extends Model
     }
     public function getItem($params = [], $options = [])
     {
-        $query = $this->select('id', 'name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at');
+        $query = $this->select('id', 'name', 'avatar', 'username', 'password', 'email', 'birthday', 'gender', 'address', 'phone', 'code', 'token','secret','parent_id','role','group_id','status','created_at','aff_number');
         if ($options['task'] == 'user-login') {
             $result = $query->where('username', $params['username'])->where('password', md5($params['password']))->first();
         }
