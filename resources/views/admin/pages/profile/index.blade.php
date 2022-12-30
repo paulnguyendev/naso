@@ -1,24 +1,26 @@
 @extends('admin.admin')
-@section('navbar_title', 'Quản lý danh mục sản phẩm')
+@section('navbar_title', 'Quản lý nhà cung cấp')
 @section('navbar-right')
     <li>
-        <a href="{{ route('productCategory/form') }}" style="padding:5px 5px">
-            <button class="btn bg-info heading-btn" type="button">Tạo danh mục sản phẩm</button>
+        <a href="{{ route("{$controllerName}/form") }}" style="padding:5px 5px">
+            <button class="btn bg-info heading-btn" type="button">Tạo {{$title}}</button>
         </a>
     </li>
 @endsection
 @section('content')
     <div class="panel panel-flat">
-        <table class="table table-xlg datatable-ajax" data-source="{{ route('productCategory/dataList') }}"
-            data-destroymulti="{{route('productCategory/destroy-multi')}}">
+        <table class="table table-xlg datatable-ajax" data-source="{{ route("{$controllerName}/dataList") }}"
+            data-destroymulti="{{route("{$controllerName}/destroy-multi")}}">
             <thead>
                 <tr>
                     <th class="text-center" width="50"><input type="checkbox" bs-type="checkbox" value="all"
                             id="inputCheckAll"></th>
                     <th class="text-center" width="100">Hình ảnh</th>
                     <th>Tên</th>
-                    <th>Đường dẫn</th>
-                    
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Địa chỉ</th>
+                   
                     <th data-orderable="false" width="100px"></th>
                 </tr>
             </thead>
@@ -27,7 +29,7 @@
 @endsection
 @section('script_table')
     <script type="text/javascript">
-        var page_type = 'category';
+        var page_type = 'supplier';
         var lang_code = 'vi';
         var default_language = 'vi';
         var url_extension = '/';
@@ -56,15 +58,32 @@
                 orderable: false,
                 searchable: false
             },
+            
+           
             {
                 data: null,
                 render: function(data) {
-                    return (!data.seo.slug) ? '' : data.seo.slug;
+                    return (!data.phone) ? '' : data.phone;
                 },
                 orderable: false,
                 searchable: false
             },
-            
+            {
+                data: null,
+                render: function(data) {
+                    return (!data.email) ? '' : data.email;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: null,
+                render: function(data) {
+                    return (!data.address) ? '' : data.address;
+                },
+                orderable: false,
+                searchable: false
+            },
             {
                 data: null,
                 render: function(data) {

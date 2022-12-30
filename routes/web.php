@@ -1,9 +1,12 @@
 <?php
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
@@ -13,6 +16,8 @@ use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ProductController as UserProductController;
 use App\Http\Controllers\User\SupplierController as UserSupplierController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\EventListener\ProfilerListener;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -125,6 +130,14 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
             Route::post('/save/{id?}', 'save')->name($routeName . '/save');
         });
     });
+    Route::prefix('post')->group(function () {
+        $routeName = "post";
+        Route::controller(ProductController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+            Route::post('/save/{id?}', 'save')->name($routeName . '/save');
+        });
+    });
     Route::prefix('media')->group(function () {
         $routeName = "media";
         Route::controller(MediaController::class)->group(function () use ($routeName) {
@@ -135,8 +148,22 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
     });
     Route::prefix('profile')->group(function () {
         $routeName = "admin_profile";
-        Route::controller(HomeController::class)->group(function () use ($routeName) {
-            Route::get('/', 'index')->name($routeName . '/index');
+        Route::controller(ProfileController::class)->group(function () use ($routeName) {
+            Route::get('/index', 'index')->name($routeName . '/index');
+            Route::get('/form', 'form')->name($routeName . '/form');
+            Route::post('/save', 'save')->name($routeName . '/save');
+        });
+    });
+    Route::prefix('order')->group(function () {
+        $routeName = "admin_order";
+        Route::controller(AdminOrderController::class)->group(function () use ($routeName) {
+            Route::get('/index', 'index')->name($routeName . '/index');
+            Route::get('/detail/{id?}', 'detail')->name($routeName . '/detail');
+            Route::get('/form', 'form')->name($routeName . '/form');
+            Route::delete('/delete/{id?}', 'delete')->name($routeName . '/delete');
+            Route::post('/save/{id?}', 'save')->name($routeName . '/save');
+            Route::delete('/destroyMulti', 'destroyMulti')->name($routeName . '/destroyMulti');
+            Route::get('/dataList', 'dataList')->name($routeName . '/dataList');
         });
     });
 });

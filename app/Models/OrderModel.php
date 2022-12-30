@@ -31,6 +31,9 @@ class OrderModel extends Model
         if ($options['task'] == 'user_id') {
             $result = $query->where('user_id', $params['user_id'])->orderBy('id', 'desc')->get();
         }
+        if ($options['task'] == 'status') {
+            $result = $query->where('status', $params['status'])->orderBy('id', 'desc')->get();
+        }
         if ($options['task'] == 'list-customer') {
             $result = $query->where('user_id', $params['user_id'])->orderBy('id', 'desc')->get();
         }

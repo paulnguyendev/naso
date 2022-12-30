@@ -26,4 +26,8 @@ class Obn
         $xhtml_status = sprintf('<span class = "badge %s">%s</span>', $current_status['class'], $current_status['name']);
         return $xhtml_status;
     }
+    public static function showPrice($price) {
+        $result = number_format($price) . " đ";
+        return $result;
+    }
 }

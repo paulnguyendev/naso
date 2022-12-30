@@ -33,7 +33,7 @@
             </li>
         </ul>
     </li>
-    <li data-label="Quản Lý Bài Viết">
+    {{-- <li data-label="Quản Lý Bài Viết">
         <a href="javascript:void(0)">
             <i class="icon-magazine"></i>
             <span>Quản Lý Bài Viết</span>
@@ -55,32 +55,32 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> --}}
     <li data-label="Quản Lý Bán Hàng">
         <a href="javascript:void(0)" class="has-ul admin-menu-active">
             <i class="icon-cart5"></i>
             <span>Quản Lý Bán Hàng</span>
         </a>
-        <ul class="second-menu-level hidden-ul">
-            <li>
+        <ul class="second-menu-level">
+            {{-- <li>
                 <a href="#">
                     <span>Tạo đơn hàng mới</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
-                <a href="#">
+                <a href="{{route('admin_order/index')}}">
                     <span>Quản lý đơn hàng</span>
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <span>Danh sách khách hàng</span>
+                    <span>Quản lý tồn kho</span>
                 </a>
             </li>
         </ul>
     </li>
     <li data-label="Tài khoản">
-        <a href="{{ route('user_profile/index') }}">
+        <a href="{{ route('admin_profile/form') }}">
             <i class="icon-info3"></i>
             <span>Tài khoản</span>
         </a>
