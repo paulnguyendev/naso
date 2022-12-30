@@ -35,6 +35,19 @@ Route::prefix($prefix)->group(function () {
     Route::controller(HomeController::class)->group(function () use ($routeName) {
         Route::get('/', 'index')->name($routeName . '/index');
     });
+    Route::prefix('cart')->group(function () {
+        $routeName = "fe_cart";
+        Route::controller(HomeController::class)->group(function () use ($routeName) {
+            Route::get('/add/{id?}/{number?}', 'add')->name($routeName . '/add');
+        });
+    });
+    Route::prefix('product')->group(function () {
+        $routeName = "fe_product";
+        Route::controller(HomeController::class)->group(function () use ($routeName) {
+            Route::get('/{id?}', 'detail')->name($routeName . '/detail');
+        });
+    });
+   
     // Route::controller(HomeController::class)->group(function () use ($routeName) {
     //     Route::get('/aff/{?username}', 'index')->name($routeName . '/index');
     // });
@@ -128,6 +141,10 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
             Route::get('/', 'index')->name($routeName . '/index');
             Route::get('/form/{id?}', 'form')->name($routeName . '/form');
             Route::post('/save/{id?}', 'save')->name($routeName . '/save');
+            Route::patch('/updateField/{id?}', 'updateField')->name($routeName . '/updateField');
+            Route::delete('/delete/{id?}', 'delete')->name($routeName . '/delete');
+            Route::get('/dataList', 'dataList')->name($routeName . '/dataList');
+            Route::delete('/destroyMulti', 'destroyMulti')->name($routeName . '/destroyMulti');
         });
     });
     Route::prefix('post')->group(function () {
@@ -143,6 +160,7 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
         Route::controller(MediaController::class)->group(function () use ($routeName) {
             Route::get('/folders', 'folders')->name($routeName . '/folders');
             Route::post('/action', 'action')->name($routeName . '/action');
+            Route::post('/upload', 'upload')->name($routeName . '/upload');
             // Route::get('/form/{id?}', 'form')->name($routeName . '/form');
         });
     });
@@ -162,6 +180,7 @@ Route::middleware('access.adminDashboard')->prefix($prefix)->group(function () {
             Route::get('/form', 'form')->name($routeName . '/form');
             Route::delete('/delete/{id?}', 'delete')->name($routeName . '/delete');
             Route::post('/save/{id?}', 'save')->name($routeName . '/save');
+            Route::post('/saveInfo/{type?}/{id?}', 'saveInfo')->name($routeName . '/saveInfo');
             Route::delete('/destroyMulti', 'destroyMulti')->name($routeName . '/destroyMulti');
             Route::get('/dataList', 'dataList')->name($routeName . '/dataList');
         });

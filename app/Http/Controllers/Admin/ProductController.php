@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
+use App\Helpers\Obn;
 use App\Http\Controllers\Controller;
 use App\Models\ProductMetaModel;
 use App\Models\SupplierModel;
@@ -206,5 +207,195 @@ class ProductController extends Controller
                 422,
             );
         }
+    }
+    public function dataList(Request $request)
+    {
+        // [
+        //     "id" => "29",
+        //     "code" => "",
+        // "thumbnail" => [
+        //     "lazy_src" => "data-isrc",
+        //     "img_path" => "https://media.loveitopcdn.com/34798/thumb/80x80/jahi-central-home-loc-an.jpg?zc=1",
+        //     "class" => "lazyload ",
+        //     "alt_content" => ""
+        // ],
+        //     "price" => "0",
+        //     "sale_price" => "0",
+        //     "updated_at" => "2022-12-23 01:39:24",
+        //     "in_stock" => "1",
+        //     "quantity" => "0",
+        //     "allow_out_of_stock_order" => "0",
+        //     "published_at" => "2021-07-08 09:05:45",
+        //     "cat_id" => "325",
+        //     "manufacturer_id" => "0",
+        //     "is_published" => "1",
+        //     "sort_order" => "29",
+        //     "deleted_at" => "",
+        //     "deleted_by" => "",
+        //     "description" => [
+        //         "product_id" => "29",
+        //         "title" => "Khu dân cư Jahi-Central Home Lộc An"
+        //     ],
+        //     "seo" => [
+        //         "id" => "1080",
+        //         "slug" => "can-ho-pearl-plaza-3-phong-ngu-tang-11",
+        //         "robots" => "1",
+        //         "taxonomy_type" => "product",
+        //         "taxonomy_id" => "29",
+        //         "lang_code" => "vi",
+        //         "meta_title" => "Đất nền TRUNG TÂM giá rẻ ở Lâm Đồng | Jahi-Central Home Lộc An",
+        //         "meta_keyword" => "Jahi central home lộc an, jahi central home loc an",
+        //         "meta_description" => "Tọa lạc ngay trung tâm xã Lộc An, huyện Bảo Lâm, tỉnh Lâm Đồng. Khu dân cư Jahi-Central Home Lộc An thừa hượng trọn vẹn hệ thống giao thương trọng điểm của xa Lộc An.",
+        //         "other_link" => "",
+        //         "is_newtab_other_link" => "0"
+        //     ],
+        //     "category" => [
+        //         "id" => "325",
+        //         "description" => [
+        //             "cat_id" => "325",
+        //             "title" => "Dự án "
+        //         ]
+        //     ],
+        //     "manufacturer" => "",
+        //     "price_formated" => "0đ",
+        //     "sale_price_formated" => "0đ",
+        //     "route_duplicate" => "https://dainghiagroup.com/admin/product/duplicate/29",
+        //     "route_edit" => "https://dainghiagroup.com/admin/product/29/edit",
+        //     "route_update" => "https://dainghiagroup.com/admin/product/29/update-field",
+        //     "route_remove" => "https://dainghiagroup.com/admin/product/29",
+        //     "direct_add_to_cart_url" => "https://dainghiagroup.com/add-to-cart/29",
+        //     "route_review" => "https://dainghiagroup.com/du-an-dat-nen-bao-loc/can-ho-pearl-plaza-3-phong-ngu-tang-11.html",
+        //     "move_up" => "https://dainghiagroup.com/admin/product/29/move?direction=up&amp;range=1",
+        //     "move_down" => "https://dainghiagroup.com/admin/product/29/move?direction=down",
+        //     "move_top" => "https://dainghiagroup.com/admin/product/29/move?direction=top",
+        //     "move_bottom" => "https://dainghiagroup.com/admin/product/29/move?direction=bottom",
+        //     "is_advanced_quantity" => "",
+        //     "published_at_formated" => "08-07-2021 09:05:45",
+        //     "deleted_at_formated" => "01-01-1970 08:00:00"
+        // ],
+        $data = [];
+        $params = $request->all();
+        $draw = isset( $params['draw']) ? $params['draw'] : "";
+        $start = isset( $params['start']) ? $params['start'] : "";
+        $length = isset( $params['length']) ? $params['length'] : "";
+        $search = isset( $params['search']) ? $params['search'] : "";
+        $searchValue = isset($search['value']) ? $search['value'] : "";
+        if(!$searchValue) {
+            $data = $this->model->listItems(['start' => $start,'length' => $length], ['task' => 'list']);
+        }
+        else {
+            $data = $this->model->listItems(['title' => $searchValue], ['task' => 'search']);
+        }
+       
+        $total = count($data);
+        $data  = $total > 0 ? $data->toArray() : [];
+        $data = array_map(function ($item) {
+            $id = $item['id'];
+            $item['route_edit'] = route('product/form',['id' => $id]);
+            $item['published_at'] = "";
+            $item['description'] = [
+                'title' => $item['title'],
+            ];
+            $product = $this->model::find($id);
+            $taxonomy = $product->taxonomy()->where('taxonomy_type','main')->first();
+            $item['taxonomy'] = $taxonomy;
+            $item['category'] = [
+                "id" =>$taxonomy->id,
+                "description" => [
+                    "cat_id" => $taxonomy->id,
+                    "title" => $taxonomy->name,
+                ]
+            ];
+            $item["thumbnail"] = [
+                "lazy_src" => "data-isrc",
+                "img_path" => $item['thumbnail'],
+                "class" => "lazyload ",
+                "alt_content" => ""
+            ];
+            $item['is_advanced_quantity'] = 0;
+            $item['route_update'] = route('product/updateField',['id' => $id]);
+            $item['direct_add_to_cart_url'] = route('fe_cart/add',['id' => $id]);
+            $item['route_review'] = route('fe_product/detail',['id' => $id]);
+            $item['price'] = $item['regular_price'];
+            $item['price_formated'] = Obn::showPrice($item['regular_price']);
+            if($item['sale_price']) {
+                $item['sale_price_formated'] = Obn::showPrice($item['sale_price']);
+            }
+            $item['published_at'] = $item['created_at'];
+            $item['route_remove'] = route('product/delete',['id' => $id]);
+            return $item;
+        }, $data);
+        $result = [
+            "draw" => 0,
+            "recordsTotal" => $this->model->count(),
+            "recordsFiltered" => $this->model->count(),
+            "data" => $data
+        ];
+        return $result;
+    }
+    public function delete(Request $request) {
+        $id = $request->id;
+        $this->model->deleteItem(['id' => $id],['task' => 'delete']);
+        return [
+            'success' => true,
+            'message' => 'Đã chuyển nội dung vào thùng rác'
+        ];
+    }
+    public function updateField(Request $request) {
+        $id = $request->id;
+        $params = $request->all();
+        $published_at = isset($params['published_at']) ? $params['published_at']  : "";
+        $is_published = isset($params['is_published']) ? $params['is_published']  : "";
+        $value = isset($params['value']) ? $params['value']  : "";
+        $name = isset($params['name']) ? $params['name']  : "";
+        $price = isset($params['price']) ? $params['price']  : "";
+        $paramsUpdate['id'] = $id;
+        $isUpdate = false;
+        $reload = false;
+        if($published_at) {
+            $paramsUpdate['created_at'] = $published_at;
+            $isUpdate = true;
+        }
+        if($is_published != '') {
+            $paramsUpdate['is_published'] = $is_published;
+            $isUpdate = true;
+        }
+        if($name) {
+            if($value)  {
+                $paramsUpdate['in_stock'] = 1;
+            }
+            else {
+                $paramsUpdate['in_stock'] = 0;
+            }
+           
+            $isUpdate = true;
+        }
+        if($price) {
+            $isUpdate = true;
+            $paramsUpdate['regular_price'] = $price;
+            $reload = true;
+        }
+     
+        if(  $isUpdate == true) {
+            $this->model->saveItem($paramsUpdate,['task' => 'edit-item']);
+        }
+       
+
+        
+        return [
+            'id' => $id,
+            'value' => $value,
+            'reload' => $reload,
+        ];
+        
+    }
+    public function destroyMulti(Request $request) {
+        $ids = $request->ids;
+        if(count($ids) > 0) {
+            foreach ($ids as $id) {
+                $this->model->deleteItem(['id' => $id],['task' => 'delete']);
+            }
+        }
+        return $ids;
     }
 }

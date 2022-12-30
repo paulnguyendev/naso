@@ -1,5 +1,7 @@
 @php
     use App\Helpers\Template\Product;
+    use App\Helpers\Obn;
+    $thumbnail = Obn::showThumbnail($item['thumbnail']);
 @endphp
 @extends('user.main')
 @section('navbar_title', $item['title'] ?? '-')
@@ -10,7 +12,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-5">
-                            <img src="{{ $item['thumbnail'] }}" alt="" class="img-responsive entry-thumbnail">
+                            <img src="{{ $thumbnail }}" alt="" class="img-responsive entry-thumbnail">
                             <div class="entry-gallery">
 
                                 @php

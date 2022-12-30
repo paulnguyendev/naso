@@ -72,11 +72,11 @@
                     <span>Quản lý đơn hàng</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="#">
                     <span>Quản lý tồn kho</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </li>
     <li data-label="Tài khoản">

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Link\OrderLink;
 use App\Helpers\Obn;
 use App\Helpers\Template\Count;
+use App\Helpers\Template\Product;
 use App\Helpers\User;
 use App\Http\Controllers\Controller;
 use App\Models\ProductMetaModel;
@@ -128,7 +129,6 @@ class OrderController extends Controller
             $payment = $item['payment'] ? json_decode($item['payment'], true)  : [];
             $item['payment_method'] = $payment['method_title'] ?? "-";
             $item['payment_status'] = $payment['status'] ?? 0;
-            
             $item['currency'] = "đ";
             return $item;
         }, $items);
@@ -174,10 +174,14 @@ class OrderController extends Controller
         $id = $request->id;
         $item = $this->model::find($id);
         $payment = json_decode($item['payment'],true) ?? [];
+        $info_order = json_decode($item['info_order'],true) ?? [];
+        $info_shipping = json_decode($item['info_shipping'],true) ?? [];
         $products = json_decode($item['products'],true) ?? [];
         $shipping = json_decode($item['shipping'],true) ?? [];
-        
-        
+        $shippingFee = $shipping['fee'] ?? 0;
+        $total = $item['total'] ?? 0;
+        $discount = $item['discount'] ?? 0; 
+        $orderSum = Product::getOrderSumary($total,[$shippingFee,$discount]);
         return view(
             "{$this->pathViewController}/detail",
             [
@@ -186,6 +190,9 @@ class OrderController extends Controller
                 'payment' => $payment,
                 'products' => $products,
                 'shipping' => $shipping,
+                'orderSum' => $orderSum,
+                'info_order' => $info_order,
+                'info_shipping' => $info_shipping,
             ]
         );
     }
@@ -197,21 +204,23 @@ class OrderController extends Controller
         $status = isset($params['status']) ? $params['status'] : "";
         $payment_status = isset($params['payment_status']) ? $params['payment_status'] : '';
         $shippingfee = isset($params['shippingfee']) ? $params['shippingfee'] : '';
+        $discount = isset($params['discount']) ? $params['discount'] : '';
         if($status) {
             $this->model->saveItem(['id' => $id,'status' => $status],['task' => 'edit-item']);
         }
         $item = $this->model::find($id);
         if($payment_status != '') {
-           
             $payment = json_decode($item['payment'],true) ?? [];
             $payment['status'] = $payment_status;
-            
             $this->model->saveItem(['id' => $id,'payment' => json_encode($payment)],['task' => 'edit-item']);
         }
         if($shippingfee != '') {
             $shipping = json_decode($item['shipping'],true) ?? [];
             $shipping['fee'] = $shippingfee;
             $this->model->saveItem(['id' => $id,'shipping' => json_encode($shipping)],['task' => 'edit-item']);
+        }
+        if($discount != '') {
+            $this->model->saveItem(['id' => $id,'discount' => $discount],['task' => 'edit-item']);
         }
         session()->flash('status_success', 'Cập nhật đơn hàng thành công');
         $result = [
@@ -229,7 +238,18 @@ class OrderController extends Controller
         $this->model->deleteItem(['id' => $id],['task' => 'delete']);
         return $id;
     }
-  
-  
-    
+    public function saveInfo(Request $request) {
+        $id = $request->id;
+        $params = $request->all();
+        $type = $request->type;
+        $paramsUpdate['id'] = $id;
+        if($type == 'order') {
+            $paramsUpdate['info_order'] = json_encode($params);
+        }
+        else {
+            $paramsUpdate['info_shipping'] = json_encode($params);
+        }
+        $this->model->saveItem($paramsUpdate,['task' => 'edit-item']);
+        return redirect(route('admin_order/detail',['id' => $id]))->with('status_success','Cập nhật đơn hàng thành công');
+    }
 }

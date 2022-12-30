@@ -100,19 +100,23 @@
                                 tất cả</a></span>
                     </div>
                 </div>
-                <table class="table table-xlg datatable-ajax" data-source="{{ route('user_order/dataList') }}"
+                <table class="table table-xlg datatable-ajax" data-source="{{ route('admin_order/dataList',['status' => 'new']) }}"
                     data-destroymulti="{{ route('user_order/destroy-multi') }}">
                     <thead>
                         <tr>
                             <th class="text-center" width="50"><input type="checkbox" bs-type="checkbox" value="all"
                                     id="inputCheckAll"></th>
-                            <th>Mã đơn hàng</th>
-                            <th>Ngày tạo đơn</th>
-                            <th>Đại lý</th>
+                            <th width="9%">Đơn hàng</th>
+                            <th>Ngày đặt</th>
                             <th>Khách hàng</th>
-                            <th>Thanh toán</th>
-                            <th>Tổng đơn</th>
-                            <th>Trạng thái</th>
+                            <th  width="15%">Sản phẩm</th>
+                            <th>Tổng tiền</th>
+                            <th width="15%">Hình thức thanh toán</th>
+                            <th width="15%">Thanh toán</th>
+                            <th width="200">Trạng thái</th>
+                            <th width="0" class="hidden"></th>
+                            <th width="0" class="hidden"></th>
+                            <th width="0" class="hidden"></th>
                         </tr>
                     </thead>
                 </table>
@@ -122,11 +126,7 @@
 @endsection
 @section('script_table')
     <script type="text/javascript">
-        var page_type = 'category';
-        var lang_code = 'vi';
-        var default_language = 'vi';
-        var url_extension = '/';
-        var columnDatas = [{
+var columnDatas = [{
                 data: null,
                 render: function(data) {
                     return WBDatatables.showSelect(data.id);
@@ -134,62 +134,95 @@
                 orderable: false,
                 searchable: false
             },
+            {
+                data: null,
+                render: function(data) {
+                    return '<a href="' + base_domain + '/admin/order/detail/' + data.id + '">' + data.code + '</a>';
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'created_at',
+                render: function(created_at) {
+                    return moment(created_at).format('DD/MM/YYYY H:mm:ss');
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: null,
+                render: function(data) {
+                    if (data.buyer_fullname) {
+                        return '<p>' + data.buyer_fullname + '</p><p>Điện thoại: ' + data.buyer_phone +
+                            '</p><p>Địa chỉ: ' + data.buyer_address + ', ' + data.buyer_district + ', ' + data
+                            .buyer_province + '</p>';
+                    }
+                    return '<p>' + data.fullname + '</p><p>Điện thoại: ' + data.phone + '</p><p>Địa chỉ: ' + data
+                        .address + '</p>';
+                },
+                orderable: false,
+                searchable: false
 
+            },
             {
                 data: null,
                 render: function(data) {
-                    return WBDatatables.showTitle(data.code, data.route_edit);
+                    if (data.details) {
+                        let product = '';
+                        $.each(data.details, function(index, value) {
+                            product += '<p>' + value.product_name + ' - ' + value.quantity + '</p>';
+                        });
+                        return product;
+                    }
+                    return '';
                 },
+                orderable: false,
+                searchable: false
+
+            },
+            {
+                data: null,
+                className: "text-right",
+                render: function(data) {
+                    return number_format(data.total) + ' ' + data.currency;
+                },
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'payment_method',
+                className: "text-center",
                 orderable: false,
                 searchable: false
             },
             {
                 data: null,
                 render: function(data) {
-                    return (!data.created_at) ? '' : data.created_at;
+                    if (data.payment_status == 1) {
+                        return '<span class="label bg-success-400">Đã thanh toán</span>';
+                    }
+                    return '<span class="label bg-grey-400">Chưa thanh toán</span>';
                 },
+                className: "text-center",
                 orderable: false,
                 searchable: false
             },
+          
             {
-                data: null,
-                render: function(data) {
-                    return (!data.user.name) ? '' : data.user.name;
-                },
-                orderable: false,
-                searchable: false
+                data: 'code',
+                className: 'hidden'
+
             },
             {
-                data: null,
-                render: function(data) {
-                    return (!data.info_order) ? '' : data.info_order;
-                },
-                orderable: false,
-                searchable: false
+                data: 'fullname',
+                className: 'hidden'
+
             },
             {
-                data: null,
-                render: function(data) {
-                    return (!data.payment) ? '' : data.payment;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: null,
-                render: function(data) {
-                    return (!data.total) ? '' : data.total;
-                },
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: null,
-                render: function(data) {
-                    return (!data.status) ? '' : data.status;
-                },
-                orderable: false,
-                searchable: false
+                data: 'phone',
+                className: 'hidden'
+
             },
         ];
         WBDatatables.init('.datatable-ajax', columnDatas, {

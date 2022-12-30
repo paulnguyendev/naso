@@ -95,6 +95,7 @@ $(document).ready(function () {
         }
 
         // additional block for CKEditor
+        
         var ckename = $("#mlib-lightbox").attr("mlib-ckename");
         if (ckename != "") {
             CKEDITOR.instances[ckename].insertHtml(xhtml2);
@@ -640,34 +641,37 @@ function mlib_create_display(data) {
     var xdata = jQuery.parseJSON(data);
     console.log(xdata);
     var xstr = "";
-    for (var i = 0; i < parseInt(xdata.total); ++i) {
+    let items = xdata.items;
+    for (var i = 0; i < parseInt(items.length); ++i) {
+        
+     
         xstr =
             xstr +
             '<div mlib-size="' +
-            xdata[i].size +
+            items[i].size +
             '" mlib-id="' +
-            xdata[i].id +
+            items[i].id +
             '" mlib-type="' +
-            xdata[i].type +
+            items[i].type +
             '" mlib-time="' +
-            xdata[i].newtime +
+            items[i].newtime +
             '" mlib-title="' +
-            xdata[i].title +
+            items[i].title +
             '" mlib-caption="' +
-            xdata[i].caption +
+            items[i].caption +
             '" mlib-url="' +
-            xdata[i].url +
+            items[i].url +
             '" mlib-thumb="' +
-            xdata[i].thumb +
+            items[i].thumb +
             '" mlib-folder="' +
-            (xdata[i].folder != null ? xdata[i].folder.name : "") +
+            (items[i].folder != null ? items[i].folder.name : "") +
             '" mlib-folder-id="' +
-            (xdata[i].folder != null ? xdata[i].folder.id : "") +
+            (items[i].folder != null ? items[i].folder.id : "") +
             '" class="mlib-thumbs" style="background-image:url(\'' +
-            xdata[i].thumb +
+            items[i].thumb +
             '\')">\
 <input type="checkbox" name="img[' +
-            xdata[i].id +
+items[i].id +
             ']">\
 <div class="mlib-checkbox"></div></div>';
     }
@@ -1194,6 +1198,7 @@ function mlib_thumbs_after_upload() {
 
 function init_ckeditor_medialib(editorx) {
     if ($(".cke_button__ck_mlib_button_" + editorx).length == 0) {
+       
         setTimeout(function () {
             init_ckeditor_medialib(editorx);
         }, 5000);

@@ -30,4 +30,8 @@ class Obn
         $result = number_format($price) . " đ";
         return $result;
     }
+    public static function showThumbnail($thumb) {
+        $result = $thumb ? $thumb : asset('obn-dashboard/img/no-image.png');
+        return $result;
+    }
 }

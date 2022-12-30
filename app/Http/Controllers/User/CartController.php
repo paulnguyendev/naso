@@ -40,8 +40,11 @@ class CartController extends Controller
         if ($product) {
             $name = isset($product['title']) ? $product['title'] : "";
             $thumbnail = isset($product['thumbnail']) ? $product['thumbnail'] : "";
+            $thumbnail = Obn::showThumbnail($thumbnail);
             $number = $request->number;
             $price = Product::getPriceProduct($product['regular_price'], false);
+            $price = $price ? $price : 0;
+          
             $supplier = $product->supplier()->first();
             if ($supplier) {
                 $supplierName = $supplier['name'] ?? "-";

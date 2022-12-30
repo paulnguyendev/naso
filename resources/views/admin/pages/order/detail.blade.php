@@ -75,10 +75,11 @@
                                             $subTotal = $price * $quantity;
                                             $price = number_format($price) . $currency;
                                             $subTotal = number_format($subTotal) . $currency;
+                                           $thumbnail = Obn::showThumbnail($product['thumbnail']);
                                         @endphp
                                         <tr>
                                             <td class="text-center" style="padding: 5px;">
-                                                <img src="{{ $product['thumbnail'] }}" class="img-lg">
+                                                <img src="{{ $thumbnail }}" class="img-lg">
                                             </td>
                                             <td class="order-product-name" data-quantity="1">
                                                 <div class="media-left" style="padding-right:0px">
@@ -125,6 +126,7 @@
                                         </p>
                                     </td>
                                     <td class="text-right" style="vertical-align: text-top;">
+                                        {{ Obn::showPrice($item['discount'] ?? 0 ) }}
                                     </td>
                                 </tr>
                                 {{-- <tr>
@@ -141,7 +143,7 @@
                                 </tr> --}}
                                 <tr style="background-color: beige;font-size: 18px;font-weight: bold;">
                                     <td class="text-right" colspan="4">Tổng cộng</td>
-                                    <td class="text-right">{{ Obn::showPrice($item['total'] ?? 0) }}</td>
+                                    <td class="text-right">{{ Obn::showPrice($orderSum) }}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding-left: 5px; padding-right: 5px;" colspan="5">
@@ -227,7 +229,7 @@
                         <select class="form-control order_status" data-id="2">
                             <!-- <option value="0" >Chưa đặt hàng</option> -->
                             <option value="new" {{ $item['status'] == 'new' ? 'selected' : '' }}>Đơn hàng mới</option>
-                            <option value="confirm" {{ $item['status'] == 'new' ? 'selected' : '' }}>Đã xác nhận</option>
+                            <option value="confirm" {{ $item['status'] == 'confirm' ? 'selected' : '' }}>Đã xác nhận</option>
                             <option value="shipping" {{ $item['status'] == 'shipping' ? 'selected' : '' }}>Đang vận chuyển
                             </option>
                             <option value="complete" {{ $item['status'] == 'complete' ? 'selected' : '' }}>Hoàn tất
@@ -271,22 +273,22 @@
                             <thead>
                                 <tr>
                                     <th width="100">Họ tên</th>
-                                    <th>125</th>
+                                    <th>{{$info_order['fullname'] ?? "-"}}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Điện thoại</td>
-                                    <td>125125</td>
+                                    <td>{{$info_order['phone'] ?? "-"}}</td>
                                 </tr>
                                 <tr>
                                     <td>Email</td>
-                                    <td>125@gmail.com</td>
+                                    <td>{{$info_order['email'] ?? "-"}}</td>
                                 </tr>
                                 <tr>
                                     <td>Địa chỉ</td>
                                     <td>
-                                        12521525, Xã Phan Thanh, Huyện Bảo Lạc, Cao Bằng
+                                        {{$info_order['address'] ?? "-"}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -295,9 +297,9 @@
                 </div>
             </div>
             <div id="buyer" class="modal fade">
-                <form method="POST" action="http://anhnnd.s1.loveitop.com/admin/order/address/buyer/2"
-                    accept-charset="UTF-8" id="buyer-form" enctype="multipart/form-data"><input name="_token"
-                        type="hidden" value="2Z0qF0FZBRj817VTRkUjPEnCBaTR2guKBRMbgavd">
+                <form method="POST" action="{{route('admin_order/saveInfo',['type' => 'order','id' => $id])}}"
+                    accept-charset="UTF-8" id="buyer-form" enctype="multipart/form-data">
+                   
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -308,7 +310,7 @@
                                 <div class="form-group">
                                     <label>Họ Tên
                                     </label>
-                                    <input class="form-control" name="fullname" type="text" value="125">
+                                    <input class="form-control" name="fullname" type="text" value="{{$info_order['fullname'] ?? "-"}}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
@@ -318,7 +320,7 @@
                                                 <label>Điện thoại
                                                 </label>
                                                 <input class="form-control" name="phone" type="text"
-                                                    value="125125">
+                                                    value="{{$info_order['phone'] ?? "-"}}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -327,126 +329,17 @@
                                                 <label>Email
                                                 </label>
                                                 <input class="form-control" name="email" type="text"
-                                                    value="125@gmail.com">
+                                                    value="{{$info_order['email'] ?? "-"}}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Tỉnh/Thành phố</label>
-                                                <select required="true" id="user_province" class="form-control"
-                                                    name="province">
-                                                    <option value="" data-id="0">Chọn Tỉnh/TP</option>
-                                                    <option value="TP. Hồ Chí Minh" data-id="2">TP. Hồ Chí Minh
-                                                    </option>
-                                                    <option value="TP. Hà Nội" data-id="1">TP. Hà Nội</option>
-                                                    <option value="An Giang" data-id="50">An Giang</option>
-                                                    <option value="Bà Rịa - Vũng Tàu" data-id="51">Bà Rịa - Vũng Tàu
-                                                    </option>
-                                                    <option value="Bắc Giang" data-id="18">Bắc Giang</option>
-                                                    <option value="Bắc Kạn" data-id="11">Bắc Kạn</option>
-                                                    <option value="Bạc Liêu" data-id="59">Bạc Liêu</option>
-                                                    <option value="Bắc Ninh" data-id="19">Bắc Ninh</option>
-                                                    <option value="Bến Tre" data-id="55">Bến Tre</option>
-                                                    <option value="Bình Dương" data-id="43">Bình Dương</option>
-                                                    <option value="Bình Định" data-id="36">Bình Định</option>
-                                                    <option value="Bình Phước" data-id="42">Bình Phước</option>
-                                                    <option value="Bình Thuận" data-id="46">Bình Thuận</option>
-                                                    <option value="Cà Mau" data-id="60">Cà Mau</option>
-                                                    <option value="Cần Thơ" data-id="54">Cần Thơ</option>
-                                                    <option value="Cao Bằng" data-id="6" selected="selected">Cao Bằng
-                                                    </option>
-                                                    <option value="Đắk Lắk" data-id="39">Đắk Lắk</option>
-                                                    <option value="Đắk Nông" data-id="62">Đắk Nông</option>
-                                                    <option value="Điện Biên" data-id="61">Điện Biên</option>
-                                                    <option value="Đồng Nai" data-id="47">Đồng Nai</option>
-                                                    <option value="Đồng Tháp" data-id="49">Đồng Tháp</option>
-                                                    <option value="Gia Lai" data-id="37">Gia Lai</option>
-                                                    <option value="Hà Giang" data-id="5">Hà Giang</option>
-                                                    <option value="Hà Nam" data-id="23">Hà Nam</option>
-                                                    <option value="Hà Tĩnh" data-id="29">Hà Tĩnh</option>
-                                                    <option value="Hải Dương" data-id="20">Hải Dương</option>
-                                                    <option value="Hậu Giang" data-id="63">Hậu Giang</option>
-                                                    <option value="Hòa Bình" data-id="22">Hòa Bình</option>
-                                                    <option value="Hưng Yên" data-id="21">Hưng Yên</option>
-                                                    <option value="Khánh Hòa" data-id="40">Khánh Hòa</option>
-                                                    <option value="Kiên Giang" data-id="53">Kiên Giang</option>
-                                                    <option value="Kon Tum" data-id="35">Kon Tum</option>
-                                                    <option value="Lai Châu" data-id="7">Lai Châu</option>
-                                                    <option value="Lâm Đồng" data-id="41">Lâm Đồng</option>
-                                                    <option value="Lạng Sơn" data-id="10">Lạng Sơn</option>
-                                                    <option value="Lào Cai" data-id="8">Lào Cai</option>
-                                                    <option value="Long An" data-id="48">Long An</option>
-                                                    <option value="Nam Định" data-id="24">Nam Định</option>
-                                                    <option value="Nghệ An" data-id="28">Nghệ An</option>
-                                                    <option value="Ninh Bình" data-id="26">Ninh Bình</option>
-                                                    <option value="Ninh Thuận" data-id="44">Ninh Thuận</option>
-                                                    <option value="Phú Thọ" data-id="15">Phú Thọ</option>
-                                                    <option value="Phú Yên" data-id="38">Phú Yên</option>
-                                                    <option value="Quảng Bình" data-id="30">Quảng Bình</option>
-                                                    <option value="Quảng Nam" data-id="33">Quảng Nam</option>
-                                                    <option value="Quảng Ngãi" data-id="34">Quảng Ngãi</option>
-                                                    <option value="Quảng Ninh" data-id="17">Quảng Ninh</option>
-                                                    <option value="Quảng Trị" data-id="31">Quảng Trị</option>
-                                                    <option value="Sóc Trăng" data-id="58">Sóc Trăng</option>
-                                                    <option value="Sơn La" data-id="14">Sơn La</option>
-                                                    <option value="Tây Ninh" data-id="45">Tây Ninh</option>
-                                                    <option value="Thái Bình" data-id="25">Thái Bình</option>
-                                                    <option value="Thái Nguyên" data-id="12">Thái Nguyên</option>
-                                                    <option value="Thanh Hóa" data-id="27">Thanh Hóa</option>
-                                                    <option value="Thừa Thiên - Huế" data-id="32">Thừa Thiên - Huế
-                                                    </option>
-                                                    <option value="Tiền Giang" data-id="52">Tiền Giang</option>
-                                                    <option value="TP. Đà Nẵng" data-id="4">TP. Đà Nẵng</option>
-                                                    <option value="TP. Hải Phòng" data-id="3">TP. Hải Phòng</option>
-                                                    <option value="Trà Vinh" data-id="57">Trà Vinh</option>
-                                                    <option value="Tuyên Quang" data-id="9">Tuyên Quang</option>
-                                                    <option value="Vĩnh Long" data-id="56">Vĩnh Long</option>
-                                                    <option value="Vĩnh Phúc" data-id="16">Vĩnh Phúc</option>
-                                                    <option value="Yên Bái" data-id="13">Yên Bái</option>
-                                                </select>
-                                                <span class="help-block"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Quận/Huyện</label>
-                                                <select required="true" id="user_district" class="form-control"
-                                                    name="district">
-                                                    <option value="" data-id="0">Chọn Quận/Huyện*</option>
-                                                    <option value="Huyện Bảo Lạc" data-id="91" selected="selected">
-                                                        Huyện Bảo Lạc</option>
-                                                    <option value="Huyện Bảo Lâm" data-id="101">Huyện Bảo Lâm</option>
-                                                    <option value="Huyện Hạ Lang" data-id="100">Huyện Hạ Lang</option>
-                                                    <option value="Huyện Hà Quảng" data-id="93">Huyện Hà Quảng</option>
-                                                    <option value="Huyện Hòa An" data-id="97">Huyện Hòa An</option>
-                                                    <option value="Huyện Nguyên Bình" data-id="96">Huyện Nguyên Bình
-                                                    </option>
-                                                    <option value="Huyện Phục Hòa" data-id="102">Huyện Phục Hòa</option>
-                                                    <option value="Huyện Quảng Uyên" data-id="98">Huyện Quảng Uyên
-                                                    </option>
-                                                    <option value="Huyện Thạch An" data-id="99">Huyện Thạch An</option>
-                                                    <option value="Huyện Thông Nông" data-id="92">Huyện Thông Nông
-                                                    </option>
-                                                    <option value="Huyện Trà Lĩnh" data-id="94">Huyện Trà Lĩnh</option>
-                                                    <option value="Huyện Trùng Khánh" data-id="95">Huyện Trùng Khánh
-                                                    </option>
-                                                    <option value="Thị Xã Cao Bằng" data-id="90">Thị Xã Cao Bằng
-                                                    </option>
-                                                </select>
-                                                <span class="help-block"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                              
                                 <div class="form-group">
                                     <label>Địa chỉ
                                     </label>
-                                    <input class="form-control" name="address" type="text" value="12521525">
+                                    <input class="form-control" name="address" type="text" value="{{$info_order['address'] ?? "-"}}">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -476,22 +369,28 @@
                             <thead>
                                 <tr>
                                     <th width="100">Họ tên</th>
-                                    <th>125</th>
+                                    <th>{{$info_shipping['name'] ?? "-"}}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Điện thoại</td>
-                                    <td>125125</td>
+                                    <td>{{$info_shipping['phone'] ?? "-"}}</td>
                                 </tr>
                                 <tr>
                                     <td>Email</td>
-                                    <td>125@gmail.com</td>
+                                    <td>{{$info_shipping['email'] ?? "-"}}</td>
                                 </tr>
                                 <tr>
                                     <td>Địa chỉ</td>
                                     <td>
-                                        12521525, Xã Phan Thanh, Huyện Bảo Lạc, Cao Bằng
+                                        {{$info_shipping['address'] ?? "-"}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Note</td>
+                                    <td>
+                                        {{$info_shipping['note'] ?? "-"}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -500,10 +399,8 @@
                 </div>
             </div>
             <div id="order_info" class="modal fade">
-                <form method="POST" action="http://anhnnd.s1.loveitop.com/admin/order/2" accept-charset="UTF-8"
-                    id="order-form" enctype="multipart/form-data"><input name="_method" type="hidden"
-                        value="PATCH"><input name="_token" type="hidden"
-                        value="2Z0qF0FZBRj817VTRkUjPEnCBaTR2guKBRMbgavd">
+                <form method="POST" action="{{route('admin_order/saveInfo',['type' => 'shipping','id' => $id])}}" accept-charset="UTF-8"
+                    id="order-form" enctype="multipart/form-data">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -515,7 +412,7 @@
                                 <div class="form-group">
                                     <label>Họ Tên
                                     </label>
-                                    <input class="form-control" name="fullname" type="text" value="125">
+                                    <input class="form-control" name="name" type="text" value="{{$info_shipping['name'] ?? "-"}}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
@@ -525,7 +422,7 @@
                                                 <label>Điện thoại
                                                 </label>
                                                 <input class="form-control" name="phone" type="text"
-                                                    value="125125">
+                                                    value="{{$info_shipping['phone'] ?? "-"}}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -534,132 +431,23 @@
                                                 <label>Email
                                                 </label>
                                                 <input class="form-control" name="email" type="text"
-                                                    value="125@gmail.com">
+                                                    value="{{$info_shipping['email'] ?? "-"}}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Tỉnh/Thành phố</label>
-                                                <select required="true" id="order_province" class="form-control"
-                                                    name="province">
-                                                    <option value="" data-id="0">Chọn Tỉnh/TP</option>
-                                                    <option value="TP. Hồ Chí Minh" data-id="2">TP. Hồ Chí Minh
-                                                    </option>
-                                                    <option value="TP. Hà Nội" data-id="1">TP. Hà Nội</option>
-                                                    <option value="An Giang" data-id="50">An Giang</option>
-                                                    <option value="Bà Rịa - Vũng Tàu" data-id="51">Bà Rịa - Vũng Tàu
-                                                    </option>
-                                                    <option value="Bắc Giang" data-id="18">Bắc Giang</option>
-                                                    <option value="Bắc Kạn" data-id="11">Bắc Kạn</option>
-                                                    <option value="Bạc Liêu" data-id="59">Bạc Liêu</option>
-                                                    <option value="Bắc Ninh" data-id="19">Bắc Ninh</option>
-                                                    <option value="Bến Tre" data-id="55">Bến Tre</option>
-                                                    <option value="Bình Dương" data-id="43">Bình Dương</option>
-                                                    <option value="Bình Định" data-id="36">Bình Định</option>
-                                                    <option value="Bình Phước" data-id="42">Bình Phước</option>
-                                                    <option value="Bình Thuận" data-id="46">Bình Thuận</option>
-                                                    <option value="Cà Mau" data-id="60">Cà Mau</option>
-                                                    <option value="Cần Thơ" data-id="54">Cần Thơ</option>
-                                                    <option value="Cao Bằng" data-id="6" selected="selected">Cao Bằng
-                                                    </option>
-                                                    <option value="Đắk Lắk" data-id="39">Đắk Lắk</option>
-                                                    <option value="Đắk Nông" data-id="62">Đắk Nông</option>
-                                                    <option value="Điện Biên" data-id="61">Điện Biên</option>
-                                                    <option value="Đồng Nai" data-id="47">Đồng Nai</option>
-                                                    <option value="Đồng Tháp" data-id="49">Đồng Tháp</option>
-                                                    <option value="Gia Lai" data-id="37">Gia Lai</option>
-                                                    <option value="Hà Giang" data-id="5">Hà Giang</option>
-                                                    <option value="Hà Nam" data-id="23">Hà Nam</option>
-                                                    <option value="Hà Tĩnh" data-id="29">Hà Tĩnh</option>
-                                                    <option value="Hải Dương" data-id="20">Hải Dương</option>
-                                                    <option value="Hậu Giang" data-id="63">Hậu Giang</option>
-                                                    <option value="Hòa Bình" data-id="22">Hòa Bình</option>
-                                                    <option value="Hưng Yên" data-id="21">Hưng Yên</option>
-                                                    <option value="Khánh Hòa" data-id="40">Khánh Hòa</option>
-                                                    <option value="Kiên Giang" data-id="53">Kiên Giang</option>
-                                                    <option value="Kon Tum" data-id="35">Kon Tum</option>
-                                                    <option value="Lai Châu" data-id="7">Lai Châu</option>
-                                                    <option value="Lâm Đồng" data-id="41">Lâm Đồng</option>
-                                                    <option value="Lạng Sơn" data-id="10">Lạng Sơn</option>
-                                                    <option value="Lào Cai" data-id="8">Lào Cai</option>
-                                                    <option value="Long An" data-id="48">Long An</option>
-                                                    <option value="Nam Định" data-id="24">Nam Định</option>
-                                                    <option value="Nghệ An" data-id="28">Nghệ An</option>
-                                                    <option value="Ninh Bình" data-id="26">Ninh Bình</option>
-                                                    <option value="Ninh Thuận" data-id="44">Ninh Thuận</option>
-                                                    <option value="Phú Thọ" data-id="15">Phú Thọ</option>
-                                                    <option value="Phú Yên" data-id="38">Phú Yên</option>
-                                                    <option value="Quảng Bình" data-id="30">Quảng Bình</option>
-                                                    <option value="Quảng Nam" data-id="33">Quảng Nam</option>
-                                                    <option value="Quảng Ngãi" data-id="34">Quảng Ngãi</option>
-                                                    <option value="Quảng Ninh" data-id="17">Quảng Ninh</option>
-                                                    <option value="Quảng Trị" data-id="31">Quảng Trị</option>
-                                                    <option value="Sóc Trăng" data-id="58">Sóc Trăng</option>
-                                                    <option value="Sơn La" data-id="14">Sơn La</option>
-                                                    <option value="Tây Ninh" data-id="45">Tây Ninh</option>
-                                                    <option value="Thái Bình" data-id="25">Thái Bình</option>
-                                                    <option value="Thái Nguyên" data-id="12">Thái Nguyên</option>
-                                                    <option value="Thanh Hóa" data-id="27">Thanh Hóa</option>
-                                                    <option value="Thừa Thiên - Huế" data-id="32">Thừa Thiên - Huế
-                                                    </option>
-                                                    <option value="Tiền Giang" data-id="52">Tiền Giang</option>
-                                                    <option value="TP. Đà Nẵng" data-id="4">TP. Đà Nẵng</option>
-                                                    <option value="TP. Hải Phòng" data-id="3">TP. Hải Phòng</option>
-                                                    <option value="Trà Vinh" data-id="57">Trà Vinh</option>
-                                                    <option value="Tuyên Quang" data-id="9">Tuyên Quang</option>
-                                                    <option value="Vĩnh Long" data-id="56">Vĩnh Long</option>
-                                                    <option value="Vĩnh Phúc" data-id="16">Vĩnh Phúc</option>
-                                                    <option value="Yên Bái" data-id="13">Yên Bái</option>
-                                                </select>
-                                                <span class="help-block"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Quận/Huyện</label>
-                                                <select required="true" id="order_district" class="form-control"
-                                                    name="district">
-                                                    <option value="" data-id="0">Chọn Quận/Huyện*</option>
-                                                    <option value="Huyện Bảo Lạc" data-id="91" selected="selected">
-                                                        Huyện Bảo Lạc</option>
-                                                    <option value="Huyện Bảo Lâm" data-id="101">Huyện Bảo Lâm</option>
-                                                    <option value="Huyện Hạ Lang" data-id="100">Huyện Hạ Lang</option>
-                                                    <option value="Huyện Hà Quảng" data-id="93">Huyện Hà Quảng</option>
-                                                    <option value="Huyện Hòa An" data-id="97">Huyện Hòa An</option>
-                                                    <option value="Huyện Nguyên Bình" data-id="96">Huyện Nguyên Bình
-                                                    </option>
-                                                    <option value="Huyện Phục Hòa" data-id="102">Huyện Phục Hòa</option>
-                                                    <option value="Huyện Quảng Uyên" data-id="98">Huyện Quảng Uyên
-                                                    </option>
-                                                    <option value="Huyện Thạch An" data-id="99">Huyện Thạch An</option>
-                                                    <option value="Huyện Thông Nông" data-id="92">Huyện Thông Nông
-                                                    </option>
-                                                    <option value="Huyện Trà Lĩnh" data-id="94">Huyện Trà Lĩnh</option>
-                                                    <option value="Huyện Trùng Khánh" data-id="95">Huyện Trùng Khánh
-                                                    </option>
-                                                    <option value="Thị Xã Cao Bằng" data-id="90">Thị Xã Cao Bằng
-                                                    </option>
-                                                </select>
-                                                <span class="help-block"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                             
                                 <div class="form-group">
                                     <label>Địa chỉ
                                     </label>
-                                    <input class="form-control" name="address" type="text" value="12521525">
+                                    <input class="form-control" name="address" type="text" value="{{$info_shipping['address'] ?? "-"}}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Ghi chú
                                     </label>
-                                    <textarea class="form-control" rows="5" name="note" cols="50"></textarea>
+                                    <textarea class="form-control" rows="5" name="note" cols="50">{{$info_shipping['note'] ?? ""}}</textarea>
                                     <span class="help-block"></span>
                                 </div>
                             </div>

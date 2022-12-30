@@ -23,7 +23,19 @@ class ProductModel extends Model
             $result = $query->where('user_group_id', '3')->count();
         }
         if ($options['task'] == 'list') {
-            $result = $query->orderBy('id', 'desc')->get();
+            if(isset($params['start']) && isset($params['length'])) {
+                if($params['start'] == 0) {
+                    $result = $query->orderBy('id', 'desc')->get();
+                }
+                else {
+                    $result = $query->orderBy('id', 'desc')->skip($params['start'])->take($params['length'])->get();
+                }
+               
+            }
+            else {
+                $result = $query->orderBy('id', 'desc')->get();
+            }
+            
         }
         if ($options['task'] == 'list-in-cart') {
             if(isset($params['ids'])) {
@@ -35,9 +47,8 @@ class ProductModel extends Model
            
         }
         if ($options['task'] == 'search') {
-            $result = $query->where('name', 'LIKE', "%{$params['name']}%")->orderBy('id', 'desc')->get();
-            if ($result)
-                $result = $result->toArray();
+            $result = $query->where('title', 'LIKE', "%{$params['title']}%")->orderBy('id', 'desc')->get();
+           
         }
         if ($options['task'] == 'taxonomy_paginate') {
             $result = $query->where('taxonomy', $params['taxonomy'])->orderBy('id', 'desc')->paginate(10);
@@ -64,6 +75,7 @@ class ProductModel extends Model
             return $result;
         }
         if ($option['task'] == 'edit-item') {
+           
             $paramsUpdate = array_diff_key($params, array_flip($this->crudNotAccepted));
             self::where('id', $params['id'])->update($paramsUpdate);
         }

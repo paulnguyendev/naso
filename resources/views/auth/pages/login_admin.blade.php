@@ -33,9 +33,9 @@
                 <button type="submit" class="btn btn-primary btn-block">Đăng nhập
                     <i class="icon-circle-right2 position-right"></i></button>
             </div>
-            <div class="form-group login-options text-center">
+            {{-- <div class="form-group login-options text-center">
                 <p>Chưa có tài khoản? <a href="{{route('auth/register')}}">Đăng ký ngay</a></p>
-            </div>
+            </div> --}}
         </div>
     </form>
 @endsection

@@ -1,11 +1,13 @@
 @php
     use App\Helpers\Link\ProductLink;
     use App\Helpers\Template\Product;
+    use App\Helpers\Obn;
     $link = ProductLink::getLinkProductDetail($item['id']);
+    $thumbnail = Obn::showThumbnail($item['thumbnail']);
 @endphp
 <div class="product-item">
     <div class="product-thumbnail">
-        <a href="{{ $link }}"><img class="img-responsive" src="{{ $item['thumbnail'] }}" alt=""></a>
+        <a href="{{ $link }}"><img class="img-responsive" src="{{ $thumbnail }}" alt=""></a>
     </div>
     <div class="product-text">
         <h4 class="product-title">

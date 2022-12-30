@@ -112,4 +112,14 @@ class Product
         }
         return $result;
     }
+    public static function getOrderSumary($total = 0,$options = []) {
+        $totalOptions = 0;
+        if($options) {
+            foreach ($options as $option) {
+                $totalOptions += $option;
+            }
+        }
+        $result = $total + $totalOptions;
+        return $result;
+    }
 }
