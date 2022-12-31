@@ -75,7 +75,7 @@
                                             $subTotal = $price * $quantity;
                                             $price = number_format($price) . $currency;
                                             $subTotal = number_format($subTotal) . $currency;
-                                           $thumbnail = Obn::showThumbnail($product['thumbnail']);
+                                            $thumbnail = Obn::showThumbnail($product['thumbnail']);
                                         @endphp
                                         <tr>
                                             <td class="text-center" style="padding: 5px;">
@@ -109,8 +109,8 @@
                                         <a href="javascript:void(0);" data-popup="popover-shippingfee"
                                             aria-describedby="popovertax" data-shippingfee="0"
                                             data-id="{{ $id }}"
-                                            data-url="{{ route('admin_order/save', ['id' => $id]) }}" data-original-title=""
-                                            title="">
+                                            data-url="{{ route('admin_order/save', ['id' => $id]) }}"
+                                            data-original-title="" title="">
                                             Thêm phí ship
                                         </a>
                                     </td>
@@ -126,7 +126,7 @@
                                         </p>
                                     </td>
                                     <td class="text-right" style="vertical-align: text-top;">
-                                        {{ Obn::showPrice($item['discount'] ?? 0 ) }}
+                                        {{ Obn::showPrice($item['discount'] ?? 0) }}
                                     </td>
                                 </tr>
                                 {{-- <tr>
@@ -229,7 +229,8 @@
                         <select class="form-control order_status" data-id="2">
                             <!-- <option value="0" >Chưa đặt hàng</option> -->
                             <option value="new" {{ $item['status'] == 'new' ? 'selected' : '' }}>Đơn hàng mới</option>
-                            <option value="confirm" {{ $item['status'] == 'confirm' ? 'selected' : '' }}>Đã xác nhận</option>
+                            <option value="confirm" {{ $item['status'] == 'confirm' ? 'selected' : '' }}>Đã xác nhận
+                            </option>
                             <option value="shipping" {{ $item['status'] == 'shipping' ? 'selected' : '' }}>Đang vận chuyển
                             </option>
                             <option value="complete" {{ $item['status'] == 'complete' ? 'selected' : '' }}>Hoàn tất
@@ -273,22 +274,22 @@
                             <thead>
                                 <tr>
                                     <th width="100">Họ tên</th>
-                                    <th>{{$info_order['fullname'] ?? "-"}}</th>
+                                    <th>{{ $info_order['fullname'] ?? '-' }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Điện thoại</td>
-                                    <td>{{$info_order['phone'] ?? "-"}}</td>
+                                    <td>{{ $info_order['phone'] ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Email</td>
-                                    <td>{{$info_order['email'] ?? "-"}}</td>
+                                    <td>{{ $info_order['email'] ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Địa chỉ</td>
                                     <td>
-                                        {{$info_order['address'] ?? "-"}}
+                                        {{ $info_order['address'] ?? '-' }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -297,9 +298,9 @@
                 </div>
             </div>
             <div id="buyer" class="modal fade">
-                <form method="POST" action="{{route('admin_order/saveInfo',['type' => 'order','id' => $id])}}"
+                <form method="POST" action="{{ route('admin_order/saveInfo', ['type' => 'order', 'id' => $id]) }}"
                     accept-charset="UTF-8" id="buyer-form" enctype="multipart/form-data">
-                   
+
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -310,7 +311,8 @@
                                 <div class="form-group">
                                     <label>Họ Tên
                                     </label>
-                                    <input class="form-control" name="fullname" type="text" value="{{$info_order['fullname'] ?? "-"}}">
+                                    <input class="form-control" name="fullname" type="text"
+                                        value="{{ $info_order['fullname'] ?? '-' }}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
@@ -320,7 +322,7 @@
                                                 <label>Điện thoại
                                                 </label>
                                                 <input class="form-control" name="phone" type="text"
-                                                    value="{{$info_order['phone'] ?? "-"}}">
+                                                    value="{{ $info_order['phone'] ?? '-' }}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -329,17 +331,18 @@
                                                 <label>Email
                                                 </label>
                                                 <input class="form-control" name="email" type="text"
-                                                    value="{{$info_order['email'] ?? "-"}}">
+                                                    value="{{ $info_order['email'] ?? '-' }}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                              
+
                                 <div class="form-group">
                                     <label>Địa chỉ
                                     </label>
-                                    <input class="form-control" name="address" type="text" value="{{$info_order['address'] ?? "-"}}">
+                                    <input class="form-control" name="address" type="text"
+                                        value="{{ $info_order['address'] ?? '-' }}">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -369,28 +372,28 @@
                             <thead>
                                 <tr>
                                     <th width="100">Họ tên</th>
-                                    <th>{{$info_shipping['name'] ?? "-"}}</th>
+                                    <th>{{ $info_shipping['name'] ?? '-' }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Điện thoại</td>
-                                    <td>{{$info_shipping['phone'] ?? "-"}}</td>
+                                    <td>{{ $info_shipping['phone'] ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Email</td>
-                                    <td>{{$info_shipping['email'] ?? "-"}}</td>
+                                    <td>{{ $info_shipping['email'] ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Địa chỉ</td>
                                     <td>
-                                        {{$info_shipping['address'] ?? "-"}}
+                                        {{ $info_shipping['address'] ?? '-' }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Note</td>
                                     <td>
-                                        {{$info_shipping['note'] ?? "-"}}
+                                        {{ $info_shipping['note'] ?? '-' }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -399,8 +402,8 @@
                 </div>
             </div>
             <div id="order_info" class="modal fade">
-                <form method="POST" action="{{route('admin_order/saveInfo',['type' => 'shipping','id' => $id])}}" accept-charset="UTF-8"
-                    id="order-form" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin_order/saveInfo', ['type' => 'shipping', 'id' => $id]) }}"
+                    accept-charset="UTF-8" id="order-form" enctype="multipart/form-data">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -412,7 +415,8 @@
                                 <div class="form-group">
                                     <label>Họ Tên
                                     </label>
-                                    <input class="form-control" name="name" type="text" value="{{$info_shipping['name'] ?? "-"}}">
+                                    <input class="form-control" name="name" type="text"
+                                        value="{{ $info_shipping['name'] ?? '-' }}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
@@ -422,7 +426,7 @@
                                                 <label>Điện thoại
                                                 </label>
                                                 <input class="form-control" name="phone" type="text"
-                                                    value="{{$info_shipping['phone'] ?? "-"}}">
+                                                    value="{{ $info_shipping['phone'] ?? '-' }}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
@@ -431,23 +435,24 @@
                                                 <label>Email
                                                 </label>
                                                 <input class="form-control" name="email" type="text"
-                                                    value="{{$info_shipping['email'] ?? "-"}}">
+                                                    value="{{ $info_shipping['email'] ?? '-' }}">
                                                 <span class="help-block"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                             
+
                                 <div class="form-group">
                                     <label>Địa chỉ
                                     </label>
-                                    <input class="form-control" name="address" type="text" value="{{$info_shipping['address'] ?? "-"}}">
+                                    <input class="form-control" name="address" type="text"
+                                        value="{{ $info_shipping['address'] ?? '-' }}">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Ghi chú
                                     </label>
-                                    <textarea class="form-control" rows="5" name="note" cols="50">{{$info_shipping['note'] ?? ""}}</textarea>
+                                    <textarea class="form-control" rows="5" name="note" cols="50">{{ $info_shipping['note'] ?? '' }}</textarea>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -464,13 +469,14 @@
             style="position: absolute; top: 0; bottom: 0px; left: 0; right: 0; z-index: 9999; background-color: #fff; padding: 50px 100px; display: none;">
             <div id="printDivWarranty" style="width: 100%; max-width: 900px; margin:0 auto; font-size: 90%;">
                 <p>
-                    <img src="https://media-demo.loveitopcdn.com/37184//l.png"
+                    <img src="{{ asset('obn-dashboard/img/logo.png') }}"
                         style="float: left; margin-right: 10px; height: 60px; max-width: 300px;margin-bottom: 30px;">
                     <strong>Minimart</strong><br>
-                    Địa chỉ: 18 Trần Thiện Chánh, phường 12, quận 10&nbsp;
+                    Địa chỉ: Số 78, Đường Song Hành, Quốc Lộ 1A, KĐTM Hồng Loan 5C, Phường Hưng Thạnh, Quận Cái Răng, Thành
+                    phố Cần Thơ
                     <br>
-                    Email: support@webitop.com | Website: anhnnd.s1.loveitop.com<br>
-                    Hotline: 1900 636 040
+                    Email: mandalamart.vn@gmail.com | Website: mandalamart.vn<br>
+                    Hotline: 0939183232
                 </p>
                 <center>
                     <h3>Phiếu Bán Hàng</h3>
@@ -483,11 +489,11 @@
                                     <tbody>
                                         <tr>
                                             <th>Mã đơn hàng:</th>
-                                            <td>#ORDER0001 </td>
+                                            <td>#{{ $item['code'] ?? '-' }} </td>
                                         </tr>
                                         <tr>
                                             <th>Ngày mua:</th>
-                                            <td>29/12/2022 07:35:53</td>
+                                            <td>{{ $item['created_at'] ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <th>Trạng thái đơn hàng:</th>
@@ -500,20 +506,20 @@
                                         </tr>
                                         <tr>
                                             <th>Khách hàng:</th>
-                                            <td>125</td>
+                                            <td>{{ $info_order['fullname'] ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <th>Số điện thoại:</th>
-                                            <td>125125</td>
+                                            <td>{{ $info_order['phone'] ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <th>Email:</th>
-                                            <td>125@gmail.com</td>
+                                            <td>{{ $info_order['email'] ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <th style="vertical-align: text-top;">Địa chỉ:</th>
                                             <td style="vertical-align: text-top;">
-                                                12521525, Xã Phan Thanh, Huyện Bảo Lạc, Cao Bằng
+                                                {{ $info_order['address'] ?? '-' }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -539,24 +545,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="order-product-name" data-quantity="1">
-                                                <div class="media-left" style="padding-right:0px">
-                                                    Rau dền đỏ sạch VinEco
-                                                    <div class="text-muted text-size-small">
+                                        @foreach ($products as $product)
+                                            @php
+                                                $currency = ' đ';
+                                                $price = $product['price'] ?? 0;
+                                                $quantity = $product['quantity'] ?? 0;
+                                                $subTotal = $price * $quantity;
+                                                $price = number_format($price) . $currency;
+                                                $subTotal = number_format($subTotal) . $currency;
+                                                $thumbnail = Obn::showThumbnail($product['thumbnail']);
+                                            @endphp
+                                            <tr>
+                                                <td class="order-product-name" data-quantity="1">
+                                                    <div class="media-left" style="padding-right:0px">
+                                                        {{ $product['product_name'] ?? '-' }}
+                                                        <div class="text-muted text-size-small">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-right">1 x 13,300 đ</td>
-                                            <td class="text-right">13,300 đ</td>
-                                        </tr>
+                                                </td>
+                                                <td class="text-right">{{ $quantity }} x {{$price}}</td>
+                                                <td class="text-right">{{$subTotal}}</td>
+                                            </tr>
+                                        @endforeach
+                                      
                                         <tr>
                                             <td class="text-right" colspan="2">Thành tiền</td>
-                                            <td class="text-right">13,300 đ</td>
+                                            <td class="text-right">{{ number_format($item['total']) . ' đ' ?? 0 }}</td>
                                         </tr>
                                         <tr>
                                             <td class="text-right" colspan="2">Phí ship</td>
-                                            <td class="text-right">0 đ</td>
+                                            <td class="text-right">{{ Obn::showPrice($shipping['fee'] ?? 0) }}</td>
                                         </tr>
                                         <tr>
                                             <td class="text-right" colspan="2">
@@ -566,7 +584,7 @@
                                         </tr>
                                         <tr style="font-weight: bold;">
                                             <td class="text-right" colspan="2">Tổng cộng</td>
-                                            <td class="text-right">13,300 đ</td>
+                                            <td class="text-right">{{ Obn::showPrice($orderSum) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

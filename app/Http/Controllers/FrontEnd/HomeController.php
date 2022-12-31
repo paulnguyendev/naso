@@ -4,6 +4,7 @@ use App\Helpers\User;
 use App\Http\Controllers\Controller;
 use App\Models\ProductGroupModel;
 use App\Models\ProductModel;
+use App\Models\SupplierModel;
 use App\Models\TaxonomyModel;
 #Request
 #Model
@@ -28,6 +29,7 @@ class HomeController extends Controller
         $this->productModel = new ProductModel();
         $this->productGroupModel = new ProductGroupModel();
         $this->taxonomyModel = new TaxonomyModel();
+        $this->supplierModel = new SupplierModel();
         View::share('controllerName', $this->controllerName);
     }
     public function index(Request $request)
@@ -35,13 +37,15 @@ class HomeController extends Controller
         $products = $this->productModel->listItems([],['task' => 'list_home']);
         $product_groups =  $this->productGroupModel->listItems([],['task' => 'list_home']);
         $categories = $this->taxonomyModel::withDepth()->get()->toFlatTree();
-      
+        $suppliers =  $this->supplierModel->listItems([],['task' => 'list']);
+        
         return view(
             "{$this->pathViewController}index",
             [
                 'products' => $products,
                 'product_groups' => $product_groups,
                 'categories' => $categories,
+                'suppliers' => $suppliers,
             ]
         );
     }

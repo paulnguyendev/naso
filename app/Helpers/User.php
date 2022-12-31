@@ -1,7 +1,11 @@
 <?php
+
 namespace App\Helpers;
+
+use App\Models\UserGroupModel;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Cookie;
+
 class User
 {
     public static function getInfo($user_id = "", $key = "")
@@ -28,11 +32,29 @@ class User
         }
         return $result;
     }
-    public static function getAffInfo($key = "aff_user_id") {
+    public static function getAffInfo($key = "aff_user_id")
+    {
         $result = null;
-        if($key == 'aff_user_id' && Cookie::has('aff_user_id')) {
+       
+        if ($key == 'aff_user_id' && Cookie::has('aff_user_id')) {
             $result = Cookie::get('aff_user_id');
         }
+        if ($key == 'aff_user_code' && Cookie::has('aff_user_code')) {
+            $result = Cookie::get('aff_user_code');
+        }
+        return $result;
+    }
+    public static function getGroupName($user_id)
+    {
+        $group_id = self::getInfo($user_id, 'group_id');
+        if ($group_id) {
+            $model = new UserGroupModel();
+            $group_info = $model::find($group_id);
+            $group_name = $group_info['name'] ?? "-";
+        } else {
+            $group_name = 'CTV';
+        }
+        $result = sprintf(' <span class="badge badge-primary">%s</span>', $group_name);
         return $result;
     }
 }

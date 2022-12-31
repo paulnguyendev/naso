@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\FrontEnd;
 use App\Helpers\Link\ProductLink;
 use App\Helpers\Obn;
 use App\Helpers\Template\Product;
@@ -21,7 +21,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 #Helper
 class CartController extends Controller
 {
-    private $pathViewController     = "user.pages.cart";
+    private $pathViewController     = "frontend.pages.cart";
     private $controllerName         = "cart";
     private $model;
     private $params                 = [];
@@ -44,19 +44,18 @@ class CartController extends Controller
             $number = $request->number;
             $price = Product::getPriceProduct($product['regular_price'], false);
             $price = $price ? $price : 0;
-          
             $supplier = $product->supplier()->first();
             if ($supplier) {
                 $supplierName = $supplier['name'] ?? "-";
                 $supplierAddress = $supplier['address'] ?? "-";
-                $productLink = ProductLink::getLinkProductDetail($id);
+                $productLink = ProductLink::getLinkProductDetail2($id);
                 $name = "<div class = 'supplier-name'>{$supplierName} [{$supplierAddress}]</div> 
                 <div class = 'product-name'> <a href = '{$productLink}'>{$name}</a> </div> ";
             }
             if (!$number) {
                 $number = 1;
             }
-            Cart::add([
+            Cart::instance('frontend')->add([
                 'id' => $id,
                 'name' => $name,
                 'qty' => $number,
@@ -66,8 +65,8 @@ class CartController extends Controller
                 ]
             ]);
         }
-        $cartData = Cart::content();
-        $cartTotal = Cart::count();
+        $cartData = Cart::instance('frontend')->content();
+        $cartTotal = Cart::instance('frontend')->count();
         $result = [
             'cartData' => $cartData,
             'cartTotal' => $cartTotal,
@@ -76,20 +75,23 @@ class CartController extends Controller
     }
     public function index(Request $request)
     {
+        $cartTotal = Cart::instance('frontend')->count();
         return view(
             "{$this->pathViewController}/index",
-            []
+            [
+                'cartTotal' => $cartTotal,
+            ]
         );
     }
     public function removeAll(Request $request)
     {
-        Cart::destroy();
+        Cart::instance('frontend')->destroy();
         return Cart::content();
     }
     public function data(Request $request)
     {
-        $cart = Cart::content();
-        $cartTotal = Cart::count();
+        $cart = Cart::instance('frontend')->content();
+        $cartTotal = Cart::instance('frontend')->count();
         if ($cartTotal > 0) {
             $cart = $cart->toArray();
         }
@@ -106,7 +108,7 @@ class CartController extends Controller
         $rowId = $request->rowId;
         $cartSearch = $this->searchCartById($rowId);
         $rowId = isset($cartSearch['rowId']) ? $cartSearch['rowId'] : $rowId;
-        Cart::update($rowId, $qty);
+        Cart::instance('frontend')->update($rowId, $qty);
         $result = [
             'qty' => $qty,
             'rowId' => $rowId,
@@ -121,12 +123,12 @@ class CartController extends Controller
         $rowId = $params['id'];
         $cartSearch = $this->searchCartById($id);
         $rowId = isset($cartSearch['rowId']) ? $cartSearch['rowId'] : $rowId;
-        Cart::remove($rowId);
+        Cart::instance('frontend')->remove($rowId);
         return $params;
     }
     public function searchCartById($id)
     {
-        $cart = Cart::content()->toArray();
+        $cart = Cart::instance('frontend')->content()->toArray();
         $result = array_filter($cart, function ($item) use ($id) {
             if ($item['id'] == $id) {
                 return $item;
@@ -137,7 +139,7 @@ class CartController extends Controller
     }
     public function searchCartByRowId($rowId)
     {
-        $cart = Cart::content()->toArray();
+        $cart =  Cart::instance('frontend')->content()->toArray();
         $result = array_filter($cart, function ($item) use ($rowId) {
             if ($item['rowId'] == $rowId) {
                 return $item;
@@ -148,7 +150,7 @@ class CartController extends Controller
     }
     public function product(Request $request)
     {
-        $cart = Cart::content()->toArray();
+        $cart =  Cart::instance('frontend')->content()->toArray();
         $ids = array_column($cart, 'id');
         if ($ids) {
             $data = $this->model->listItems(['ids' => $ids], ['task' => 'list-in-cart']);
@@ -203,33 +205,35 @@ class CartController extends Controller
                 $point = $quantity * $point;
                 $item['point'] = $point;
                 $item['product_name'] = $product['title'] ?? "-";
-
             }
-            $commision = Product::getDiscountByUser($user_id, $item['price']);
-            $commision = $commision * $quantity;
-            $item['commision'] = $commision;
+            if($user_id) {
+                $commision = Product::getDiscountByUser($user_id, $item['price']);
+                $commision = $commision * $quantity;
+                $item['commision'] = $commision;
+            }
+            else {
+                $item['commision'] = 0;
+            }
+           
             return $item;
         }, $products);
         #_Total Point
         $total_point = 0;
-        
         #_Total commission
         $total_commission = 0;
         foreach ($products as $item) {
             $total_point += $item['point'];
             $total_commission += $item['commision'];
         }
-
-    
         $shoppingCart['created_at'] = date('Y-m-d H:i:s');
         $shoppingCart['products'] = $products;
         $params['shoppingCart'] = $shoppingCart;
         // $params['redirect'] = "";
-        $params['redirect'] = route('user_order/index');
-       
+        $code = config('obn.prefix.code') . Obn::generateUniqueCode();
+        $params['redirect'] = route('fe_cart/order_success',['code' => $code]);
         // Add database order
         $shoppingCart['status'] = config('obn.status.setting.order');
-        $shoppingCart['code'] = config('obn.prefix.code') . Obn::generateUniqueCode();
+        $shoppingCart['code'] = $code;
         $shoppingCart['products'] = json_encode($shoppingCart['products']);
         $shoppingCart['shipping'] = json_encode($shoppingCart['shipping']);
         $shoppingCart['info_order'] = json_encode($shoppingCart['info_order']);
@@ -250,13 +254,23 @@ class CartController extends Controller
             ];
             $this->paymentHistoryModel->saveItem($params_PaymentHistory,['task' => 'add-item' ]);
         }
-       
-        Cart::destroy();
+        Cart::instance('frontend')->destroy();
         return $params;
     }
     public function test(Request $request)
     {
         $user = User::getInfo('', 'id');
         return $user;
+    }
+    public function order_success(Request $request) {
+        $code = $request->code;
+        $item =  $this->orderModel->getItem(['code' => $code] ,['task' => 'code']);
+        $info_order = json_decode($item['info_order'], true) ?? [];
+        return view(
+            "{$this->pathViewController}/order_success",
+            [
+                'info_order' => $info_order,
+            ]
+        );
     }
 }

@@ -55,4 +55,18 @@ class AffiliateController extends Controller
        
         //return redirect($redirect);
     }
+    public function register(Request $request)
+    {
+        $code = $request->code;
+        $item = $this->model->getItem(['code' => $code],['task' => 'code']);
+        if($item) {
+            $user_id = $item['id'];
+            $time = 86400 * 30;
+            Cookie::queue(Cookie::make('aff_user_code', $code, $time));
+            $aff_number = $item['aff_number'] ?? 0;
+            $aff_number = $aff_number + 1;
+            $this->model->saveItem(['id' => $user_id, 'aff_number' => $aff_number],['task' => 'edit-item']);
+            return redirect(route('auth/register'));
+        }
+    }
 } 

@@ -1,5 +1,5 @@
 <div class="navbar-header">
-    <a class="navbar-brand" href="https://obn.marketing/" target="_blank"><img
+    <a class="navbar-brand" href="{{route('home/index')}}" target="_blank"><img
             src="{{ asset('obn-dashboard/img/logo.png') }}" alt=""></a>
     <ul class="nav navbar-nav pull-right visible-xs-block">
         <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>

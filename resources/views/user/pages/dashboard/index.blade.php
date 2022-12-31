@@ -90,13 +90,19 @@
                     </p>
                     <p>
                         <strong>Loại tài khoản:</strong>
-                        <span class="badge badge-primary">CTV</span>
+                        {!! User::getGroupName($userInfo['id']) !!}
                     </p>
                     <p>
-                        <strong>Link giới thiệu:</strong>
+                        <strong>Link đăng ký:</strong>
+                        <span><a target="_blank" href="{{ route('fe_aff/register',['code' => $userInfo['code']]) }}">{{ route('fe_aff/register',['code' => $userInfo['code']]) }}</a></span>
+                        <span><a data-href="{{ route('fe_aff/register',['code' => $userInfo['code']]) }}" class="btn btn-success btn-xs copy-affiliate-url">Copy</a></span>
+                    </p>
+                    <p>
+                        <strong>Link mua hàng:</strong>
                         <span><a target="_blank" href="{{ route('fe_aff/index',['code' => $userInfo['code']]) }}">{{ route('fe_aff/index',['code' => $userInfo['code']]) }}</a></span>
                         <span><a data-href="{{ route('fe_aff/index',['code' => $userInfo['code']]) }}" class="btn btn-success btn-xs copy-affiliate-url">Copy</a></span>
                     </p>
+                 
                     <p>
                         <strong>Số lượt nhấp chuột vào liên kết giới thiệu:</strong>
                         <span>{{$userInfo['aff_number'] ?? 0}}</span>
@@ -224,6 +230,7 @@
         $(document).on('click', '.copy-affiliate-url', function(e) {
             e.preventDefault();
             let copyText = $(this).data('href');
+            
             
             let tempElement = document.createElement('input');
             tempElement.setAttribute('value', copyText);

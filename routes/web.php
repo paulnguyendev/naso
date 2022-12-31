@@ -10,14 +10,17 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FrontEnd\AffiliateController;
+use App\Http\Controllers\FrontEnd\CartController as FrontEndCartController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\FrontEnd\ProductController as FrontEndProductController;
+use App\Http\Controllers\User\AffiliateController as UserAffiliateController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ProductController as UserProductController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\User\SupplierController as UserSupplierController;
+use App\Http\Controllers\User\TicketController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\EventListener\ProfilerListener;
 
@@ -40,8 +43,17 @@ Route::prefix($prefix)->group(function () {
     });
     Route::prefix('cart')->group(function () {
         $routeName = "fe_cart";
-        Route::controller(HomeController::class)->group(function () use ($routeName) {
+        Route::controller(FrontEndCartController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/data', 'data')->name($routeName . '/data');
+            Route::get('/product', 'product')->name($routeName . '/product');
             Route::get('/add/{id?}/{number?}', 'add')->name($routeName . '/add');
+            Route::get('/update/{id?}/{number?}', 'update')->name($routeName . '/update');
+            Route::get('/remove/{id?}/{number?}', 'remove')->name($routeName . '/remove');
+            Route::get('/removeAll', 'removeAll')->name($routeName . '/removeAll');
+            Route::get('/test', 'test')->name($routeName . '/test');
+            Route::post('/order', 'order')->name($routeName . '/order');
+            Route::get('/order_success/{code?}', 'order_success')->name($routeName . '/order_success');
         });
     });
     Route::prefix('product')->group(function () {
@@ -49,12 +61,14 @@ Route::prefix($prefix)->group(function () {
         Route::controller(FrontEndProductController::class)->group(function () use ($routeName) {
             Route::get('/{id?}', 'detail')->name($routeName . '/detail');
             Route::get('/category/{id?}', 'category')->name($routeName . '/category');
+            Route::get('/supplier/{id?}', 'supplier')->name($routeName . '/supplier');
         });
     });
     Route::prefix('aff')->group(function () {
         $routeName = "fe_aff";
         Route::controller(AffiliateController::class)->group(function () use ($routeName) {
             Route::get('/{code?}', 'index')->name($routeName . '/index');
+            Route::get('/{code?}/register', 'register')->name($routeName . '/register');
             Route::get('/{code?}/product/{product_id?}', 'product')->name($routeName . '/product');
         });
     });
@@ -116,6 +130,24 @@ Route::middleware('access.userDashboard')->prefix($prefix)->group(function () {
             Route::get('/dataIncome', 'dataIncome')->name($routeName . '/dataIncome');
             Route::get('/detail/{id?}', 'detail')->name($routeName . '/detail');
             Route::delete('/destroy-multi/{id?}', 'destroyMulti')->name($routeName . '/destroy-multi');
+        });
+    });
+    Route::prefix('aff')->group(function () {
+        $routeName = "user_aff";
+        Route::controller(UserAffiliateController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/form', 'form')->name($routeName . '/form');
+            Route::get('/dataList', 'dataList')->name($routeName . '/dataList');
+            Route::post('/save', 'save')->name($routeName . '/save');
+        });
+    });
+    Route::prefix('ticket')->group(function () {
+        $routeName = "user_ticket";
+        Route::controller(TicketController::class)->group(function () use ($routeName) {
+            Route::get('/', 'index')->name($routeName . '/index');
+            Route::get('/form/{id?}', 'form')->name($routeName . '/form');
+            Route::get('/dataList', 'dataList')->name($routeName . '/dataList');
+            Route::post('/save', 'save')->name($routeName . '/save');
         });
     });
 });

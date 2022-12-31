@@ -4,8 +4,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 #Helper
 use Illuminate\Support\Str;
+use Kalnoy\Nestedset\NodeTrait;
 class UserModel extends Model
 {
+    use NodeTrait;
     protected $table = 'user';
     protected $primaryKey = 'id';
     public $timestamps = false;
@@ -51,6 +53,12 @@ class UserModel extends Model
         if ($options['task'] == 'username') {
             $result = $query->where('username', $params['username'])->first();
         }
+        if ($options['task'] == 'id') {
+            echo '<pre>';
+            print_r($params);
+            echo '</pre>';
+            $result = $query->where('id', $params['user_id'])->first();
+        }
         if ($options['task'] == 'token') {
             $result = $query->where('token', $params['token'])->first();
         }
@@ -59,7 +67,8 @@ class UserModel extends Model
     public function saveItem($params = [],$option = []) {
         if($option['task'] == 'add-item') {
             $paramsInsert = array_diff_key($params,array_flip($this->crudNotAccepted));
-            $result = self::insert($paramsInsert);
+            $parent = self::find($params['parent_id']);
+            $result =    self::create($paramsInsert, $parent);
             return $result;
         }
         if($option['task'] == 'edit-item') {
@@ -68,8 +77,9 @@ class UserModel extends Model
                 $params['image'] = Str::random('10') .  "." . $params['image']->clientExtension();
                 $image->storeAs("/user", $params['image'], "mb_storage_image");
             }
-            $paramsUpdate = array_diff_key($params,array_flip($this->crudNotAccepted));
-            self::where('id', $params['id'])->update($paramsUpdate);
+            $node = self::find($params['id']);
+            $paramsUpdate = array_diff_key($params, array_flip($this->crudNotAccepted));
+            $node->update($paramsUpdate);
         }
         if($option['task'] == 'active-by-token') {
             $paramsUpdate = array_diff_key($params,array_flip($this->crudNotAccepted));
@@ -87,5 +97,9 @@ class UserModel extends Model
     public function order()
     {
         return $this->hasMany(OrderModel::class, 'user_id', 'id');
+    }
+    public function ticket()
+    {
+        return $this->hasMany(TicketModel::class, 'user_id', 'id');
     }
 }

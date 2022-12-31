@@ -30,6 +30,10 @@ return [
                 'name' => 'Chờ duyệt',
                 'class' => 'badge-warning',
             ],
+            'active' => [
+                'name' => 'Kích hoạt',
+                'class' => 'badge-success',
+            ],
             'new' => [
                 'name' => 'Đơn hàng mới',
                 'class' => 'badge-warning',
@@ -58,6 +62,27 @@ return [
                 'name' => 'Đã duyệt',
                 'class' => 'badge-success',
             ],
+        ],
+    ],
+    'ticket' => [
+        'status' => [
+            'pending' => ['name' => 'Chờ xử lý', 'class' => "bg-warning"],
+            'receive' => ['name' => 'Đã tiếp nhận', 'class' => "bg-success"],
+            'process' => ['name' => 'Đang xử lý', 'class' => "bg-info"],
+            'cancel' => ['name' => 'Đã hủy', 'class' => "bg-danger"],
+            'replied'    => ['name' => 'Đã trả lời', 'class' => "bg-info"],
+            'complete'    => ['name' => 'Đã xử lý', 'class' => "bg-success"],
+            'default' => [
+                'name' => 'Chưa xác định',
+                'class' => 'badge-info',
+            ],
+        ],
+        'type' => [
+            'team' => ['name' => 'Đội nhóm'],
+            'product' => ['name' => 'Sản phẩm'],
+            'order' => ['name' => 'Đơn hàng'],
+            'customer' => ['name' => 'Khách hàng'],
+            'income' => ['name' => 'Doanh thu'],
         ],
     ],
 ];

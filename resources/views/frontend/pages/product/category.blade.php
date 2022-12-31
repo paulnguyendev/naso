@@ -6,7 +6,7 @@
 @extends('frontend.main')
 @section('navbar_title', $item['name'] ?? '-')
 @section('content')
-    <div class="product-wrap">
+    <div class="product-wrap category-page">
         <h3>{{ $item['name'] ?? '-' }} ({{$total}})</h3>
         <div class="product-home-list">
             @if ($total > 0)

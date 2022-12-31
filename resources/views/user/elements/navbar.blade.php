@@ -1,5 +1,5 @@
 <div class="navbar-header">
-    <a class="navbar-brand" target="_blank" href="{{route('home/index')}}"><img
+    <a class="navbar-brand" href="{{route('user/index')}}"><img
             src="{{ asset('obn-dashboard/img/logo.png') }}" alt=""></a>
     <a class="navbar-brand quick-view-icon" target="_blank" href="{{route('home/index')}}"><i
             class="icon-square-up-right"></i></a>

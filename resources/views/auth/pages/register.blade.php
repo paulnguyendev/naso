@@ -1,3 +1,6 @@
+@php
+    use App\Helpers\User;
+@endphp
 @extends('auth.auth')
 @section('title', 'Đăng Ký Đại Lý / CTV')
 @section('content')
@@ -30,7 +33,7 @@
             <div class="form-group has-feedback">
                 <label for="parent_code">Mã giới thiệu </label>
                 <input type="text" id="parent_code" name="parent_code" class="form-control"
-                    placeholder="Nhập mã giới thiệu của bạn" autocomplete="false">
+                    placeholder="Nhập mã giới thiệu của bạn" autocomplete="false" value="{{User::getAffInfo('aff_user_code') ?? ""}}">
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Đăng ký

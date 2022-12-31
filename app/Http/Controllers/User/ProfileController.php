@@ -86,6 +86,7 @@ class ProfileController extends Controller
             $paramsUpdate['id'] = $user_id;
             $paramsUpdate['username'] = $params['username'];
             $paramsUpdate['name'] = $params['name'];
+            $paramsUpdate['phone'] = $params['phone'];
             $this->model->saveItem($paramsUpdate, ['task' => 'edit-item']);
             session()->flash('status_success', 'Tài khoản đã được thay đổi!');
             $params['redirect'] = route("{$this->controllerName}/form");

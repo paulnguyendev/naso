@@ -5,6 +5,7 @@ use App\Models\ProductMetaModel;
 #Request
 #Model
 use App\Models\ProductModel as MainModel;
+use App\Models\SupplierModel;
 use App\Models\TaxonomyModel;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class ProductController extends Controller
         $this->model = new MainModel();
         $this->taxonomyModel = new TaxonomyModel();
         $this->productMetaModel = new ProductMetaModel();
+        $this->supplierModel = new SupplierModel();
         View::share('controllerName', $this->controllerName);
     }
     public function detail(Request $request)
@@ -55,6 +57,20 @@ class ProductController extends Controller
         $item = $this->taxonomyModel::find($id);
         $items = $item->product_ids()->get();
         $total = $item->product_ids()->count();
+        return view(
+            "{$this->pathViewController}/category",
+            [
+                'items' => $items,
+                'item' => $item,
+                'total' => $total,
+            ]
+        );
+    }
+    public function supplier(Request $request) {
+        $id = $request->id;
+        $item = $this->supplierModel ::find($id);
+        $items = $item->products()->get();
+        $total = $item->products()->count();
         return view(
             "{$this->pathViewController}/category",
             [

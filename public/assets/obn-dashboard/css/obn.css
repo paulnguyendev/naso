@@ -1,5 +1,5 @@
 :root {
-    --color-main: #e85e1e;
+    --color-main: #3bb77e;
     --color-second: #ff9800;
 }
 .navbar-inverse {
@@ -297,6 +297,42 @@ label.error {
 }
 .panel-user-dashboard > *:not(:last-child) {
     margin-bottom: 15px;
+}
+.navbar-default .navbar-brand {
+    width: 80%;
+}
+.navbar-default .navbar-brand.quick-view-icon {
+    width: 20%;
+}
+.sidebar-xs .header-highlight .navbar-header .navbar-brand {
+    background:unset;
+    background-size: contain;
+    
+}
+.sidebar-all-hidden .header-highlight .navbar-header, .sidebar-main-hidden .header-highlight .navbar-header, .sidebar-xs .header-highlight .navbar-header .navbar-brand>img {
+    display: block;
+}
+.sidebar-xs .header-highlight .navbar-header {
+    width: auto;
+    padding: 0 30px;
+}
+#btnLogin {
+    line-height: 1;
+    color: #fff;
+    padding: 10px 15px;
+    margin-top: 5px;
+}
+#btnLogin:hover {
+    background-color: var(--color-second);
+    border-color: var(--color-second);
+}
+.ticket-desc {
+    color: #4f5163;
+    background-color: #f5f5f5;
+    border:1px solid #ddd;
+ 
+    padding: 15px;
+    border-radius: 5px;
 }
 @media screen and (max-width: 767.98px) {
     .row.row-5 .col-md-2 {

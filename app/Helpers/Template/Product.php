@@ -3,6 +3,7 @@ namespace App\Helpers\Template;
 use App\Helpers\User;
 use App\Models\SupplierModel;
 use App\Models\UserGroupModel;
+use App\Models\UserModel;
 class Product
 {
     public static function getListSupplier()
@@ -113,7 +114,6 @@ class Product
         $options_add = $options['add'] ?? [];
         $options_minus = $options['minus'] ?? [];
         if($options_add) {
-            
             foreach ($options_add as $option) {
                 $totalAdd += $option;
             }

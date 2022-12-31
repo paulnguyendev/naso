@@ -46,6 +46,12 @@
                             <span class="help-block"></span>
                         </div>
                         <div class="form-group">
+                            <label for="Email">Số điện thoại</label>
+                            <input class="form-control" name="phone" type="text"
+                                value="{{ $info['phone'] ?? '' }}">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="form-group">
                             <a data-toggle="collapse" href="#change_password" class="collapsed" aria-expanded="false">Thay
                                 đổi mật khẩu</a>
                         </div>

@@ -172,7 +172,7 @@ class OrderController extends Controller
         $total = $user->payment_history()->count();
         $items = $total > 0 ? $items->toArray() : [];
         $items = array_map(function ($item) {
-            $item['route_edit'] = "#";
+            $item['route_edit'] = route('user_order/detail',['id' => $item['order_id']]);
             $order = $this->model::find($item['order_id']);
             $code = $order->code;
             $order_total =  $order->total;

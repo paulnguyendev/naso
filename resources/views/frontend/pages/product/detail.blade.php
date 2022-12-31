@@ -80,8 +80,8 @@
                                 </div>
                                 <div class="entry-buttons">
                                     @if ($item['in_stock'] == '1')
-                                        <a href="{{ route('cart/add', ['id' => $item['id']]) }}" class="btn btn-primary"
-                                            id="btnAddCart" data-url="{{ route('cart/add', ['id' => $item['id']]) }}">Thêm
+                                        <a href="{{ route('fe_cart/add', ['id' => $item['id']]) }}" class="btn btn-primary"
+                                            id="btnAddCart" data-url="{{ route('fe_cart/add', ['id' => $item['id']]) }}">Thêm
                                             vào
                                             giỏ</a>
                                     @endif

@@ -13,7 +13,7 @@
 <meta name="user-id" content="{{ $user_id }}" />
 <meta name="cart-province" content="{{ url('public/data/province.json') }}" />
 <title>@yield('title', 'Dashboard')</title>
-<link rel="shortcut icon" type="image/png" href="https://media.loveitopcdn.com/itop.website/favicon.png" />
+<link rel="shortcut icon" type="image/png" href="{{asset('obn-dashboard/img/favicon.png')}}" />
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700&amp;amp;subset=vietnamese"
     rel="stylesheet">
@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="https://static.loveitopcdn.com/backend/dist/css/style.css?id=fca89b87486ea1f07891">
 <link rel="stylesheet" href="{{ asset('obn-dashboard/plugin/slick.css') }}">
 <link rel="stylesheet" href="{{ asset('obn-dashboard/plugin/fancybox.css') }}">
+<link rel="stylesheet" href="{{ asset('obn-dashboard/css/keyframe.css') }}?ver={{ time() }}">
 <link rel="stylesheet" href="{{ asset('obn-dashboard/css/obn.css') }}?ver={{ time() }}">
 <link media="all" type="text/css" rel="stylesheet"
     href="https://static.loveitopcdn.com/backend/css/custom_new.css?v=1.0.2">

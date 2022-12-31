@@ -1,15 +1,18 @@
+@php
+    use App\Helpers\User;
+@endphp
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="cart-data" content="{{ route('cart/data') }}" />
-<meta name="cart-add" content="{{ route('cart/add') }}" />
-<meta name="cart-update" content="{{ route('cart/update') }}" />
-<meta name="cart-remove" content="{{ route('cart/remove') }}" />
-<meta name="cart-order" content="{{ route('cart/order') }}" />
-<meta name="user-id" content="" />
+<meta name="cart-data" content="{{ route('fe_cart/data') }}" />
+<meta name="cart-add" content="{{ route('fe_cart/add') }}" />
+<meta name="cart-update" content="{{ route('fe_cart/update') }}" />
+<meta name="cart-remove" content="{{ route('fe_cart/remove') }}" />
+<meta name="cart-order" content="{{ route('fe_cart/order') }}" />
+<meta name="user-id" content="{{User::getAffInfo()}}" />
 <meta name="cart-province" content="{{ url('public/data/province.json') }}" />
 <title>@yield('title', 'Nền tảng kinh doanh 0 đ')</title>
-<link rel="shortcut icon" type="image/png" href="https://media.loveitopcdn.com/itop.website/favicon.png" />
+<link rel="shortcut icon" type="image/png" href="{{asset('obn-dashboard/img/favicon.png')}}" />
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700&amp;amp;subset=vietnamese"
     rel="stylesheet">
